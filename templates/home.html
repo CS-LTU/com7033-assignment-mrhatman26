@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="page_mainbody">
+        <div id="home_paragraph1">
+                <h3 id="page_header">Welcome!</h3>
+                <div id="home_image">
+                        <img src="{{ url_for('static', filename='construction.jpg') }}">                        
+                </div>
+                <div id="page_mainbody_home">
+                        <p>Hello and welcome to my website! I'm afraid to say that I am still developing it and so this is all there is for now!</p>
+                        <p>However, I am currently busy with other things and do not have the time to work on it as I would like.</p>
+                        <p>In the meantime, you can go to <a href="https://www.youtube.com/user/MrHatman26">My YouTube channel</a>, though don't expect quality videos. In fact, just don't go there, m'kay?</p>
+                </div>
+        </div>
+</div>
+{% endblock %}

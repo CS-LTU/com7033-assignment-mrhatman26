@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ page_name }}</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div id="title">
+            <img id="avatar" src="{{ url_for('static', filename='MyAvatar.png') }}">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}" class="nav_link">Home</a></li>
+            </ul>
+        </nav>
+        <div class="main">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
