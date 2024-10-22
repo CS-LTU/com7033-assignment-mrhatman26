@@ -9,22 +9,6 @@ app = Flask(__name__)
 def home():
     return render_template('home.html', page_name="Home")
 
-@app.route('/Prices')
-def prices():
-    return render_template('prices.html', page_name="Prices")
-
-@app.route('/Areas')
-def areas():
-    return render_template('areas.html', page_name="Areas Covered")
-
-@app.route('/What_You_Need_to_Know')
-def wyntk():
-    return render_template('wyntk.html', page_name="What You Need to Know")
-
-@app.route('/Contact')
-def contact():
-    return render_template('contact.html', page_name="What You Need to Know")
-
 #Error Pages
 #These pages are only shown when the website encounters an error.
 #404 is page not found.
