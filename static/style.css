@@ -119,20 +119,13 @@ br{
     display: block !important;
 }
 .button{
+    font-size: 200%;
     background-color: white;
     display: inline;
     border: 10px solid white;
     border-radius: 8px;
     cursor: pointer;
     color: black;
-}
-#button_alt{
-    background-color: rgb(60, 184, 255);
-    display: inline;
-    border: 10px solid rgb(60, 184, 255);
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
 }
 .search_button{
     background-color: white;
