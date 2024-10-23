@@ -3,7 +3,6 @@ CREATE DATABASE healthDB;
 DROP TABLE IF EXISTS table_users;
 CREATE TABLE table_users(
     user_id INT NOT NULL,
-    user_name TEXT NOT NULL,
     user_fullname TEXT NOT NULL,
     user_password INT NOT NULL,
     user_email TEXT NOT NULL,
