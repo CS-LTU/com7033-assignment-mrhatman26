@@ -20,5 +20,5 @@ def get_users():
     return user_list
 
 '''INSERT commands'''
-def insert_patients_data():
+def insert_patients_data(patient_data):
     pass

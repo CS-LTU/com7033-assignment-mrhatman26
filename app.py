@@ -3,11 +3,16 @@ from flask import Flask, render_template, url_for, request, redirect, abort
 #Server Vars
 app = Flask(__name__)
 
-#General Routes
+'''General Routes'''
 #Home/Index
 @app.route('/')
 def home():
     return render_template('home.html', page_name="Home")
+
+'''Admin Routes'''
+@app.route('/admin/')
+def admin_main():
+    return render_template('/admin/admin_main.html', page_name="Admin Home")
 
 #Error Pages
 #These pages are only shown when the website encounters an error.
