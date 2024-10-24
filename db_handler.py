@@ -1,6 +1,8 @@
 import mysql.connector
 import hashlib
-from db_config import db_config
+from db_config import get_db_config
+
+deployed = False
 
 '''Misc Commands'''
 def string_hash(text):
@@ -9,10 +11,17 @@ def string_hash(text):
     hash.update(text)
     return hash.hexdigest()
 
+def str_to_bool(YesNo):
+    if YesNo.upper() == "YES":
+        return True
+    else:
+        return False
+    
+
 '''User Commands'''
 #Check
 def user_check_exists(username):
-    database = mysql.connector.connect(**db_config)
+    database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_id FROM table_users WHERE user_fullname = %s", (str(username),))
     if len(cursor.fetchall()) > 0:
@@ -26,7 +35,7 @@ def user_check_exists(username):
     
 def user_check_reconfirm(user_id):
     user = []
-    database = mysql.connector.connect(**db_config)
+    database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_id, user_fullname FROM table_users WHERE user_id = %s", (str(user_id),))
     for item in cursor.fetchall():
@@ -38,7 +47,7 @@ def user_check_reconfirm(user_id):
 
 def user_check_validate(userdata):
     if user_check_exists(userdata["username"]):
-        database = mysql.connector.connect(**db_config)
+        database = mysql.connector.connect(**get_db_config(deployed))
         cursor = database.cursor()
         cursor.execute("SELECT user_password FROM table_users WHERE user_name = %s", (str(userdata[""]),))
         if string_hash(userdata["password"]) == cursor.fetchall()[0][0]:
@@ -52,7 +61,7 @@ def user_check_validate(userdata):
     
 #Get
 def user_get_amount():
-    database = mysql.connector.connect(**db_config)
+    database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_id FROM table_users")
     user_amount = len(cursor.fetchall())
@@ -62,7 +71,7 @@ def user_get_amount():
 
 def user_get_id(username):
     user_id = None
-    database = mysql.connector.connect(**db_config)
+    database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_id FROM table_users WHERE user_fullname = %s", (str(username),))
     ids = cursor.fetchall()
@@ -74,14 +83,14 @@ def user_get_id(username):
                    
 def user_get_all():
     user_list = []
-    database = mysql.connector.connect(**db_config)
+    database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_id, user_fullname, user_email, user_phone FROM table_users")
     for user_data in cursor.fetchall():
         user_list.append({
             "user_id": user_data[0],
             "user_fullname": user_data[1],
-            "user_email": user_datap[2],
+            "user_email": user_data[2],
             "user_phone": user_data[3]
         })
     cursor.close()
@@ -90,4 +99,15 @@ def user_get_all():
 
 '''Patient commands'''
 def insert_patients_data(patient_data):
-    pass
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT patient_id FROM table_patient_data")
+    fetch = cursor.fetchall()
+    if len(fetch) >= 1:
+        new_id = int(fetch[-1][0]) + 1
+    else:
+        new_id = 0
+    cursor.execute("INSERT INTO table_patient_data VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(new_id), str(patient_data["patient_gender"]), patient_data["patient_age"], str(patient_data["patient_hyperT"]), str(patient_data["patient_hDisease"]), str(patient_data["patient_married"]), str(patient_data["patient_work_type"]), str(patient_data["patient_residence_type"]), str(patient_data["patient_avg_gLevel"]), patient_data["patient_bmi"], str(patient_data["patient_smoked"]), str(patient_data["patient_stroke"]),))
+    database.commit()
+    cursor.close()
+    database.close()

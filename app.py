@@ -1,3 +1,4 @@
+import ast
 from flask import Flask, render_template, url_for, request, redirect, abort
 from flask_login import LoginManager, current_user, login_user, logout_user
 from db_handler import *
@@ -24,6 +25,25 @@ def load_fuser(id):
 @app.route('/')
 def home():
     return render_template('home.html', page_name="Home")
+
+'''User Routes'''
+#Signup
+@app.route('/users/signup/')
+def user_signup():
+    if current_user.is_authenticated:
+        return redirect('/')
+    else:
+        return render_template('users/signup.html', page_name="Signup")
+@app.route('/users/signup/validate', methods=['POST'])
+def user_signup_validate():
+    userdata = request.get_data()
+    userdata = userdata.decode()
+    userdata = ast.literal_eval(userdata)
+    try:
+        print(userdata)
+        return "success"
+    except:
+        return "servererror"
 
 '''Admin Routes'''
 #Main

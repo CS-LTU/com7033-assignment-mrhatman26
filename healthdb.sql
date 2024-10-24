@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS healthDB;
 CREATE DATABASE healthDB;
+USE healthDB;
 DROP TABLE IF EXISTS table_users;
 CREATE TABLE table_users(
     user_id INT NOT NULL,
@@ -23,7 +24,7 @@ CREATE TABLE table_patient_data(
     patient_residence_type TEXT NOT NULL,
     patient_avg_gLevel FLOAT NOT NULL,
     patient_bmi FLOAT,
-    patient_smoked INT NOT NULL,
+    patient_smoked TEXT NOT NULL,
     patient_stroke BOOLEAN NOT NULL,
     PRIMARY KEY (patient_id) 
 );
