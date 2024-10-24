@@ -27,6 +27,9 @@ def home():
     return render_template('home.html', page_name="Home")
 
 '''User Routes'''
+#Login
+
+
 #Signup
 @app.route('/users/signup/')
 def user_signup():
@@ -40,9 +43,12 @@ def user_signup_validate():
     userdata = userdata.decode()
     userdata = ast.literal_eval(userdata)
     try:
-        print(userdata)
-        return "success"
-    except:
+        if user_create(userdata) is True:
+            return "success"
+        else:
+            return "userexists"
+    except Exception as e:
+        print("An error ocurred:\n" + str(e), flush=True)
         return "servererror"
 
 '''Admin Routes'''

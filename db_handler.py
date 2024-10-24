@@ -69,6 +69,19 @@ def user_get_amount():
     database.close()
     return user_amount
 
+def user_get_last_id():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT user_id FROM table_users")
+    last_id = cursor.fetchall()
+    if len(last_id) >= 1:
+        last_id = last_id[-1][0] + 1
+    else:
+        last_id = 0
+    cursor.close()
+    database.close()
+    return last_id
+
 def user_get_id(username):
     user_id = None
     database = mysql.connector.connect(**get_db_config(deployed))
@@ -96,6 +109,22 @@ def user_get_all():
     cursor.close()
     database.close()
     return user_list
+
+#Insert
+def user_create(userdata):
+    if user_check_exists(userdata["email"]):
+        return False
+    else:
+        userdata["password"] = string_hash(userdata["password"])
+        userdata["id"] = user_get_last_id()
+        database = mysql.connector.connect(**get_db_config(deployed))
+        cursor = database.cursor()
+        print(userdata)
+        cursor.execute("INSERT INTO table_users VALUES(%s, %s, %s, %s, %s, %s)", (userdata["id"], str(userdata["fullname"]), userdata["password"], str(userdata["email"]), str(userdata["phone"]), 0))
+        database.commit()
+        cursor.close()
+        database.close()
+        return True
 
 '''Patient commands'''
 def insert_patients_data(patient_data):

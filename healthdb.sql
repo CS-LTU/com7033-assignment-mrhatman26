@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS table_users;
 CREATE TABLE table_users(
     user_id INT NOT NULL,
     user_fullname TEXT NOT NULL,
-    user_password INT NOT NULL,
+    user_password TEXT NOT NULL,
     user_email TEXT NOT NULL,
     user_phone TEXT NOT NULL,
     user_admin BOOLEAN NOT NULL,
@@ -36,4 +36,8 @@ CREATE TABLE link_user_patient_data(
     PRIMARY KEY (user_id),
     FOREIGN KEY(user_id) REFERENCES table_users(user_id),
     FOREIGN KEY(patient_id) REFERENCES table_patient_data(patient_id)
+);
+
+INSERT INTO table_users VALUES(
+    0, "BaseAdmin", "-1", "baseadmin@example.com", "N/A", 1
 );
