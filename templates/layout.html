@@ -12,8 +12,17 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}" class="nav_link">Home</a></li>
-                <li><a href="{{ url_for('home') }}" class="nav_link">Login</a></li>
-                <li><a href="{{ url_for('user_signup') }}" class="nav_link">Signup</a></li>
+                {% if current_user.is_authenticated %}
+                    {% block is_authed %}
+                        <li><a href="{{ url_for('home') }}" class="nav_link">{{ current_user.username }}</a></li>
+                        <li><a href="{{ url_for('user_logout') }}" class="nav_link">Logout</a></li>
+                    {% endblock %}
+                {% else %}
+                    {% block not_authed %}
+                        <li><a href="{{ url_for('user_login') }}" class="nav_link">Login</a></li>
+                        <li><a href="{{ url_for('user_signup') }}" class="nav_link">Signup</a></li>
+                    {% endblock %}
+                {% endif %}
             </ul>
         </nav>
         <div class="main">

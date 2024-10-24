@@ -23,7 +23,7 @@ def str_to_bool(YesNo):
 def user_check_exists(username):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    cursor.execute("SELECT user_id FROM table_users WHERE user_fullname = %s", (str(username),))
+    cursor.execute("SELECT user_id FROM table_users WHERE user_email = %s", (str(username),))
     if len(cursor.fetchall()) > 0:
         cursor.close()
         database.close()
@@ -46,11 +46,13 @@ def user_check_reconfirm(user_id):
     return user
 
 def user_check_validate(userdata):
+    print(userdata)
     if user_check_exists(userdata["username"]):
         database = mysql.connector.connect(**get_db_config(deployed))
         cursor = database.cursor()
-        cursor.execute("SELECT user_password FROM table_users WHERE user_name = %s", (str(userdata[""]),))
-        if string_hash(userdata["password"]) == cursor.fetchall()[0][0]:
+        cursor.execute("SELECT user_password FROM table_users WHERE user_email = %s", (str(userdata["username"]),))
+        hashed_data = string_hash(userdata["password"])
+        if hashed_data == cursor.fetchall()[0][0]:
             cursor.close()
             database.close()
             return True
@@ -86,10 +88,10 @@ def user_get_id(username):
     user_id = None
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    cursor.execute("SELECT user_id FROM table_users WHERE user_fullname = %s", (str(username),))
+    cursor.execute("SELECT user_id FROM table_users WHERE user_email = %s", (str(username),))
     ids = cursor.fetchall()
     if len(ids) > 0:
-        user_id = cursor.fetchall()[0][0]
+        user_id = ids[0][0]
     cursor.close()
     database.close()
     return user_id

@@ -1,6 +1,7 @@
 import ast
 from flask import Flask, render_template, url_for, request, redirect, abort
 from flask_login import LoginManager, current_user, login_user, logout_user
+from user import User
 from db_handler import *
 
 '''Server Vars'''
@@ -28,7 +29,30 @@ def home():
 
 '''User Routes'''
 #Login
-
+@app.route('/users/login/')
+def user_login():
+    if current_user.is_authenticated:
+        return redirect('/')
+    else:
+        return render_template('users/login.html', page_name="Login")
+@app.route('/users/login/validate/', methods=['POST'])
+def user_login_validate():
+    if current_user.is_authenticated:
+        return redirect('/')
+    else:
+        userdata = request.get_data()
+        userdata = userdata.decode()
+        userdata = ast.literal_eval(userdata)
+        if True is True:
+        #try:
+            if user_check_validate(userdata) is True:
+                login_user(User(user_get_id(userdata["username"]), userdata["username"]))
+                return "success"
+            else:
+                return "usernotexist"
+        #except Exception as e:
+            print("An error ocurred:\n" + str(e), flush=True)
+            return "servererror"
 
 #Signup
 @app.route('/users/signup/')
@@ -39,17 +63,29 @@ def user_signup():
         return render_template('users/signup.html', page_name="Signup")
 @app.route('/users/signup/validate', methods=['POST'])
 def user_signup_validate():
-    userdata = request.get_data()
-    userdata = userdata.decode()
-    userdata = ast.literal_eval(userdata)
-    try:
-        if user_create(userdata) is True:
-            return "success"
-        else:
-            return "userexists"
-    except Exception as e:
-        print("An error ocurred:\n" + str(e), flush=True)
-        return "servererror"
+    if current_user.is_authenticated:
+        return redirect('/')
+    else:
+        userdata = request.get_data()
+        userdata = userdata.decode()
+        userdata = ast.literal_eval(userdata)
+        try:
+            if user_create(userdata) is True:
+                return "success"
+            else:
+                return "userexists"
+        except Exception as e:
+            print("An error ocurred:\n" + str(e), flush=True)
+            return "servererror"
+    
+#Logout
+@app.route('/users/logout/')
+def user_logout():
+    if current_user.is_authenticated:
+        logout_user()
+        return redirect('/')
+    else:
+        return redirect('/')
 
 '''Admin Routes'''
 #Main
