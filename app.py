@@ -93,7 +93,7 @@ def user_logout():
 def admin_main():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            return render_template('/admin/admin_main.html', page_name="Admin Home")
+            return render_template('/admin/admin_main.html', page_name="Admin: Home")
         else:
             abort(404)
     else:
@@ -104,7 +104,17 @@ def admin_main():
 def admin_user_management():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            return render_template('/admin/admin_user_management.html', page_name="User Management", userdata=user_get_all())
+            return render_template('/admin/admin_user_management.html', page_name="Admin: User Management", userdata=user_get_all())
+        else:
+            abort(404)
+    else:
+        abort(404)
+@app.route('/admin/users/delete/user_id=<user_id>')
+def admin_user_delete(user_id):
+    if current_user.is_authenticated:
+        if current_user.is_admin is True:
+            admin_delete_user(user_id)
+            return redirect('/admin/users/')
         else:
             abort(404)
     else:

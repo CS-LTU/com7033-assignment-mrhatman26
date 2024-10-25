@@ -12,7 +12,7 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Is Admin</th>
-                                <th>Make Admin</th>
+                                <th>Change Admin</th>
                                 <th>Delete</th>
                             </tr>
                             {% for user in userdata %}
@@ -27,7 +27,7 @@
                                         <td>No</td>
                                     {% endif %}
                                     <td>-</td>
-                                    <td>-</td>
+                                    <td><p class="button" style="margin-bottom: 2%;"><a href="{{ url_for('admin_user_delete', user_id=user.user_id) }}" class="button_link">Delete</a></p></td>
                                 </tr>
                             {% endfor %}
                         </table>

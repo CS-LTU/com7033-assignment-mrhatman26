@@ -121,7 +121,7 @@ br{
 .button{
     text-decoration: none;
     background-color: white;
-    display: block;/*inline*/
+    display: block;
     border: 10px solid white;
     border-radius: 8px;
     cursor: pointer;

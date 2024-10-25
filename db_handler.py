@@ -188,3 +188,12 @@ def admin_hash_basepass():
     database.commit()
     cursor.close()
     database.close()
+
+#Delete
+def admin_delete_user(user_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("DELETE FROM table_users WHERE user_id = %s", (user_id,))
+    database.commit()
+    cursor.close()
+    database.close()
