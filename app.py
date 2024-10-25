@@ -98,6 +98,17 @@ def admin_main():
             abort(404)
     else:
         abort(404)
+    
+#User Management
+@app.route('/admin/users/')
+def admin_user_management():
+    if current_user.is_authenticated:
+        if current_user.is_admin is True:
+            return render_template('/admin/admin_user_management.html', page_name="User Management", userdata=user_get_all())
+        else:
+            abort(404)
+    else:
+        abort(404)
 
 #DB Loader
 @app.route('/admin/load_db/')

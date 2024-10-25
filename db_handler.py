@@ -101,13 +101,14 @@ def user_get_all():
     user_list = []
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    cursor.execute("SELECT user_id, user_fullname, user_email, user_phone FROM table_users")
+    cursor.execute("SELECT user_id, user_fullname, user_email, user_phone, user_admin FROM table_users")
     for user_data in cursor.fetchall():
         user_list.append({
             "user_id": user_data[0],
             "user_fullname": user_data[1],
             "user_email": user_data[2],
-            "user_phone": user_data[3]
+            "user_phone": user_data[3],
+            "user_admin": user_data[4]
         })
     cursor.close()
     database.close()

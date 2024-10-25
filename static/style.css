@@ -10,7 +10,7 @@ a.nav_link{
 a.button_link{
     text-decoration: none;
     color: black;
-    font-size: 20px;
+    font-size: 100%;
 }
 nav{
     text-align: center;
@@ -119,13 +119,16 @@ br{
     display: block !important;
 }
 .button{
-    font-size: 200%;
+    text-decoration: none;
     background-color: white;
-    display: inline;
+    display: block;/*inline*/
     border: 10px solid white;
     border-radius: 8px;
     cursor: pointer;
     color: black;
+    width: 50%;
+    margin: auto;
+    margin-bottom: 2%;
 }
 .search_button{
     background-color: white;
@@ -164,6 +167,19 @@ br{
     border-radius: 8px;
     margin: auto;
     width: 75%;
+}
+table, th, td{
+    border: 2px solid;
+    border-radius: 8px;
+    margin: auto;
+}
+table{
+    font-size: 20px;
+    border: solid 4px black;
+    width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0.5em 1em;
 }
 
 input::-webkit-outer-spin-button,
