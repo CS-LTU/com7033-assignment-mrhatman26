@@ -37,10 +37,11 @@ def user_check_reconfirm(user_id):
     user = []
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    cursor.execute("SELECT user_id, user_fullname FROM table_users WHERE user_id = %s", (str(user_id),))
+    cursor.execute("SELECT user_id, user_fullname, user_admin FROM table_users WHERE user_id = %s", (str(user_id),))
     for item in cursor.fetchall():
         user.append(item[0])
         user.append(item[1])
+        user.append(item[2])
     cursor.close()
     database.close()
     return user
@@ -139,6 +140,50 @@ def insert_patients_data(patient_data):
     else:
         new_id = 0
     cursor.execute("INSERT INTO table_patient_data VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(new_id), str(patient_data["patient_gender"]), patient_data["patient_age"], str(patient_data["patient_hyperT"]), str(patient_data["patient_hDisease"]), str(patient_data["patient_married"]), str(patient_data["patient_work_type"]), str(patient_data["patient_residence_type"]), str(patient_data["patient_avg_gLevel"]), patient_data["patient_bmi"], str(patient_data["patient_smoked"]), str(patient_data["patient_stroke"]),))
+    database.commit()
+    cursor.close()
+    database.close()
+
+'''Admin commands'''
+#Check
+def admin_user_admin_check(username): ###DEPRECATED###
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    print(username, flush=True)
+    cursor.execute("SELECT user_admin FROM table_users WHERE user_email = %s", (str(username),))
+    fetch = cursor.fetchall()
+    cursor.close()
+    database.close()
+    print(fetch, flush=True)
+    if len(fetch) >= 1:
+        if str(fetch[0][0]) == "1":
+            return True
+        else:
+            return False
+    return False
+
+def admin_check_basepass():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT user_password FROM table_users WHERE user_id = 0")
+    fetch = cursor.fetchall()
+    cursor.close()
+    database.close()
+    if len(fetch) >= 1:
+        if fetch[0][0] == "-1":
+            return False
+        else:
+            return True
+    else:
+        return False
+#Get
+#Insert
+#Update
+def admin_hash_basepass():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    admin_pass = string_hash("healthyadmin")
+    cursor.execute("UPDATE table_users SET user_password = %s WHERE user_fullname = 'BaseAdmin'", (str(admin_pass),))
     database.commit()
     cursor.close()
     database.close()

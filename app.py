@@ -18,13 +18,14 @@ def load_fuser(id):
     if len(user_check) <= 0:
         return None
     else:
-        return User(user_check[0], user_check[1])
-########################################Todo: Finish login and signup.
+        return User(user_check[0], user_check[1], bool(user_check[2]))
 
 '''General Routes'''
 #Home/Index
 @app.route('/')
 def home():
+    if admin_check_basepass() is False:
+        admin_hash_basepass()
     return render_template('home.html', page_name="Home")
 
 '''User Routes'''
@@ -43,14 +44,13 @@ def user_login_validate():
         userdata = request.get_data()
         userdata = userdata.decode()
         userdata = ast.literal_eval(userdata)
-        if True is True:
-        #try:
+        try:
             if user_check_validate(userdata) is True:
-                login_user(User(user_get_id(userdata["username"]), userdata["username"]))
+                login_user(User(user_get_id(userdata["username"]), userdata["username"], admin_user_admin_check(userdata["username"])))
                 return "success"
             else:
                 return "usernotexist"
-        #except Exception as e:
+        except Exception as e:
             print("An error ocurred:\n" + str(e), flush=True)
             return "servererror"
 
@@ -92,7 +92,10 @@ def user_logout():
 @app.route('/admin/')
 def admin_main():
     if current_user.is_authenticated:
-        return render_template('/admin/admin_main.html', page_name="Admin Home")
+        if current_user.is_admin is True:
+            return render_template('/admin/admin_main.html', page_name="Admin Home")
+        else:
+            abort(404)
     else:
         abort(404)
 
@@ -100,14 +103,14 @@ def admin_main():
 @app.route('/admin/load_db/')
 def admin_loadDB():
     if current_user.is_authenticated:
-        from db_reader import read_presaved_data
-        read_presaved_data()
-        return redirect('/')
+        if admin_user_admin_check(current_user.username) is True:
+            from db_reader import read_presaved_data
+            read_presaved_data()
+            return redirect('/')
+        else:
+            abort(404)
     else:
-        #abort(404)
-        from db_reader import read_presaved_data
-        read_presaved_data()
-        return redirect('/')
+        abort(404)
 
 #Error Pages
 #These pages are only shown when the website encounters an error.

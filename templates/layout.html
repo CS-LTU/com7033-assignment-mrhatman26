@@ -15,6 +15,11 @@
                 {% if current_user.is_authenticated %}
                     {% block is_authed %}
                         <li><a href="{{ url_for('home') }}" class="nav_link">{{ current_user.username }}</a></li>
+                        {% if current_user.is_admin %}
+                            {% block is_admin %}
+                                <li><a href="{{ url_for('admin_main') }}" class="nav_link">Admin</a></li>
+                            {% endblock %}
+                        {% endif %}
                         <li><a href="{{ url_for('user_logout') }}" class="nav_link">Logout</a></li>
                     {% endblock %}
                 {% else %}
