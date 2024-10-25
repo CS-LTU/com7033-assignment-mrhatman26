@@ -103,7 +103,7 @@ def admin_main():
 @app.route('/admin/load_db/')
 def admin_loadDB():
     if current_user.is_authenticated:
-        if admin_user_admin_check(current_user.username) is True:
+        if current_user.is_admin is True:
             from db_reader import read_presaved_data
             read_presaved_data()
             return redirect('/')
