@@ -77,6 +77,14 @@ def user_signup_validate():
         except Exception as e:
             print("An error ocurred:\n" + str(e), flush=True)
             return "servererror"
+        
+#Account Page
+@app.route('/users/account/')
+def user_account():
+    if current_user.is_authenticated:
+        return render_template('/users/account.html', page_name=current_user.username, userdata=user_get_single(current_user.id))
+    else:
+        return redirect('/')
     
 #Logout
 @app.route('/users/logout/')
@@ -109,7 +117,7 @@ def admin_user_management():
             abort(404)
     else:
         abort(404)
-#Apply Admin
+#Change Admin Status
 @app.route('/admin/users/makeadmin/user_id=<user_id>')
 def admin_user_apply_admin(user_id):
     if current_user.is_authenticated:

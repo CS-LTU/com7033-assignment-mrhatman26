@@ -114,6 +114,17 @@ def user_get_all():
     database.close()
     return user_list
 
+def user_get_single(user_id):
+    user_data = {}
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT user_fullname, user_email, user_phone FROM table_users WHERE user_id = %s", (user_id,))
+    for user_info in cursor.fetchall():
+        user_data["user_fullname"] = user_info[0]
+        user_data["user_email"] = user_info[1]
+        user_data["user_phone"] = user_info[2]
+    return user_data
+
 #Insert
 def user_create(userdata):
     if user_check_exists(userdata["email"]):
