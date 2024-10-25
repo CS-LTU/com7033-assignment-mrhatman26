@@ -21,12 +21,18 @@
                                     <td>{{ user.user_fullname }}</td>
                                     <td>{{ user.user_email }}</td>
                                     <td>{{ user.user_phone }}</td>
-                                    {% if user.user_admin == 1 %}
-                                        <td>Yes</td>
+                                    {% if user.user_id != 0 %}
+                                        {% if user.user_admin == 1 %}
+                                            <td>Yes</td>
+                                            <td><p class="button" style="margin-bottom: 2%;"><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link">Revoke</a></p></td>
+                                        {% else %}
+                                            <td>No</td>
+                                            <td><p class="button" style="margin-bottom: 2%;"><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link">Apply</a></p></td>
+                                        {% endif %}
                                     {% else %}
-                                        <td>No</td>
+                                        <td>Yes</td>
+                                        <td>-</td>
                                     {% endif %}
-                                    <td>-</td>
                                     <td><p class="button" style="margin-bottom: 2%;"><a href="{{ url_for('admin_user_delete', user_id=user.user_id) }}" class="button_link">Delete</a></p></td>
                                 </tr>
                             {% endfor %}
@@ -39,9 +45,11 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Is Admin</th>
+                                <th>Change Admin</th>
                                 <th>Delete</th>
                             </tr>
                             <tr>
+                                <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
                                 <td>-</td>

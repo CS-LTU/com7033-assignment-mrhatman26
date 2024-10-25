@@ -109,6 +109,18 @@ def admin_user_management():
             abort(404)
     else:
         abort(404)
+#Apply Admin
+@app.route('/admin/users/makeadmin/user_id=<user_id>')
+def admin_user_apply_admin(user_id):
+    if current_user.is_authenticated:
+        if current_user.is_admin is True:
+            admin_apply_admin_user(user_id)
+            return redirect('/admin/users/')
+        else:
+            abort(404)
+    else:
+        abort(404)
+#Delete
 @app.route('/admin/users/delete/user_id=<user_id>')
 def admin_user_delete(user_id):
     if current_user.is_authenticated:

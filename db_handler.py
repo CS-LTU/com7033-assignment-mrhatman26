@@ -189,6 +189,18 @@ def admin_hash_basepass():
     cursor.close()
     database.close()
 
+def admin_apply_admin_user(user_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT user_admin FROM table_users WHERE user_id = %s", (user_id,))
+    if cursor.fetchall()[0][0] == 1:
+        cursor.execute("UPDATE table_users SET user_admin = 0 WHERE user_id = %s", (user_id,))
+    else:
+        cursor.execute("UPDATE table_users SET user_admin = 1 WHERE user_id = %s", (user_id,))
+    database.commit()
+    cursor.close()
+    database.close()
+
 #Delete
 def admin_delete_user(user_id):
     database = mysql.connector.connect(**get_db_config(deployed))
