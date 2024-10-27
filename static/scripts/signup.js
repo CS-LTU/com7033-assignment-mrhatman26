@@ -19,6 +19,21 @@ function submitLogin(event){
     if (!signupForm[3].value.includes(" ")){
         signupForm[3].value = signupForm[3].value.slice(0, 5) + " " + signupForm[3].value.slice(5);
     }
+    //Make sure password does not contain text from the other boxes
+    if (signupForm[2].value.includes(signupForm[0].value.split(" ")[0]) || signupForm[2].value.includes(signupForm[0].value.split(" ")[1]) || signupForm[2].value.includes(signupForm[1].value.split("@")[0])){
+        if (oldErrorCheck() === false){
+            var mainBody = document.getElementById("page_mainbody_home");
+            errorMessage = document.createElement("p");
+            errorMessage.id = "errorMessage";
+            errorMessage.style.color = "red";
+            errorMessage.innerHTML = "Password cannot contain your email or name.";
+            mainBody.appendChild(errorMessage);
+        }
+        else{
+            errorMessage.innerHTML = "Password cannot contain your email or name.";
+        }
+        return;
+    }
     var signupData = {
         "fullname": signupForm[0].value,
         "email": signupForm[1].value,
