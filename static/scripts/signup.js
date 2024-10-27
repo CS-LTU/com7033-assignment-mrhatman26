@@ -15,17 +15,10 @@ function oldErrorCheck(){
 
 function submitLogin(event){
     event.preventDefault();
-    //Email check
-    if (!signupForm[1].value.includes("@")){
-        errorMessage = document.createElement("p");
-        errorMessage.id = "errorMessage";
-        errorMessage.style.color = "red";
-        errorMessage.innerHTML = "Please enter a valid email address";
-        mainBody.appendChild(errorMessage);
-        return;
+    //Phone number correction
+    if (!signupForm[3].value.includes(" ")){
+        signupForm[3].value = signupForm[3].value.slice(0, 5) + " " + signupForm[3].value.slice(5);
     }
-    //Password check
-    
     var signupData = {
         "fullname": signupForm[0].value,
         "email": signupForm[1].value,

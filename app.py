@@ -193,6 +193,13 @@ def admin_loadDB():
 def page_invalid(e):
     return render_template('errors/404.html'), 404
 
+#Favicon
+#Apparently supposed to be the icon used when a page is bookmarked.
+#Even though this supresses the "favicon.ico" 404 error, it does not show this icon when bookmarked.
+@app.route('/favicon.ico')
+def favicon():
+    return url_for("static", filename="favicon.ico")
+
 #Launch Website
 if __name__ == '__main__':
     if deployed is True:
