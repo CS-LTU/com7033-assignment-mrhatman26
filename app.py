@@ -85,10 +85,19 @@ def user_account():
         return render_template('/users/account.html', page_name=current_user.username, userdata=user_get_single(current_user.id))
     else:
         return redirect('/')
-@app.route('/users/account/deleteconfirm/')
+@app.route('/users/account/delete/')
 def user_deleteconfirm():
     if current_user.is_authenticated:
         return render_template('/users/delete.html', page_name="Delete Confirmation")
+    else:
+        abort(404)
+@app.route('/users/account/delete/confirmed')
+def user_delete():
+    if current_user.is_authenticated:
+        temp_user_id = current_user.id
+        logout_user()
+        admin_delete_user(temp_user_id)
+        return redirect('/')
     else:
         abort(404)
     
