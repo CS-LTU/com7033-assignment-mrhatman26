@@ -88,6 +88,11 @@ def user_account():
     
 #Modify
 @app.route('/users/account/modify/')
+def user_modify():
+    if current_user.is_authenticated:
+        return render_template('/users/modify.html', page_name="Modify Account", userdata=user_get_single(current_user.id))
+    else:
+        return redirect('/')
     
 #Delete
 @app.route('/users/account/delete/')
