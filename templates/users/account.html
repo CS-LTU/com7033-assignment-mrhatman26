@@ -12,7 +12,7 @@
                         {% endif %}
                         {% if current_user.id != 0 %}
                                 <p class="button"><a href="{{ url_for('admin_user_management') }}" class="button_link">Modify Account</a></p>
-                                <p class="button" style="background-color: red; border-color: red;"><a href="{{ url_for('admin_user_management') }}" class="button_link" style="color: white;">Delete Account</a></p>
+                                <p class="button" style="background-color: red; border-color: red;"><a href="{{ url_for('user_deleteconfirm') }}" class="button_link" style="color: white;">Delete Account</a></p>
                         {% endif %}
                 </div>
         </div>

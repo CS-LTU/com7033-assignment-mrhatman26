@@ -85,6 +85,12 @@ def user_account():
         return render_template('/users/account.html', page_name=current_user.username, userdata=user_get_single(current_user.id))
     else:
         return redirect('/')
+@app.route('/users/account/deleteconfirm/')
+def user_deleteconfirm():
+    if current_user.is_authenticated:
+        return render_template('/users/delete.html', page_name="Delete Confirmation")
+    else:
+        abort(404)
     
 #Logout
 @app.route('/users/logout/')
@@ -133,8 +139,16 @@ def admin_user_apply_admin(user_id):
 def admin_user_delete(user_id):
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            admin_delete_user(user_id)
-            return redirect('/admin/users/')
+            print("user_id ==", user_id, "current_user.id ==", current_user.id, flush=True)
+            print("user_id type ==", type(int(user_id)), "current_user.id type ==", type(current_user.id), flush=True)
+            if int(user_id) == current_user.id:
+                logout_user()
+                admin_delete_user(user_id)
+                return redirect('/')
+            else:
+                print("ono", flush=True)
+                admin_delete_user(user_id)  
+                return redirect('/admin/users/')
         else:
             abort(404)
     else:
