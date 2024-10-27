@@ -13,14 +13,6 @@ function oldErrorCheck(){
 
 function submitLogin(event){
     event.preventDefault();
-    if (!loginForm[0].value.includes("@")){
-        errorMessage = document.createElement("p");
-        errorMessage.id = "errorMessage";
-        errorMessage.style.color = "red";
-        errorMessage.innerHTML = "Please enter a valid email address";
-        mainBody.appendChild(errorMessage);
-        return;
-    }
     var loginData = {
         "username": loginForm[0].value,
         "password": loginForm[1].value

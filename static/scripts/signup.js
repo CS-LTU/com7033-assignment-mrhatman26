@@ -5,7 +5,7 @@ let errorMessage = null;
 
 function oldErrorCheck(){
     var oldErrorMessage = document.getElementById("errorMessage");
-    if (oldErrorMessage === null){ //Finish this!
+    if (oldErrorMessage === null){
         return false;
     }
     else{
@@ -15,6 +15,7 @@ function oldErrorCheck(){
 
 function submitLogin(event){
     event.preventDefault();
+    //Email check
     if (!signupForm[1].value.includes("@")){
         errorMessage = document.createElement("p");
         errorMessage.id = "errorMessage";
@@ -23,6 +24,8 @@ function submitLogin(event){
         mainBody.appendChild(errorMessage);
         return;
     }
+    //Password check
+    
     var signupData = {
         "fullname": signupForm[0].value,
         "email": signupForm[1].value,

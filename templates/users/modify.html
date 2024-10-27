@@ -12,7 +12,7 @@
                                 <input class="textbox" type="text" id="user_email" name="txt_user_email" maxlength="20" value="{{ userdata.user_email }}"  required placeholder="Email">
                                 <br>
                                 <p>Password:</p>
-                                <input class="textbox" type="password" id="user_pass" name="txt_user_pass" maxlength="20" required placeholder="Password">
+                                <input class="textbox" type="password" id="user_pass" name="txt_user_pass" maxlength="20" required placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}">
                                 <br>
                                 <p>Phone Number:</p>
                                 <input class="textbox" type="text" id="user_phone" name="txt_user_phone" maxlength="20" value="{{ userdata.user_phone }}" required placeholder="Phone Number">
