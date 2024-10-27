@@ -93,6 +93,22 @@ def user_modify():
         return render_template('/users/modify.html', page_name="Modify Account", userdata=user_get_single(current_user.id))
     else:
         return redirect('/')
+@app.route('/users/account/modify/validate/', methods=['POST'])
+def user_modify_validate():
+    if current_user.is_authenticated:
+        userdata = request.get_data()
+        userdata = userdata.decode()
+        userdata = ast.literal_eval(userdata)
+        userdata["id"] = current_user.id
+        try:
+            if user_update(userdata) is True:
+                return "success"
+            else:
+                return "userexists"
+        except:
+            return "servererror"
+    else:
+        return abort(404)
     
 #Delete
 @app.route('/users/account/delete/')

@@ -140,6 +140,33 @@ def user_create(userdata):
         cursor.close()
         database.close()
         return True
+    
+#Update
+def user_update(userdata):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    if user_check_exists(userdata["email"]):
+        cursor.execute("SELECT user_id FROM table_users WHERE user_email = %s", (str(userdata["email"]),))
+        fetch = cursor.fetchall()
+        if len(fetch) >= 1:
+            if userdata["id"] != fetch[0][0]:
+                return False
+    old_userdata = user_get_single(userdata["id"])
+    if userdata["fullname"] == "":
+        userdata["fullname"] = old_userdata["user_fullname"]
+    if userdata["email"] == "":
+        userdata["email"] = old_userdata["user_email"]
+    if userdata["phone"] == "":
+        userdata["phone"] = old_userdata["user_phone"]
+    if userdata["password"] == "":
+        cursor.execute("UPDATE table_users SET user_fullname = %s, user_email = %s, user_phone = %s WHERE user_id = %s", (str(userdata["fullname"]), str(userdata["email"]), str(userdata["phone"]), str(userdata["id"]),))
+    else:
+        userdata["password"] = string_hash(userdata["password"])
+        cursor.execute("UPDATE table_users SET user_fullname = %s, user_password = %s, user_email = %s, user_phone = %s WHERE user_id = %s", (str(userdata["fullname"]), str(userdata["password"]), str(userdata["email"]), str(userdata["phone"]), str(userdata["id"]),))
+    database.commit()
+    cursor.close()
+    database.close()
+    return True
 
 '''Patient commands'''
 def insert_patients_data(patient_data):

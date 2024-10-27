@@ -15,10 +15,6 @@ function oldErrorCheck(){
 
 function submitLogin(event){
     event.preventDefault();
-    //Phone number correction
-    if (!signupForm[3].value.includes(" ")){
-        signupForm[3].value = signupForm[3].value.slice(0, 5) + " " + signupForm[3].value.slice(5);
-    }
     //Make sure password does not contain text from the other boxes
     if (signupForm[2].value.includes(signupForm[0].value.split(" ")[0]) || signupForm[2].value.includes(signupForm[0].value.split(" ")[1]) || signupForm[2].value.includes(signupForm[1].value.split("@")[0])){
         if (oldErrorCheck() === false){
@@ -33,6 +29,10 @@ function submitLogin(event){
             errorMessage.innerHTML = "Password cannot contain your email or name.";
         }
         return;
+    }
+    //Phone number correction
+    if (!signupForm[3].value.includes(" ")){
+        signupForm[3].value = signupForm[3].value.slice(0, 5) + " " + signupForm[3].value.slice(5);
     }
     var signupData = {
         "fullname": signupForm[0].value,
