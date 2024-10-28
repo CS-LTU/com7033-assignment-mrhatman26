@@ -20,6 +20,12 @@ def load_fuser(id):
         return None
     else:
         return User(user_check[0], user_check[1], bool(user_check[2]))
+    
+def log_get_user():
+    if hasattr(current_user, 'username'):
+        return current_user.username
+    else:
+        return "Annonymous"
 
 '''General Routes'''
 #Home/Index
@@ -27,6 +33,7 @@ def load_fuser(id):
 def home():
     if admin_check_basepass() is False:
         admin_hash_basepass()
+    add_access_log(request.remote_addr, log_get_user(), "/ (home)", False, False)
     return render_template('home.html', page_name="Home")
 
 '''User Routes'''
@@ -34,24 +41,31 @@ def home():
 @app.route('/users/login/')
 def user_login():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/login/ (user_login)", True, False)
         return redirect('/')
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/login/ (user_login)", False, False)
         return render_template('users/login.html', page_name="Login")
 @app.route('/users/login/validate/', methods=['POST'])
 def user_login_validate():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/login/validate/ (user_login_validate)", True, False)
         return redirect('/')
     else:
         userdata = request.get_data()
         userdata = userdata.decode()
         userdata = ast.literal_eval(userdata)
+        add_access_log(request.remote_addr, log_get_user(), "/users/login/validate/ (user_login_validate)", False, False)
         try:
             if user_check_validate(userdata) is True:
                 login_user(User(user_get_id(userdata["username"]), userdata["username"], admin_user_admin_check(userdata["username"])))
+                add_login_log(request.remote_addr, userdata["username"], False, False)
                 return "success"
             else:
+                add_login_log(request.remote_addr, userdata["username"], True, False)
                 return "usernotexist"
         except Exception as e:
+            add_login_log(request.remote_addr, userdata["username"], True, False)
             print("An error ocurred:\n" + str(e), flush=True)
             return "servererror"
 
@@ -59,23 +73,30 @@ def user_login_validate():
 @app.route('/users/signup/')
 def user_signup():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/signup/ (user_signup)", True, False)
         return redirect('/')
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/signup/ (user_signup)", False, False)
         return render_template('users/signup.html', page_name="Signup")
-@app.route('/users/signup/validate', methods=['POST'])
+@app.route('/users/signup/validate/', methods=['POST'])
 def user_signup_validate():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/signup/validate/ (user_signup_validate)", True, False)
         return redirect('/')
     else:
         userdata = request.get_data()
         userdata = userdata.decode()
         userdata = ast.literal_eval(userdata)
+        add_access_log(request.remote_addr, log_get_user(), "/users/signup/validate/ (user_signup_validate)", False, False)
         try:
             if user_create(userdata) is True:
+                add_new_user_log(request.remote_addr, userdata["email"], False)
                 return "success"
             else:
+                add_new_user_log(request.remote_addr, userdata["email"], True)
                 return "userexists"
         except Exception as e:
+            add_new_user_log(request.remote_addr, userdata["email"], True)
             print("An error ocurred:\n" + str(e), flush=True)
             return "servererror"
         
@@ -83,16 +104,20 @@ def user_signup_validate():
 @app.route('/users/account/')
 def user_account():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/ (user_account)", False, False)
         return render_template('/users/account.html', page_name=current_user.username, userdata=user_get_single(current_user.id))
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/ (user_account)", True, False)
         return redirect('/')
     
 #Modify
 @app.route('/users/account/modify/')
 def user_modify():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/modify/ (user_modify)", False, False)
         return render_template('/users/modify.html', page_name="Modify Account", userdata=user_get_single(current_user.id))
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/ (user_modify)", True, False)
         return redirect('/')
 @app.route('/users/account/modify/validate/', methods=['POST'])
 def user_modify_validate():
@@ -101,40 +126,54 @@ def user_modify_validate():
         userdata = userdata.decode()
         userdata = ast.literal_eval(userdata)
         userdata["id"] = current_user.id
+        add_access_log(request.remote_addr, current_user.username, "/users/account/modify/validate/ (user_modify_validate)", False, False)
         try:
             if user_update(userdata) is True:
+                add_modify_user_log(request.remote_addr, userdata["email"], False)
                 return "success"
             else:
+                add_modify_user_log(request.remote_addr, userdata["email"], True)
                 return "userexists"
         except:
+            add_modify_user_log(request.remote_addr, userdata["email"], True)
             return "servererror"
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/validate/ (user_modify_validate)", False, False)
         return abort(404)
     
 #Delete
 @app.route('/users/account/delete/')
 def user_deleteconfirm():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/delete/ (user_deleteconfirm)", False, False)
         return render_template('/users/delete.html', page_name="Delete Confirmation")
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/delete/ (user_deleteconfirm)", True, False)
         abort(404)
 @app.route('/users/account/delete/confirmed/')
 def user_delete():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/delete/confirmed/ (user_delete)", False, False)
         temp_user_id = current_user.id
+        add_login_log(request.remote_addr, current_user.username, False, True)
         logout_user()
+        add_delete_user_log(request.remote_addr, log_get_user(), False, False)
         admin_delete_user(temp_user_id)
         return redirect('/')
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/delete/confirmed/ (user_delete)", True, False)
         abort(404)
     
 #Logout
 @app.route('/users/logout/')
 def user_logout():
     if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/logout/ (user_logout)", False, False)
+        add_login_log(request.remote_addr, current_user.username, False, True)
         logout_user()
         return redirect('/')
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/logout/ (user_logout)", True, False)
         return redirect('/')
 
 '''Admin Routes'''
@@ -143,10 +182,13 @@ def user_logout():
 def admin_main():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
+            add_access_log(request.remote_addr, current_user.username, "/admin/ (admin_main)", False, True)
             return render_template('/admin/admin_main.html', page_name="Admin: Home")
         else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/ (admin_main)", True, True)
             abort(404)
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/ (admin_main)", True, True)
         abort(404)
     
 #User Management
@@ -154,40 +196,50 @@ def admin_main():
 def admin_user_management():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
+            add_access_log(request.remote_addr, current_user.username, "/admin/users/ (admin_user_management)", False, True)
             return render_template('/admin/admin_user_management.html', page_name="Admin: User Management", userdata=user_get_all())
         else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/users/ (admin_user_management)", True, True)
             abort(404)
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/users/ (admin_user_management)", True, True)
         abort(404)
 #Change Admin Status
 @app.route('/admin/users/makeadmin/user_id=<user_id>')
 def admin_user_apply_admin(user_id):
     if current_user.is_authenticated:
         if current_user.is_admin is True:
+            add_access_log(request.remote_addr, current_user.username, "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", False, True)
             admin_apply_admin_user(user_id)
+            add_user_admin_log(request.remote_addr, user_get_username(user_id), False)
             return redirect('/admin/users/')
         else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", True, True)
             abort(404)
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", True, True)
         abort(404)
 #Delete
 @app.route('/admin/users/delete/user_id=<user_id>')
 def admin_user_delete(user_id):
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            print("user_id ==", user_id, "current_user.id ==", current_user.id, flush=True)
-            print("user_id type ==", type(int(user_id)), "current_user.id type ==", type(current_user.id), flush=True)
+            add_access_log(request.remote_addr, current_user.username, "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", False, True)
             if int(user_id) == current_user.id:
                 logout_user()
+                add_login_log(request.remote_addr, current_user.username, False, True)
+                add_delete_user_log(request.remote_addr, user_get_username(user_id), False, True)
                 admin_delete_user(user_id)
                 return redirect('/')
             else:
-                print("ono", flush=True)
-                admin_delete_user(user_id)  
+                add_delete_user_log(request.remote_addr, user_get_username(user_id), False, True)
+                admin_delete_user(user_id)
                 return redirect('/admin/users/')
         else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", True, True)
             abort(404)
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", True, True)
         abort(404)
 
 #DB Loader
@@ -195,12 +247,16 @@ def admin_user_delete(user_id):
 def admin_loadDB():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
+            add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", False, True)
             from db_reader import read_presaved_data
             read_presaved_data()
+            add_readDB_admin_log()
             return redirect('/')
         else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", True, True)
             abort(404)
     else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/load_db/ (admin_loadDB)", True, True)
         abort(404)
 
 #Error Pages
@@ -208,6 +264,7 @@ def admin_loadDB():
 #404 is page not found.
 @app.errorhandler(404)
 def page_invalid(e):
+    add_access_log(request.remote_addr, log_get_user(), "/404/ (page_invalid)", False, False)
     return render_template('errors/404.html'), 404
 
 #Favicon
@@ -215,6 +272,7 @@ def page_invalid(e):
 #Even though this supresses the "favicon.ico" 404 error, it does not show this icon when bookmarked.
 @app.route('/favicon.ico')
 def favicon():
+    add_access_log(request.remote_addr, log_get_user(), "/favicon.ico (favicon)", False, False)
     return url_for("static", filename="favicon.ico")
 
 #Launch Website

@@ -114,6 +114,18 @@ def user_get_all():
     database.close()
     return user_list
 
+def user_get_username(user_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT user_email FROM table_users WHERE user_id = %s", (user_id,))
+    try:
+        fetch = cursor.fetchall()[0][0]
+    except:
+        fetch = "Unknown User"
+    cursor.close()
+    database.close()
+    return fetch
+
 def user_get_single(user_id):
     user_data = {}
     database = mysql.connector.connect(**get_db_config(deployed))
