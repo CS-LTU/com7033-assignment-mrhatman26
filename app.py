@@ -3,6 +3,7 @@ from flask import Flask, render_template, url_for, request, redirect, abort
 from flask_login import LoginManager, current_user, login_user, logout_user
 from user import User
 from db_handler import *
+from access_logger import *
 
 '''Server Vars'''
 app = Flask(__name__)
