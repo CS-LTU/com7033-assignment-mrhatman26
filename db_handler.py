@@ -1,3 +1,4 @@
+from os import stat
 import mysql.connector
 import hashlib
 from db_config import get_db_config
@@ -240,16 +241,20 @@ def admin_hash_basepass():
     database.close()
 
 def admin_apply_admin_user(user_id):
+    status = True
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_admin FROM table_users WHERE user_id = %s", (user_id,))
     if cursor.fetchall()[0][0] == 1:
         cursor.execute("UPDATE table_users SET user_admin = 0 WHERE user_id = %s", (user_id,))
+        status = False
     else:
         cursor.execute("UPDATE table_users SET user_admin = 1 WHERE user_id = %s", (user_id,))
+        status = True
     database.commit()
     cursor.close()
     database.close()
+    return status
 
 #Delete
 def admin_delete_user(user_id):

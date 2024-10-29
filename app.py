@@ -210,8 +210,10 @@ def admin_user_apply_admin(user_id):
     if current_user.is_authenticated:
         if current_user.is_admin is True:
             add_access_log(request.remote_addr, current_user.username, "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", False, True)
-            admin_apply_admin_user(user_id)
-            add_user_admin_log(request.remote_addr, user_get_username(user_id), False)
+            if admin_apply_admin_user(user_id) is True:
+                add_user_admin_log(request.remote_addr, user_get_username(user_id), False, False)
+            else:
+                add_user_admin_log(request.remote_addr, user_get_username(user_id), False, True)
             return redirect('/admin/users/')
         else:
             add_access_log(request.remote_addr, current_user.username, "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", True, True)
@@ -250,7 +252,7 @@ def admin_loadDB():
             add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", False, True)
             from db_reader import read_presaved_data
             read_presaved_data()
-            add_readDB_admin_log()
+            add_readDB_admin_log(request.remote_addr, current_user.username)
             return redirect('/')
         else:
             add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", True, True)

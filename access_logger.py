@@ -76,15 +76,21 @@ def add_login_log(ip, username, failed, logout):
     log_file.write(text)
     log_file.close()
 
-def add_user_admin_log(ip, username, failed):
+def add_user_admin_log(ip, username, failed, reverse):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()
     text = "\n" + get_time()
     if failed is False:
-        text = text + " (ADMIN): " + ip + " successfully made " + username + " an Admin"
+        if reverse is False:
+            text = text + " (ADMIN): " + ip + " successfully made " + username + " an Admin"
+        else:
+            text = text + " (ADMIN): " + ip + " successfully removed Admin status from " + username
     else:
-        text = text + " (ADMIN): " + ip + " FAILED to make " + username + " an Admin"
-    log_file.write()
+        if reverse is False:
+            text = text + " (ADMIN): " + ip + " FAILED to make " + username + " an Admin"
+        else:
+            text = text + " (ADMIN): " + ip + " FAILED to remove Admin status from " + username
+    log_file.write(text)
     log_file.close()
 
 def add_readDB_admin_log(ip, username):

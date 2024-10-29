@@ -1,4 +1,4 @@
-import csv, pyperclip
+import csv
 from db_handler import insert_patients_data
 
 def str_to_booInt(YesNo):
