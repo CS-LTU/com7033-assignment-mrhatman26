@@ -1,5 +1,6 @@
 import csv
 from db_handler import insert_patients_data
+from mongodb import mongo_create
 
 def str_to_booInt(YesNo):
     if YesNo.upper() == "YES":
@@ -34,4 +35,5 @@ def read_presaved_data():
             }
             if row[0] != "id":
                 insert_patients_data(row_dict)
+                mongo_create(row_dict)
     csvfile.close()
