@@ -244,8 +244,22 @@ def admin_user_delete(user_id):
         add_access_log(request.remote_addr, log_get_user(), "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", True, True)
         abort(404)
 
+#Patient Data Management
+@app.route('/admin/database/manage/')
+def admin_database_management():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", False, True)
+            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management", patient_data=admin_get_patient_data())
+        else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+        abort(404)
+
 #DB Loader
-@app.route('/admin/load_db/')
+@app.route('/admin/database/manage/load_db/')
 def admin_loadDB():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
@@ -253,7 +267,7 @@ def admin_loadDB():
             from db_reader import read_presaved_data
             read_presaved_data()
             add_readDB_admin_log(request.remote_addr, current_user.username)
-            return redirect('/')
+            return redirect('/admin/database/manage/')
         else:
             add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", True, True)
             abort(404)

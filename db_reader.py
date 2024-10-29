@@ -11,7 +11,7 @@ def read_presaved_data():
     with open("healthcare-dataset-stroke-data.csv") as csvfile:
         table = csv.reader(csvfile, delimiter=" ")
         for row in table:
-            print(row)
+            print(row, flush=True)
             if len(row) > 1:
                 row = row[0] + row[1]
                 row = row.split(",")

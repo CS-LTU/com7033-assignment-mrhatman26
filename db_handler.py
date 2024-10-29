@@ -182,6 +182,7 @@ def user_update(userdata):
     return True
 
 '''Patient commands'''
+#Misc
 def insert_patients_data(patient_data):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
@@ -195,6 +196,7 @@ def insert_patients_data(patient_data):
     database.commit()
     cursor.close()
     database.close()
+
 
 '''Admin commands'''
 #Check
@@ -228,7 +230,32 @@ def admin_check_basepass():
             return True
     else:
         return False
+
 #Get
+def admin_get_patient_data():
+    patients = []
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM table_patient_data")
+    for patient in cursor.fetchall():
+        patients.append({
+            "id": patient[0],
+            "gender": patient[1],
+            "age": patient[2], 
+            "hypert": patient[3], 
+            "hdisease": patient[4], 
+            "married": patient[5], 
+            "wtype": patient[6], 
+            "rtype": patient[7], 
+            "glevel": patient[8], 
+            "bmi": patient[9], 
+            "smoked": patient[10], 
+            "stroke": patient[11], 
+        })
+    cursor.close()
+    database.close()
+    return patients
+
 #Insert
 #Update
 def admin_hash_basepass():
