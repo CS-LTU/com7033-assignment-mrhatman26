@@ -14,6 +14,9 @@
                 <li><a href="{{ url_for('home') }}" class="nav_link">Home</a></li>
                 {% if current_user.is_authenticated %}
                     {% block is_authed %}
+                        {% if current_user.id != 0 %}
+                            <li><a href="{{ url_for('submission') }}" class="nav_link">Submit Info</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('user_account') }}" class="nav_link">{{ current_user.username }}</a></li>
                         {% if current_user.is_admin %}
                             {% block is_admin %}

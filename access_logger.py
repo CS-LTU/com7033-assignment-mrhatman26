@@ -3,6 +3,17 @@ def get_time():
     current_time = dt.datetime.now()
     return str("[" + current_time.strftime("%Y.%m.%d at %H:%M:%S") + "]")
 
+def add_error_log(ip, user, wFailed, theException=None):
+    log_file = open("static/logs.txt", "at")
+    current_time = dt.datetime.now()
+    text = "\n" + get_time()
+    if theException is None:
+        text = text + ": " + ip + " (User: " + user + ") encountered the following error: " + wFailed + "\nNo exception information available."
+    else:
+        text = text + ": " + ip + " (User: " + user + ") encountered the following error: " + wFailed + "\nException:\n" + str(theException)
+    log_file.write(text)
+    log_file.close()
+
 def add_access_log(ip, user, wwAccessed, failed, admin):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()
@@ -73,6 +84,23 @@ def add_login_log(ip, username, failed, logout):
             text = text + ": " + ip + " FAILED to log in as " + username
         else:
             text = text + ": " + ip + " (User: " + username + ") FAILED to log out of their account"
+    log_file.write(text)
+    log_file.close()
+
+def add_new_patient_log(ip, username, failed, is_mongodb):
+    log_file = open("static/logs.txt", "at")
+    current_time = dt.datetime.now()
+    text = "\n" + get_time()
+    if failed is False:
+        if is_mongodb is False:
+            text = text + ": " + ip + " successfully added new patient data to MySQL with a link to " + username
+        else:
+            text = text + ": " + ip + " successfully added new patient data to MongoDB"
+    else:
+        if is_mongodb is False:
+            text = text + ": " + ip + " FAILED to add new patient data to MySQL with a link to " + username
+        else:
+            text = text + ": " + ip + " FAILED to add new patient data to MongoDB"
     log_file.write(text)
     log_file.close()
 

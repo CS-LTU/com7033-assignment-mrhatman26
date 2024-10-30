@@ -1,6 +1,6 @@
 import csv
 from db_handler import insert_patients_data
-from mongodb import mongo_load
+from mongodb import mongo_insert
 from misc import is_number
 import time as t
 
@@ -41,5 +41,5 @@ def read_presaved_data():
             }
             if row[0] != "id":
                 insert_patients_data(row_dict)
-                mongo_load(row_dict)
+                mongo_insert(row_dict)
     csvfile.close()

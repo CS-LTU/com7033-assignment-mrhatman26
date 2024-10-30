@@ -182,7 +182,7 @@ def user_update(userdata):
     return True
 
 '''Patient commands'''
-#Misc
+#Insert
 def insert_patients_data(patient_data):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
@@ -193,6 +193,22 @@ def insert_patients_data(patient_data):
     else:
         new_id = 0
     cursor.execute("INSERT INTO table_patient_data VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(new_id), str(patient_data["patient_gender"]), patient_data["patient_age"], str(patient_data["patient_hyperT"]), str(patient_data["patient_hDisease"]), str(patient_data["patient_married"]), str(patient_data["patient_work_type"]), str(patient_data["patient_residence_type"]), str(patient_data["patient_avg_gLevel"]), patient_data["patient_bmi"], str(patient_data["patient_smoked"]), str(patient_data["patient_stroke"]),))
+    database.commit()
+    cursor.close()
+    database.close()
+
+def insert_new_patient(subdata, userid):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT patient_id FROM table_patient_data")
+    fetch = cursor.fetchall()
+    if len(fetch) >= 1:
+        new_id = int(fetch[-1][0]) + 1
+    else:
+        new_id = 0
+    cursor.execute("INSERT INTO table_patient_data VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (new_id, subdata["patient_gender"].upper(), subdata["patient_age"], subdata["patient_hyperT"], subdata["patient_hDisease"], subdata["patient_married"], subdata["patient_work_type"], subdata["patient_residence_type"], subdata["patient_avg_gLevel"], subdata["patient_bmi"], subdata["patient_smoked"], subdata["patient_stroke"]))
+    database.commit()
+    cursor.execute("INSERT INTO link_user_patient_data VALUES(%s, %s)", (userid, new_id,))
     database.commit()
     cursor.close()
     database.close()

@@ -4,16 +4,19 @@
         <div id="home_paragraph1">
                 <h3 id="page_header">Admin: User Management</h3>
                 <div id="page_mainbody_home">
-                    {% if is_mongodb is false %}
-                        <p class="button"><a href="{{ url_for('admin_database_management_mongodb') }}" class="button_link">View Patient Data in MongoDB</a></p>
-                    {% else %}
-                        <p class="button"><a href="{{ url_for('admin_database_management') }}" class="button_link">View Patient Data in MySQL</a></p>
-                    {% endif %}
                     {% if patient_data is not none and patient_data|length > 0 %}
+                        {% if is_mongodb is false %}
+                            <p class="button"><a href="{{ url_for('admin_database_management_mongodb') }}" class="button_link">View Patient Data in MongoDB</a></p>
+                        {% else %}
+                            <p class="button"><a href="{{ url_for('admin_database_management') }}" class="button_link">View Patient Data in MySQL</a></p>
+                            <p>Notice: The MongoDB database is annonymous and is not linked to any users</p>
+                        {% endif %}
                         <table>
                             <tr>
                                 <th>ID</th>
-                                <th>User</th>
+                                {% if is_mongodb is false %}
+                                    <th>User</th>
+                                {% endif %}
                                 <th>Gender</th>
                                 <th>Age</th>
                                 <th>Hypertension?</th>
@@ -66,7 +69,6 @@
                                 {% else %}
                                     <tr>
                                         <td>{{ patient._id }}</td>
-                                        <td>-</td>
                                         <td>{{ patient.patient_gender }}</td>
                                         <td>{{ patient.patient_age }}</td>
                                         {% if patient.patient_hyperT == 1 %}

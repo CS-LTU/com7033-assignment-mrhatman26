@@ -5,6 +5,7 @@ from user import User
 from db_handler import *
 from access_logger import *
 from mongodb import *
+from misc import clean_subdata
 
 '''Server Vars'''
 app = Flask(__name__)
@@ -37,6 +38,40 @@ def home():
     add_access_log(request.remote_addr, log_get_user(), "/ (home)", False, False)
     return render_template('home.html', page_name="Home")
 
+#Data Submission
+@app.route('/submission/')
+def submission():
+    if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", False, False)
+        return render_template('submission.html', page_name="Submission")
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", True, False)
+        return redirect('/users/login/')
+@app.route('/submission/validate/', methods=['POST'])
+def submission_validate():
+    if current_user.is_authenticated:
+        subdata = request.get_data()
+        subdata = subdata.decode()
+        subdata = ast.literal_eval(subdata)
+        add_access_log(request.remote_addr, current_user.username, "/submission/validate/ (submission_validate)", False, False)
+        mysql_done = False
+        try:
+            clean_subdata(subdata)
+            print(subdata, flush=True)
+            insert_new_patient(subdata, current_user.id)
+            mysql_done = True
+            add_new_patient_log(request.remote_addr, current_user.username, False, False)
+            mongo_insert(subdata)
+            add_new_patient_log(request.remote_addr, current_user.username, False, True)
+            return "success"
+        except Exception as e:
+            add_new_patient_log(request.remote_addr, current_user.username, True, mysql_done)
+            add_error_log(request.remote_addr, current_user.username, "Submission data insertion failed.", e)
+            return "servererror"
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/submission/validate/ (submission_validate)", True, False)
+        return redirect('/users/login/')
+    
 '''User Routes'''
 #Login
 @app.route('/users/login/')
