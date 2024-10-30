@@ -4,6 +4,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from user import User
 from db_handler import *
 from access_logger import *
+from mongodb import *
 
 '''Server Vars'''
 app = Flask(__name__)
@@ -250,13 +251,26 @@ def admin_database_management():
     if current_user.is_authenticated:
         if current_user.is_admin:
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", False, True)
-            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management", patient_data=admin_get_patient_data())
+            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MySQL)", patient_data=admin_get_patient_data(), is_mongodb=False)
         else:
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
         abort(404)
+@app.route('/admin/database/manage/mongodb/')
+def admin_database_management_mongodb():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/mongodb/ (admin_database_management_mongodb)", False, True)
+            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MongoDB)", patient_data=mongo_find_all(), is_mongodb=True)
+        else:
+            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+        abort(404)
+        
 
 #DB Loader
 @app.route('/admin/database/manage/load_db/')
