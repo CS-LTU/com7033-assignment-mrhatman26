@@ -197,8 +197,24 @@ def insert_patients_data(patient_data):
     cursor.close()
     database.close()
 
-
 '''Admin commands'''
+
+def admin_user_admin_check(username): ###DEPRECATED###
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    print(username, flush=True)
+    cursor.execute("SELECT user_admin FROM table_users WHERE user_email = %s", (str(username),))
+    fetch = cursor.fetchall()
+    cursor.close()
+    database.close()
+    print(fetch, flush=True)
+    if len(fetch) >= 1:
+        if str(fetch[0][0]) == "1":
+            return True
+        else:
+            return False
+    return False
+
 #Check
 def admin_check_basepass():
     database = mysql.connector.connect(**get_db_config(deployed))
