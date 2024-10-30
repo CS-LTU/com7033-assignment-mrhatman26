@@ -1,12 +1,18 @@
 import csv
 from db_handler import insert_patients_data
 from mongodb import mongo_create
+from misc import is_number
+import time as t
 
 def str_to_booInt(YesNo):
-    if YesNo.upper() == "YES":
-        return 1
+    if is_number(YesNo, False):
+        return int(YesNo)
     else:
-        return 0
+        if YesNo.upper() == "YES":
+            return 1
+        else:
+            return 0
+
     
 def read_presaved_data():
     with open("healthcare-dataset-stroke-data.csv") as csvfile:
