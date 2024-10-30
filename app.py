@@ -43,7 +43,7 @@ def home():
 def submission():
     if current_user.is_authenticated:
         add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", False, False)
-        return render_template('submission.html', page_name="Submission")
+        return render_template('submission.html', page_name="Submission", already_submitted=link_check_exists(current_user.id))
     else:
         add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", True, False)
         return redirect('/users/login/')

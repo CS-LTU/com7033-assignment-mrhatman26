@@ -229,6 +229,19 @@ def link_get_all():
     database.close()
     return links
 
+def link_check_exists(userid):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    print(userid, flush=True)
+    cursor.execute("SELECT user_id FROM link_user_patient_data WHERE user_id = %s", (userid,))
+    fetch = cursor.fetchall()
+    cursor.close()
+    database.close()
+    if len(fetch) >= 1:
+        return True
+    else:
+        return False
+
 '''Admin commands'''
 def admin_user_admin_check(username): ###DEPRECATED###
     database = mysql.connector.connect(**get_db_config(deployed))

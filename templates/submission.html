@@ -4,6 +4,7 @@
         <div id="home_paragraph1">
                 <h3 id="page_header">Submit Info</h3>
                 <div id="page_mainbody_home">
+                    {% if already_submitted is false %}
                         <form id="submission_form">
                                 <p>What is your gender?:</p>
                                 <select id="submission_gender" name="submission_gender" required>
@@ -71,6 +72,9 @@
                                 <br>
                                 <input type="submit" value="Submit" class="submit_button">
                         </form>
+                    {% else %}
+                        <p>You have already submitted your data!</p>
+                    {% endif %}
                 </div>
         </div>
 </div>
