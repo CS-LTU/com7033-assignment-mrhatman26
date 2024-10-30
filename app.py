@@ -286,7 +286,7 @@ def admin_database_management():
     if current_user.is_authenticated:
         if current_user.is_admin:
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", False, True)
-            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MySQL)", patient_data=admin_get_patient_data(), is_mongodb=False)
+            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MySQL)", patient_data=admin_get_patient_data(), is_mongodb=False, links=link_get_all())
         else:
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)

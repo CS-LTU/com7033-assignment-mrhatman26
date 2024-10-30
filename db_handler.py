@@ -213,17 +213,30 @@ def insert_new_patient(subdata, userid):
     cursor.close()
     database.close()
 
-'''Admin commands'''
+'''Link commands'''
+#Get
+def link_get_all():
+    links = []
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM link_user_patient_data")
+    for link in cursor.fetchall():
+        links.append({
+            "user_name": user_get_username(link[0]),
+            "patient_id": link[1]
+        })
+    cursor.close()
+    database.close()
+    return links
 
+'''Admin commands'''
 def admin_user_admin_check(username): ###DEPRECATED###
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    print(username, flush=True)
     cursor.execute("SELECT user_admin FROM table_users WHERE user_email = %s", (str(username),))
     fetch = cursor.fetchall()
     cursor.close()
     database.close()
-    print(fetch, flush=True)
     if len(fetch) >= 1:
         if str(fetch[0][0]) == "1":
             return True
