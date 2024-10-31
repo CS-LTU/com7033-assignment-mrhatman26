@@ -4,9 +4,9 @@
         <div id="home_paragraph1">
                 <h3 id="page_header">Admin: Main</h3>
                 <div id="page_mainbody_home">
-                    <p class="button"><a href="{{ url_for('admin_user_management') }}" class="button_link">User Management</a></p>
-                    <p class="button"><a href="{{ url_for('admin_database_management') }}" class="button_link">Patient Data Management</a></p>
-                    <p class="button"><a href="{{ url_for('home') }}" class="button_link">Database Management</a></p>
+                    <a href="{{ url_for('admin_user_management') }}" class="button_link"><p class="button">User Management</p></a>
+                    <a href="{{ url_for('admin_database_management') }}" class="button_link"><p class="button">Patient Data Management</p></a>
+                    <a href="{{ url_for('home') }}" class="button_link"><p class="button">Database Management</p></a>
                 </div>
         </div>
 </div>

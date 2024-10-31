@@ -189,9 +189,11 @@ select{
     border: 5px solid white;
     border-radius: 8px;
 }
-option{
+.submit_button{
+    width: 10%;
     margin: auto;
-    text-align: center;
+    margin-top: 2.5%;
+    font-size: 75%;
 }
 
 input::-webkit-outer-spin-button,

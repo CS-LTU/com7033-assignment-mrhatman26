@@ -24,10 +24,10 @@
                                     {% if user.user_id != 0 %}
                                         {% if user.user_admin == 1 %}
                                             <td>Yes</td>
-                                            <td><p class="button" style="margin-bottom: 2%;"><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link">Revoke</a></p></td>
+                                            <td><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">Revoke</p></a></td>
                                         {% else %}
                                             <td>No</td>
-                                            <td><p class="button" style="margin-bottom: 2%;"><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link">Apply</a></p></td>
+                                            <td><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">Apply</p></a></td>
                                         {% endif %}                                        
                                         <td><a href="{{ url_for('admin_user_delete', user_id=user.user_id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">X</p></a></td>
                                     {% else %}
