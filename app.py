@@ -58,7 +58,8 @@ def submission_validate():
         try:
             clean_subdata(subdata)
             print(subdata, flush=True)
-            insert_new_patient(subdata, current_user.id)
+            mysql_id = insert_new_patient(subdata, current_user.id)
+            subdata["MySQL_ID"] = mysql_id
             mysql_done = True
             add_new_patient_log(request.remote_addr, current_user.username, False, False)
             mongo_insert(subdata)

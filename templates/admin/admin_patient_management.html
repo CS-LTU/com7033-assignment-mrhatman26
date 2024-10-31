@@ -16,6 +16,8 @@
                                 <th>ID</th>
                                 {% if is_mongodb is false %}
                                     <th>User</th>
+                                {% else %}
+                                    <th>MySQL ID</th>
                                 {% endif %}
                                 <th>Gender</th>
                                 <th>Age</th>
@@ -73,6 +75,7 @@
                                 {% else %}
                                     <tr>
                                         <td>{{ patient._id }}</td>
+                                        <td>{{ patient.MySQL_ID }}</td>
                                         <td>{{ patient.patient_gender }}</td>
                                         <td>{{ patient.patient_age }}</td>
                                         {% if patient.patient_hyperT == 1 %}

@@ -213,6 +213,7 @@ def insert_new_patient(subdata, userid):
     database.commit()
     cursor.close()
     database.close()
+    return new_id
 
 '''Link commands'''
 #Get
