@@ -282,6 +282,7 @@ def admin_get_patient_data():
     for patient in cursor.fetchall():
         patients.append({
             "id": patient[0],
+            "user_link": None,
             "gender": patient[1],
             "age": patient[2], 
             "hypert": patient[3], 
