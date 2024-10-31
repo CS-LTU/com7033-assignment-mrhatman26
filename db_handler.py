@@ -332,6 +332,9 @@ def admin_apply_admin_user(user_id):
 def admin_delete_user(user_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
+    if link_check_exists(user_id) is True:
+        cursor.execute("DELETE FROM link_user_patient_data WHERE user_id = %s", (user_id,))
+        database.commit()
     cursor.execute("DELETE FROM table_users WHERE user_id = %s", (user_id,))
     database.commit()
     cursor.close()
