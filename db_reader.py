@@ -28,6 +28,7 @@ def read_presaved_data():
                 row = row[0].split(",")
             if row[9] == "N/A":
                 row[9] = None
+            row[10] = row[10].replace("smoked", " smoked")
             row_dict = {
                 "patient_gender": row[1].upper(),
                 "patient_age": row[2].upper(),

@@ -182,6 +182,20 @@ def user_update(userdata):
     return True
 
 '''Patient commands'''
+#Get
+def get_patient(patient_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM table_patient_data WHERE patient_id = %s", (patient_id,))
+    fetch = cursor.fetchall()
+    cursor.close()
+    database.close()
+    if len(fetch) >= 1:
+        for patient in fetch:
+            return {"patient_id": patient[0], "patient_gender": patient[1], "patient_age": patient[2], "patient_hyperT": patient[3], "patient_hDisease": patient[4], "patient_married": patient[5], "patient_work_type": patient[6], "patient_residence_type": patient[7], "patient_avg_gLevel": patient[8], "patient_bmi": patient[9], "patient_smoked": patient[10], "patient_stroke": patient[11]}
+    else:
+        return None
+
 #Insert
 def insert_patients_data(patient_data):
     database = mysql.connector.connect(**get_db_config(deployed))
@@ -216,21 +230,7 @@ def insert_new_patient(subdata, userid):
     return new_id
 
 '''Link commands'''
-#Get
-def link_get_all():
-    links = []
-    database = mysql.connector.connect(**get_db_config(deployed))
-    cursor = database.cursor()
-    cursor.execute("SELECT * FROM link_user_patient_data")
-    for link in cursor.fetchall():
-        links.append({
-            "user_name": user_get_username(link[0]),
-            "patient_id": link[1]
-        })
-    cursor.close()
-    database.close()
-    return links
-
+#Check
 def link_check_exists(id, is_patient_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
@@ -246,6 +246,33 @@ def link_check_exists(id, is_patient_id):
         return True
     else:
         return False
+#Get
+def link_get_all():
+    links = []
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM link_user_patient_data")
+    for link in cursor.fetchall():
+        links.append({
+            "user_name": user_get_username(link[0]),
+            "patient_id": link[1]
+        })
+    cursor.close()
+    database.close()
+    return links
+
+def link_get(user_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM link_user_patient_data")
+    fetch = cursor.fetchall()
+    cursor.close()
+    database.close()
+    if len(fetch) >= 1:
+        return {"user_id": fetch[0][0], "patient_id": fetch[0][1]}
+    else:
+        return None
+
 
 '''Admin commands'''
 def admin_user_admin_check(username): ###DEPRECATED###

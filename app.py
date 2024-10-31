@@ -142,7 +142,11 @@ def user_signup_validate():
 def user_account():
     if current_user.is_authenticated:
         add_access_log(request.remote_addr, current_user.username, "/users/account/ (user_account)", False, False)
-        return render_template('/users/account.html', page_name=current_user.username, userdata=user_get_single(current_user.id))
+        if link_check_exists(current_user.id, False):
+            user_submission = get_patient(link_get(current_user.id)["patient_id"])
+        else:
+            user_submission = None
+        return render_template('/users/account.html', page_name=current_user.username, userdata=user_get_single(current_user.id), user_submission=user_submission)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/account/ (user_account)", True, False)
         return redirect('/')

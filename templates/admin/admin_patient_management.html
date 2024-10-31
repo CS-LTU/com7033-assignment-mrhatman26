@@ -64,11 +64,7 @@
                                         <td>{{ patient.rtype }}</td>
                                         <td>{{ patient.glevel }}</td>
                                         <td>{{ patient.bmi }}</td>
-                                        {% if patient.smoked == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
+                                        <td>{{ patient.smoked }}</td>
                                         {% if patient.stroke == 1 %}
                                             <td>Yes</td>
                                         {% else %}
@@ -101,11 +97,7 @@
                                         <td>{{ patient.patient_residence_type }}</td>
                                         <td>{{ patient.patient_avg_gLevel }}</td>
                                         <td>{{ patient.patient_bmi }}</td>
-                                        {% if patient.patient_smoked == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
+                                        <td>{{ patient.patient_smoked }}</td>
                                         {% if patient.patient_stroke == 1 %}
                                             <td>Yes</td>
                                         {% else %}
