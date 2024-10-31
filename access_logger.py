@@ -125,6 +125,17 @@ def add_readDB_admin_log(ip, username):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()
     text = "\n" + get_time()
-    text = text + " (ADMIN): " + ip + "(User: " + username + " loaded the database from healthcare-dataset-stroke-data.csv"
+    text = text + " (ADMIN): " + ip + " (User: " + username + " loaded the database from healthcare-dataset-stroke-data.csv"
+    log_file.write(text)
+    log_file.close()
+
+def add_admin_delete_db_log(ip, username, is_mongodb, patient_id):
+    log_file = open("static/logs.txt", "at")
+    current_time = dt.datetime.now()
+    text = "\n" + get_time()
+    if is_mongodb is False:
+        text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
+    else:
+        text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
     log_file.write(text)
     log_file.close()

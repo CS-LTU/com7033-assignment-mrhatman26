@@ -231,11 +231,14 @@ def link_get_all():
     database.close()
     return links
 
-def link_check_exists(userid):
+def link_check_exists(id, is_patient_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    print(userid, flush=True)
-    cursor.execute("SELECT user_id FROM link_user_patient_data WHERE user_id = %s", (userid,))
+    print(id, flush=True)
+    if is_patient_id is False:
+        cursor.execute("SELECT user_id FROM link_user_patient_data WHERE user_id = %s", (id,))
+    else:
+        cursor.execute("SELECT patient_id FROM link_user_patient_data WHERE patient_id = %s", (id,))
     fetch = cursor.fetchall()
     cursor.close()
     database.close()
@@ -332,10 +335,21 @@ def admin_apply_admin_user(user_id):
 def admin_delete_user(user_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    if link_check_exists(user_id) is True:
+    if link_check_exists(user_id, False) is True:
         cursor.execute("DELETE FROM link_user_patient_data WHERE user_id = %s", (user_id,))
         database.commit()
     cursor.execute("DELETE FROM table_users WHERE user_id = %s", (user_id,))
+    database.commit()
+    cursor.close()
+    database.close()
+
+def admin_delete_patient_data(patient_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    if link_check_exists(patient_id, True):
+        cursor.execute("DELETE FROM link_user_patient_data WHERE patient_id = %s", (patient_id,))
+        database.commit()
+    cursor.execute("DELETE FROM table_patient_data WHERE patient_id = %s", (patient_id,))
     database.commit()
     cursor.close()
     database.close()

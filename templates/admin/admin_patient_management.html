@@ -74,7 +74,7 @@
                                         {% else %}
                                             <td>No</td>
                                         {% endif %}
-                                        <td style="border: 0px;"><a href="{{ url_for('home') }}" class="button_link"><p class="button" style="margin-bottom: 2%;">X</p></a></td>
+                                        <td style="border: 0px;"><a href="{{ url_for('admin_database_delete', patient_id=patient.id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">X</p></a></td>
                                     </tr>
                                 {% else %}
                                     <tr>

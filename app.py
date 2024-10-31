@@ -43,7 +43,7 @@ def home():
 def submission():
     if current_user.is_authenticated:
         add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", False, False)
-        return render_template('submission.html', page_name="Submission", already_submitted=link_check_exists(current_user.id))
+        return render_template('submission.html', page_name="Submission", already_submitted=link_check_exists(current_user.id, False))
     else:
         add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", True, False)
         return redirect('/users/login/')
@@ -301,7 +301,7 @@ def admin_database_management():
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)
     else:
-        add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+        add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
         abort(404)
 @app.route('/admin/database/manage/mongodb/')
 def admin_database_management_mongodb():
@@ -314,6 +314,24 @@ def admin_database_management_mongodb():
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
+        abort(404)
+
+#Delete Data
+@app.route('/admin/database/delete/patient_id=<patient_id>')
+def admin_database_delete(patient_id):
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", False, True)
+            admin_delete_patient_data(patient_id)
+            add_admin_delete_db_log(request.remote_addr, current_user.username, False, patient_id)
+            mongo_delete({"MySQL_ID": int(patient_id)})
+            add_admin_delete_db_log(request.remote_addr, current_user.username, True, patient_id)
+            return redirect('/admin/database/manage/')
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", True, True)
         abort(404)
         
 
