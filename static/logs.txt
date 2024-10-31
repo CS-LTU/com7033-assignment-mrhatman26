@@ -59,3 +59,12 @@
 [2024.10.31 at 09:35:04] (ADMIN): 192.168.1.84 (User: John Smith) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)
 [2024.10.31 at 09:35:05]: 192.168.1.84 (User: John Smith) successfully accessed /favicon.ico (favicon)
 [2024.10.31 at 09:35:18] (ADMIN): 192.168.1.84 (User: John Smith) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)
+[2024.10.31 at 09:50:48] (ADMIN): 192.168.1.84 (User: John Smith) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)
+[2024.10.31 at 09:54:11]: 192.168.1.84 (User: John Smith) successfully accessed /submission/ (submission)
+[2024.10.31 at 09:54:21]: 192.168.1.84 (User: John Smith) successfully accessed /submission/validate/ (submission_validate)
+[2024.10.31 at 09:54:21]: 192.168.1.84 successfully added new patient data to MySQL with a link to John Smith
+[2024.10.31 at 09:54:21]: 192.168.1.84 successfully added new patient data to MongoDB
+[2024.10.31 at 09:54:21]: 192.168.1.84 (User: John Smith) FAILED to access /users/login/ (user_login)
+[2024.10.31 at 09:54:21]: 192.168.1.84 (User: John Smith) successfully accessed / (home)
+[2024.10.31 at 09:54:23] (ADMIN): 192.168.1.84 (User: John Smith) successfully accessed Admin resource /admin/ (admin_main)
+[2024.10.31 at 09:54:24] (ADMIN): 192.168.1.84 (User: John Smith) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)

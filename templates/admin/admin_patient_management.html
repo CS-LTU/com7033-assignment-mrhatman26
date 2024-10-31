@@ -30,77 +30,158 @@
                                 <th>Had Stroke?</th>
                             </tr>
                             {% for patient in patient_data %}
-                                {% if is_mongodb is false %}
-                                    <tr>
-                                        <td>{{ patient.id }}</td>
-                                        <td>-</td>
-                                        <td>{{ patient.gender }}</td>
-                                        <td>{{ patient.age }}</td>
-                                        {% if patient.hypert == 1 %}
-                                            <td>Yes</td>
+                                {% if links is not none and links|length > 0 %}
+                                    {% for link in links %}
+                                        {% if is_mongodb is false %}
+                                            <tr>
+                                                <td>{{ patient.id }}</td>
+                                                {% if patient.id == link.patient_id %}
+                                                    <td>{{ link.user_name }}</td>
+                                                {% else %}
+                                                    <td>-</td>
+                                                {% endif %}
+                                                <td>{{ patient.gender }}</td>
+                                                <td>{{ patient.age }}</td>
+                                                {% if patient.hypert == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                {% if patient.hdisease == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                {% if patient.married == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                <td>{{ patient.wtype }}</td>
+                                                <td>{{ patient.rtype }}</td>
+                                                <td>{{ patient.glevel }}</td>
+                                                <td>{{ patient.bmi }}</td>
+                                                {% if patient.smoked == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                {% if patient.stroke == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                            </tr>
                                         {% else %}
-                                            <td>No</td>
+                                            <tr>
+                                                <td>{{ patient._id }}</td>
+                                                <td>{{ patient.patient_gender }}</td>
+                                                <td>{{ patient.patient_age }}</td>
+                                                {% if patient.patient_hyperT == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                {% if patient.patient_hDisease == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                {% if patient.patient_married == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                <td>{{ patient.patient_work_type }}</td>
+                                                <td>{{ patient.patient_residence_type }}</td>
+                                                <td>{{ patient.patient_avg_gLevel }}</td>
+                                                <td>{{ patient.patient_bmi }}</td>
+                                                {% if patient.patient_smoked == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                                {% if patient.patient_stroke == 1 %}
+                                                    <td>Yes</td>
+                                                {% else %}
+                                                    <td>No</td>
+                                                {% endif %}
+                                            </tr>
                                         {% endif %}
-                                        {% if patient.hdisease == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        {% if patient.married == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        <td>{{ patient.wtype }}</td>
-                                        <td>{{ patient.rtype }}</td>
-                                        <td>{{ patient.glevel }}</td>
-                                        <td>{{ patient.bmi }}</td>
-                                        {% if patient.smoked == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        {% if patient.stroke == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                    </tr>
+                                    {% endfor %}
                                 {% else %}
-                                    <tr>
-                                        <td>{{ patient._id }}</td>
-                                        <td>{{ patient.patient_gender }}</td>
-                                        <td>{{ patient.patient_age }}</td>
-                                        {% if patient.patient_hyperT == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        {% if patient.patient_hDisease == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        {% if patient.patient_married == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        <td>{{ patient.patient_work_type }}</td>
-                                        <td>{{ patient.patient_residence_type }}</td>
-                                        <td>{{ patient.patient_avg_gLevel }}</td>
-                                        <td>{{ patient.patient_bmi }}</td>
-                                        {% if patient.patient_smoked == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                        {% if patient.patient_stroke == 1 %}
-                                            <td>Yes</td>
-                                        {% else %}
-                                            <td>No</td>
-                                        {% endif %}
-                                    </tr>
+                                    {% if is_mongodb is false %}
+                                        <tr>
+                                            <td>{{ patient.id }}</td>
+                                            <td>-</td>
+                                            <td>{{ patient.gender }}</td>
+                                            <td>{{ patient.age }}</td>
+                                            {% if patient.hypert == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            {% if patient.hdisease == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            {% if patient.married == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            <td>{{ patient.wtype }}</td>
+                                            <td>{{ patient.rtype }}</td>
+                                            <td>{{ patient.glevel }}</td>
+                                            <td>{{ patient.bmi }}</td>
+                                            {% if patient.smoked == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            {% if patient.stroke == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td>{{ patient._id }}</td>
+                                            <td>{{ patient.patient_gender }}</td>
+                                            <td>{{ patient.patient_age }}</td>
+                                            {% if patient.patient_hyperT == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            {% if patient.patient_hDisease == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            {% if patient.patient_married == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            <td>{{ patient.patient_work_type }}</td>
+                                            <td>{{ patient.patient_residence_type }}</td>
+                                            <td>{{ patient.patient_avg_gLevel }}</td>
+                                            <td>{{ patient.patient_bmi }}</td>
+                                            {% if patient.patient_smoked == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                            {% if patient.patient_stroke == 1 %}
+                                                <td>Yes</td>
+                                            {% else %}
+                                                <td>No</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         </table>
