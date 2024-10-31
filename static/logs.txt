@@ -1,0 +1,16 @@
+
+[2024.10.31 at 14:45:10]: 192.168.1.84 (User: Annonymous) successfully accessed /users/signup/ (user_signup)
+[2024.10.31 at 14:45:50]: 192.168.1.84 (User: Annonymous) successfully accessed /users/signup/validate/ (user_signup_validate)
+[2024.10.31 at 14:45:50]: 192.168.1.84 successfully created new user with username of jsmith@outlook.com
+[2024.10.31 at 14:45:50]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/ (user_login)
+[2024.10.31 at 14:46:01]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/validate/ (user_login_validate)
+[2024.10.31 at 14:46:01]: 192.168.1.84 successfully logged in as jsmith@outlook.com
+[2024.10.31 at 14:46:01]: 192.168.1.84 (User: John Smith) successfully accessed / (home)
+[2024.10.31 at 14:46:01]: 192.168.1.84 (User: John Smith) successfully accessed /favicon.ico (favicon)
+[2024.10.31 at 14:46:03]: 192.168.1.84 (User: John Smith) successfully accessed /users/account/ (user_account)
+[2024.10.31 at 14:46:06]: 192.168.1.84 (User: John Smith) successfully accessed /users/account/delete/ (user_deleteconfirm)
+[2024.10.31 at 14:46:07]: 192.168.1.84 (User: John Smith) successfully accessed /users/account/delete/confirmed/ (user_delete)
+[2024.10.31 at 14:46:07]: 192.168.1.84 (User: John Smith) successfully logged out of their account
+[2024.10.31 at 14:46:07]: 192.168.1.84 successfully deleted the account of Annonymous
+[2024.10.31 at 14:46:07]: 192.168.1.84 (User: Annonymous) successfully accessed / (home)
+[2024.10.31 at 14:46:07]: 192.168.1.84 (User: Annonymous) successfully accessed /favicon.ico (favicon)

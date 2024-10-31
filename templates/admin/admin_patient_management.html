@@ -30,6 +30,9 @@
                                 <th>BMI</th>
                                 <th>Smoked?</th>
                                 <th>Had Stroke?</th>
+                                {% if is_mongodb is false %}
+                                    <th>Delete</th>
+                                {% endif %}
                             </tr>
                             {% for patient in patient_data %}
                                 {% if is_mongodb is false %}

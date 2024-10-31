@@ -266,9 +266,10 @@ def admin_user_delete(user_id):
         if current_user.is_admin is True:
             add_access_log(request.remote_addr, current_user.username, "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", False, True)
             if int(user_id) == current_user.id:
+                user = user_get_username(user_id)
                 logout_user()
-                add_login_log(request.remote_addr, current_user.username, False, True)
-                add_delete_user_log(request.remote_addr, user_get_username(user_id), False, True)
+                add_login_log(request.remote_addr, user, False, True)
+                add_delete_user_log(request.remote_addr, user, False, True)
                 admin_delete_user(user_id)
                 return redirect('/')
             else:
