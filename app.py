@@ -102,7 +102,7 @@ def user_login_validate():
                 return "usernotexist"
         except Exception as e:
             add_login_log(request.remote_addr, userdata["username"], True, False)
-            print("An error ocurred:\n" + str(e), flush=True)
+            add_error_log(request.remote_addr, log_get_user(), "Login user fail", e)
             return "servererror"
 
 #Signup
@@ -133,7 +133,7 @@ def user_signup_validate():
                 return "userexists"
         except Exception as e:
             add_new_user_log(request.remote_addr, userdata["email"], True)
-            print("An error ocurred:\n" + str(e), flush=True)
+            add_error_log(request.remote_addr, log_get_user(), "New user insertion fail", e)
             return "servererror"
         
 #Account Page
@@ -170,8 +170,9 @@ def user_modify_validate():
             else:
                 add_modify_user_log(request.remote_addr, userdata["email"], True)
                 return "userexists"
-        except:
+        except Exception as e:
             add_modify_user_log(request.remote_addr, userdata["email"], True)
+            add_error_log(request.remote_addr, log_get_user(), "User modify error", e)
             return "servererror"
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/validate/ (user_modify_validate)", False, False)
