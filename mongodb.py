@@ -5,7 +5,6 @@ def mongo_insert(data):
     m_database = m_client["healthdb"]
     m_collection = m_database["patient_data"]
     x = m_collection.insert_one(data)
-    print(x.inserted_id) 
 
 #Find
 def mongo_find_all():

@@ -16,9 +16,11 @@ def str_to_booInt(YesNo):
     
 def read_presaved_data():
     with open("healthcare-dataset-stroke-data.csv") as csvfile:
-        table = csv.reader(csvfile, delimiter=" ")
-        for row in table:
-            print(row, flush=True)
+        reader = csv.reader(csvfile, delimiter=" ")
+        data = list(reader)
+        row_count = len(data)
+        index = 0
+        for row in data:
             if len(row) > 1:
                 row = row[0] + row[1]
                 row = row.split(",")
@@ -42,4 +44,7 @@ def read_presaved_data():
             if row[0] != "id":
                 insert_patients_data(row_dict)
                 mongo_insert(row_dict)
+            print(str(index) + "/" + str(row_count) + " loaded", flush=True, end="\r")
+            index += 1
     csvfile.close()
+    print(str(index) + "/" + str(row_count) + " loaded", flush=True)
