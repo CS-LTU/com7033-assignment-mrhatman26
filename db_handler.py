@@ -196,6 +196,7 @@ def insert_patients_data(patient_data):
     database.commit()
     cursor.close()
     database.close()
+    return new_id
 
 def insert_new_patient(subdata, userid):
     database = mysql.connector.connect(**get_db_config(deployed))
