@@ -29,11 +29,11 @@
                                             <td>No</td>
                                             <td><a href="{{ url_for('admin_user_apply_admin', user_id=user.user_id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">Apply</p></a></td>
                                         {% endif %}                                        
-                                        <td><a href="{{ url_for('admin_user_delete', user_id=user.user_id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">X</p></a></td>
+                                        <td style="border: 0px;"><a href="{{ url_for('admin_user_delete', user_id=user.user_id) }}" class="button_link"><p class="button" style="margin-bottom: 2%;">X</p></a></td>
                                     {% else %}
                                         <td>Yes</td>
                                         <td>-</td>
-                                        <td>-</td>
+                                        <td style="border: 0px;">N/A</td>
                                     {% endif %}
 
                                 </tr>
