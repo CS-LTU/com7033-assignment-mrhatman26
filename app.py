@@ -57,7 +57,6 @@ def submission_validate():
         mysql_done = False
         try:
             clean_subdata(subdata)
-            print(subdata, flush=True)
             mysql_id = insert_new_patient(subdata, current_user.id)
             subdata["MySQL_ID"] = mysql_id
             mysql_done = True

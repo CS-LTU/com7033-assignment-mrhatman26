@@ -48,7 +48,6 @@ def user_check_reconfirm(user_id):
     return user
 
 def user_check_validate(userdata):
-    print(userdata)
     if user_check_exists(userdata["username"]):
         database = mysql.connector.connect(**get_db_config(deployed))
         cursor = database.cursor()
@@ -147,7 +146,6 @@ def user_create(userdata):
         userdata["id"] = user_get_last_id()
         database = mysql.connector.connect(**get_db_config(deployed))
         cursor = database.cursor()
-        print(userdata)
         cursor.execute("INSERT INTO table_users VALUES(%s, %s, %s, %s, %s, %s)", (userdata["id"], str(userdata["fullname"]), userdata["password"], str(userdata["email"]), str(userdata["phone"]), 0))
         database.commit()
         cursor.close()
@@ -243,7 +241,6 @@ def update_patient(subdata, patient_id):
 def link_check_exists(id, is_patient_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    print(id, flush=True)
     if is_patient_id is False:
         cursor.execute("SELECT user_id FROM link_user_patient_data WHERE user_id = %s", (id,))
     else:
