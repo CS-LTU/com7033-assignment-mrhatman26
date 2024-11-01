@@ -104,6 +104,23 @@ def add_new_patient_log(ip, username, failed, is_mongodb):
     log_file.write(text)
     log_file.close()
 
+def add_delete_patient_log(ip, username, failed, is_mongodb, patient_id):
+    log_file = open("static/logs.txt", "at")
+    current_time = dt.datetime.now()
+    text = "\n" + get_time()
+    if failed is False:
+        if is_mongodb is False:
+            text = text + ": " + ip + " (User: " + username + ") successfully modified patient data with ID of " + str(patient_id) + " in MySQL"
+        else:
+            text = text + ": " + ip + " (User: " + username + ") successfully modified patient data with ID of " + str(patient_id) + " in MongoDB"
+    else:
+        if is_mongodb is False:
+            text = text + ": " + ip + " (User: " + username + ") failed to modify patient data with ID of " + str(patient_id) + " in MySQL"
+        else:
+            text = text + ": " + ip + " (User: " + username + ") failed to modify patient data with ID of " + str(patient_id) + " in MongoDB"
+    log_file.write(text)
+    log_file.close()
+
 def add_user_admin_log(ip, username, failed, reverse):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()

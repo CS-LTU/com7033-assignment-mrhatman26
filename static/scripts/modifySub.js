@@ -1,5 +1,5 @@
-console.log("submission.js loaded");
-let submissionForm = document.getElementById("submission_form");
+console.log("modifysub.js loaded");
+let modifysubForm = document.getElementById("modifysub_form");
 let mainBody = document.getElementById("page_mainbody_home");
 let errorMessage = null;
 
@@ -15,38 +15,38 @@ function oldErrorCheck(){
 
 function submitData(event){
     event.preventDefault();
-    var submissionData = {
-        "patient_gender": submissionForm[0].value,
-        "patient_age": submissionForm[1].value,
-        "patient_hyperT": submissionForm[2].value,
-        "patient_hDisease": submissionForm[3].value,
-        "patient_married": submissionForm[4].value,
-        "patient_work_type": submissionForm[5].value,
-        "patient_residence_type": submissionForm[6].value,
-        "patient_avg_gLevel": submissionForm[7].value,
-        "patient_bmi": submissionForm[8].value,
-        "patient_smoked": submissionForm[9].value,
-        "patient_stroke": submissionForm[10].value
+    var modifysubData = {
+        "patient_gender": modifysubForm[0].value,
+        "patient_age": modifysubForm[1].value,
+        "patient_hyperT": modifysubForm[2].value,
+        "patient_hDisease": modifysubForm[3].value,
+        "patient_married": modifysubForm[4].value,
+        "patient_work_type": modifysubForm[5].value,
+        "patient_residence_type": modifysubForm[6].value,
+        "patient_avg_gLevel": modifysubForm[7].value,
+        "patient_bmi": modifysubForm[8].value,
+        "patient_smoked": modifysubForm[9].value,
+        "patient_stroke": modifysubForm[10].value
     };
     $.ajax({
         type: "POST",
-        url: "/submission/validate/",
-        data: JSON.stringify(submissionData),
+        url: "/users/account/submission/modify/validate/",
+        data: JSON.stringify(modifysubData),
         success: function(response){
             if (response === "success"){
-                window.location.replace("/users/login");
+                window.location.replace("/users/account/");
             }
-            else if (response === "unkown"){
+            else if (response === "nolink"){
                 if (oldErrorCheck() === false){
                     var mainBody = document.getElementById("page_mainbody_home");
                     errorMessage = document.createElement("p");
                     errorMessage.id = "errorMessage";
                     errorMessage.style.color = "red";
-                    errorMessage.innerHTML = "An unkown error ocurred";
+                    errorMessage.innerHTML = "You have no submitted data to modify";
                     mainBody.appendChild(errorMessage);
                 }
                 else{
-                    errorMessage.innerHTML = "An unkown error ocurred";
+                    errorMessage.innerHTML = "You have no submitted data to modify";
                 }
             }
             else{
@@ -66,4 +66,4 @@ function submitData(event){
     });
 }
 
-submissionForm.addEventListener("submit", submitData);
+modifysubForm.addEventListener("submit", submitData);

@@ -2,7 +2,7 @@
 {% block content %}
 <div id="page_mainbody">
         <div id="home_paragraph1">
-                <h3 id="page_header">Submit Info</h3>
+                <h3 id="page_header">Modify Info</h3>
                 <div id="page_mainbody_home">
                     <form id="modifysub_form">
                             <p>What is your gender?:</p>
@@ -64,27 +64,27 @@
                             <br>
                             <p>What is your work type?:</p>
                             <select id="modifysub_married" name="modifysub_married" required>
-                                {% if patient_data.work_type == "NEVER_WORKED" %}
+                                {% if patient_data.patient_work_type == "NEVER_WORKED" %}
                                     <option value="Never_worked" selected>Never Worked</option>
                                 {% else %}
                                     <option value="Never_worked" >Never Worked</option>
                                 {% endif %}
-                                {% if patient_data.work_type == "PRIVATE" %}
+                                {% if patient_data.patient_work_type == "PRIVATE" %}
                                     <option value="Private" selected>Private</option>
                                 {% else %}
                                     <option value="Private">Private</option>
                                 {% endif %}
-                                {% if patient_data.work_Type == "SELF-EMPLOYED" %}
+                                {% if patient_data.patient_work_type == "SELF-EMPLOYED" %}
                                     <option value="Self-employed" selected>Self-Employed</option>
                                 {% else %}
                                     <option value="Self-employed">Self-Employed</option>
                                 {% endif %}
-                                {% if patient_data.work_type == "GOVT_JOB" %}
+                                {% if patient_data.patient_work_type == "GOVT_JOB" %}
                                     <option value="Govt_job" selected>Government</option>
                                 {% else %}
                                     <option value="Govt_job">Government</option>
                                 {% endif %}
-                                {% if patient_data.work_type == "CHILDREN" %}
+                                {% if patient_data.patient_work_type == "CHILDREN" %}
                                     <option value="children" selected>Childcare</option>
                                 {% else %}
                                     <option value="children">Childcare</option>
@@ -106,10 +106,10 @@
                             </select>
                             <br>
                             <p>What is your average glucose level?:</p>
-                            <input class="textbox" type="text" id="modifysub_glevel" name="txt_modifysub_glevel" required placeholder="Glucose" pattern="^[0-9]*$" title="Must be a number only" value="{{ patient_data.patient_avg_gLevel }}">
+                            <input class="textbox" type="text" id="modifysub_glevel" name="txt_modifysub_glevel" required placeholder="Glucose" pattern="(^[0-9]*$)|([0-9]*\.[0-9]+)" title="Must be a number only" value="{{ patient_data.patient_avg_gLevel }}">
                             <br>
                             <p>What is your BMI?:</p>
-                            <input class="textbox" type="text" id="modifysub_bmi" name="txt_modifysub_bmi" required placeholder="BMI" pattern="^[0-9]*$" title="Must be a number only" value="{{ patient_data.patient_bmi }}">
+                            <input class="textbox" type="text" id="modifysub_bmi" name="txt_modifysub_bmi" required placeholder="BMI" pattern="(^[0-9]*$)|([0-9]*\.[0-9]+)" title="Must be a number only" value="{{ patient_data.patient_bmi }}">
                             <br>
                             <p>Do you smoke?:</p>
                             <select id="modifysub_smoked" name="modifysub_smoked" required>

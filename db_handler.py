@@ -229,6 +229,15 @@ def insert_new_patient(subdata, userid):
     database.close()
     return new_id
 
+#Update
+def update_patient(subdata, patient_id):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("UPDATE table_patient_data SET patient_gender = %s, patient_age = %s, patient_hyperT = %s, patient_hDisease = %s, patient_married = %s, patient_work_type = %s, patient_residence_type = %s, patient_avg_gLevel = %s, patient_bmi = %s, patient_smoked = %s, patient_stroke = %s WHERE patient_id = %s", (subdata["patient_gender"], subdata["patient_age"], subdata["patient_hyperT"], subdata["patient_hDisease"], subdata["patient_married"], subdata["patient_work_type"], subdata["patient_residence_type"], subdata["patient_avg_gLevel"], subdata["patient_bmi"], subdata["patient_smoked"], subdata["patient_stroke"], patient_id,))
+    database.commit()
+    cursor.close()
+    database.close()
+
 '''Link commands'''
 #Check
 def link_check_exists(id, is_patient_id):

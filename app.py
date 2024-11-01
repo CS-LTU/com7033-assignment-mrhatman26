@@ -205,6 +205,34 @@ def user_submission_modify():
     else:
         add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", True, False)
         return redirect('/users/login/')
+@app.route('/users/account/submission/modify/validate/', methods=['POST'])
+def user_submission_modify_validate():
+    if current_user.is_authenticated:
+        subdata = request.get_data()
+        subdata = subdata.decode()
+        subdata = ast.literal_eval(subdata)
+        add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/validate/' (user_submission_modify_validate)", False, False)
+        if link_check_exists(current_user.id, False):
+            is_mongodb = False
+            patient_id = link_get(current_user.id)["patient_id"]
+            try:            
+                update_patient(subdata, patient_id)
+                add_delete_patient_log(request.remote_addr, current_user.username, False, is_mongodb, patient_id)
+                is_mongodb = True
+                mongo_update({"MySQL_ID": int(patient_id)}, subdata)
+                add_delete_patient_log(request.remote_addr, current_user.username, False, is_mongodb, patient_id)
+                return "success"
+            except Exception as e:
+                add_delete_patient_log(request.remote_addr, current_user.username, True, is_mongodb, patient_id)
+                add_error_log(request.remote_addr, current_user.username, "Failed to modify user submission", e)
+                return "servererror"
+        else:
+            add_error_log(request.remote_addr, current_user.username, "Failed to modify user submission, user has no link to any patient data", None)
+            return "nolink"
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/submission/modify/validate/' (user_submission_modify_validate)", True, False)
+        return redirect('/users/login/')
+
     
 @app.route('/users/account/submission/delete/')
 def delete_submissionconfirm():
