@@ -192,6 +192,32 @@ def user_modify_validate():
         add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/validate/ (user_modify_validate)", False, False)
         return abort(404)
     
+@app.route('/users/account/submission_delete/')
+def delete_submissionconfirm():
+    if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/ (delete_submissionconfirm)", False, False)
+        return render_template('delete_submission.html', page_name="Delete Submission Confirmation")
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/users/accout/submission_delete/ (delete_submissionconfirm)", True, False)
+        abort(404)
+@app.route('/users/account/submission_delete/confirmed/')
+def delete_submission_confirmed():
+    if current_user.is_authenticated:
+        if link_check_exists(current_user.id, False):
+            add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", False, False)
+            patient_id = link_get(current_user.id)["patient_id"]
+            admin_delete_patient_data(patient_id)
+            add_delete_db_log(request.remote_addr, current_user.username, False, patient_id, False)
+            mongo_delete({"MySQL_ID": int(patient_id)})
+            add_delete_db_log(request.remote_addr, current_user.username, False, patient_id, False)
+            return redirect('/users/account/')
+        else:
+            add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", True, False)
+            return redirect('/users/account/')
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", True, False)
+        abort(404)
+    
 #Delete
 @app.route('/users/account/delete/')
 def user_deleteconfirm():
@@ -336,9 +362,9 @@ def admin_database_delete(patient_id):
         if current_user.is_admin:
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", False, True)
             admin_delete_patient_data(patient_id)
-            add_admin_delete_db_log(request.remote_addr, current_user.username, False, patient_id)
+            add_delete_db_log(request.remote_addr, current_user.username, False, patient_id, True)
             mongo_delete({"MySQL_ID": int(patient_id)})
-            add_admin_delete_db_log(request.remote_addr, current_user.username, True, patient_id)
+            add_delete_db_log(request.remote_addr, current_user.username, True, patient_id, True)
             return redirect('/admin/database/manage/')
         else:
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", True, True)

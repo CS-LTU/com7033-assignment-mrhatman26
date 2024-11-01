@@ -129,13 +129,19 @@ def add_readDB_admin_log(ip, username):
     log_file.write(text)
     log_file.close()
 
-def add_admin_delete_db_log(ip, username, is_mongodb, patient_id):
+def add_delete_db_log(ip, username, is_mongodb, patient_id, admin):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()
     text = "\n" + get_time()
-    if is_mongodb is False:
-        text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
+    if admin is True:
+        if is_mongodb is False:
+            text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
+        else:
+            text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
     else:
-        text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
+        if is_mongodb is False:
+            text = text + ": " + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
+        else:
+            text = text + ": " + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
     log_file.write(text)
     log_file.close()
