@@ -34,7 +34,7 @@ function submitData(event){
         data: JSON.stringify(submissionData),
         success: function(response){
             if (response === "success"){
-                window.location.replace("/submission/validate/");
+                window.location.replace("/users/account/");
             }
             else if (response === "unkown"){
                 if (oldErrorCheck() === false){

@@ -215,7 +215,8 @@ def user_submission_modify_validate():
         if link_check_exists(current_user.id, False):
             is_mongodb = False
             patient_id = link_get(current_user.id)["patient_id"]
-            try:            
+            try:
+                clean_subdata(subdata)
                 update_patient(subdata, patient_id)
                 add_delete_patient_log(request.remote_addr, current_user.username, False, is_mongodb, patient_id)
                 is_mongodb = True
@@ -440,6 +441,10 @@ def admin_loadDB():
 def page_invalid(e):
     add_access_log(request.remote_addr, log_get_user(), "/404/ (page_invalid)", False, False)
     return render_template('errors/404.html'), 404
+@app.errorhandler(405)
+def page_wrong_method(e):
+    add_access_log(request.remote_addr, log_get_user(), "/405/ (page_wrong_method)", False, False)
+    abort(404)
 
 #Favicon
 #Apparently supposed to be the icon used when a page is bookmarked.

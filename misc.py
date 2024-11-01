@@ -21,7 +21,7 @@ def clean_subdata(subdata):
 	subdata["patient_gender"] = subdata["patient_gender"].upper()
 	subdata["patient_age"] = int(subdata["patient_age"])
 	subdata["patient_hyperT"] = int(subdata["patient_hyperT"])
-	subdata["patient_hDisease"] = subdata["patient_hDisease"]
+	subdata["patient_hDisease"] = int(subdata["patient_hDisease"])
 	subdata["patient_married"] = str_to_booInt(subdata["patient_married"])
 	subdata["patient_work_type"] = subdata["patient_work_type"].upper()
 	subdata["patient_residence_type"] = subdata["patient_residence_type"].upper()
