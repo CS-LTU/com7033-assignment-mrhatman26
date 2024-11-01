@@ -7,12 +7,15 @@ def mongo_insert(data):
     x = m_collection.insert_one(data)
 
 #Find
-def mongo_find_all():
+def mongo_find_all(admin):
     records = []
     m_client = pymongo.MongoClient("mongodb://localhost:27017")
     m_database = m_client["healthdb"]
     m_collection = m_database["patient_data"]
     for item in m_collection.find():
+        if admin is False:
+            item.pop("_id")
+            item.pop("MySQL_ID")
         records.append(item)
     return records
 

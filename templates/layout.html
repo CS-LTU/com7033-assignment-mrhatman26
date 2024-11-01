@@ -16,6 +16,7 @@
                     {% block is_authed %}
                         {% if current_user.id != 0 %}
                             <a href="{{ url_for('submission') }}" class="nav_link"><li>Submit Info</li></a>
+                            <a href="{{ url_for('view_data') }}" class="nav_link"><li>View Our Data</li></a>
                         {% endif %}
                         <a href="{{ url_for('user_account') }}" class="nav_link"><li>{{ current_user.username }}</li></a>
                         {% if current_user.is_admin %}

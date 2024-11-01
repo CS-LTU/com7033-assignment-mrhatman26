@@ -29,15 +29,31 @@
                                         <tr>
                                                 <td>{{ user_submission.patient_gender }}</td>
                                                 <td>{{ user_submission.patient_age }}</td>
-                                                <td>{{ user_submission.patient_hyperT }}</td>
-                                                <td>{{ user_submission.patient_hDisease }}</td>
-                                                <td>{{ user_submission.patient_married }}</td>
+                                                {% if user_submission.patient_hyperT == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
+                                                {% if user_submission.patient_hDisease == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
+                                                {% if user_submission.patient_married == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
                                                 <td>{{ user_submission.patient_work_type }}</td>
                                                 <td>{{ user_submission.patient_residence_type }}</td>
                                                 <td>{{ user_submission.patient_avg_gLevel }}</td>
                                                 <td>{{ user_submission.patient_bmi }}</td>
                                                 <td>{{ user_submission.patient_smoked }}</td>
-                                                <td>{{ user_submission.patient_stroke }}</td>
+                                                {% if user_submission.patient_stroke == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
                                         </tr>
                                 </table>
                         {% endif %}

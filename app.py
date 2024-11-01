@@ -73,6 +73,15 @@ def submission_validate():
         add_access_log(request.remote_addr, current_user.username, "/submission/validate/ (submission_validate)", True, False)
         return redirect('/users/login/')
     
+@app.route('/data/view/')
+def view_data():
+    if current_user.is_authenticated:
+        add_access_log(request.remote_addr, current_user.username, "/data/view/ (view_data)", False, False)
+        return render_template('data.html', page_name="Submitted Data", patient_data=mongo_find_all(False))
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/data/view/ (view_data)", True, False)
+        return redirect('/users/login/')
+    
 '''User Routes'''
 #Login
 @app.route('/users/login/')
@@ -312,7 +321,7 @@ def admin_database_management_mongodb():
     if current_user.is_authenticated:
         if current_user.is_admin:
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/mongodb/ (admin_database_management_mongodb)", False, True)
-            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MongoDB)", patient_data=mongo_find_all(), is_mongodb=True)
+            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MongoDB)", patient_data=mongo_find_all(True), is_mongodb=True)
         else:
             add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)

@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="page_mainbody">
+        <div id="home_paragraph1">
+                <h3 id="page_header">Admin: User Management</h3>
+                <div id="page_mainbody_home">
+                    {% if patient_data is not none and patient_data|length > 0 %}
+                        <table>
+                            <tr>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <th>Hypertension?</th>
+                                <th>Heart Disease?</th>
+                                <th>Married?</th>
+                                <th>Work Type</th>
+                                <th>Residence Type</th>
+                                <th>Average Glucose</th>
+                                <th>BMI</th>
+                                <th>Smoked?</th>
+                                <th>Had Stroke?</th>
+                            </tr>
+                            {% for patient in patient_data %}
+                                <tr>
+                                    <td>{{ patient.patient_gender }}</td>
+                                    <td>{{ patient.patient_age }}</td>
+                                    {% if patient.patient_hyperT == 1 %}
+                                        <td>Yes</td>
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    {% if patient.patient_hDisease == 1 %}
+                                        <td>Yes</td>
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    {% if patient.patient_married == 1 %}
+                                        <td>Yes</td>
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ patient.patient_work_type }}</td>
+                                    <td>{{ patient.patient_residence_type }}</td>
+                                    <td>{{ patient.patient_avg_gLevel }}</td>
+                                    <td>{{ patient.patient_bmi }}</td>
+                                    <td>{{ patient.patient_smoked }}</td>
+                                    {% if patient.patient_stroke == 1 %}
+                                        <td>Yes</td>
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <a href="{{ url_for('admin_loadDB') }}" class="button_link"><p class="button">Load Data From CSV</p></a>
+                        <p>Note: Loading the data from the CSV file takes a long time. The progress should be printed in the terminal.</p>
+                        <table>
+                            <tr>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <th>Hypertension?</th>
+                                <th>Heart Disease?</th>
+                                <th>Married?</th>
+                                <th>Work Type</th>
+                                <th>Residence Type</th>
+                                <th>Average Glucose</th>
+                                <th>BMI</th>
+                                <th>Smoked?</th>
+                                <th>Had Stroke?</th>
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </table>
+                    {% endif %}
+                </div>
+        </div>
+</div>
+{% endblock %}

@@ -74,6 +74,9 @@
                         </form>
                     {% else %}
                         <p>You have already submitted your data!</p>
+                        <p>You can find your submission in the following places:</p>
+                        <a href="{{ url_for('user_account') }}" class="button_link"><p class="button">Your Account</p></a>
+                        <a href="{{ url_for('view_data') }}" class="button_link"><p class="button">Our Data</p></a>
                     {% endif %}
                 </div>
         </div>
