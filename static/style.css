@@ -11,6 +11,20 @@ a.button_link{
     text-decoration: none;
     color: black;
     font-size: 100%;
+    display: block;
+    margin: auto;
+    width: 50%;
+}
+.button{
+    text-decoration: none;
+    background-color: white;
+    display: block;
+    border: 10px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    color: black;
+    margin: auto;
+    margin-bottom: 2%;
 }
 nav{
     text-align: center;
@@ -117,18 +131,6 @@ img{
 }
 br{
     display: block !important;
-}
-.button{
-    text-decoration: none;
-    background-color: white;
-    display: block;
-    border: 10px solid white;
-    border-radius: 8px;
-    cursor: pointer;
-    color: black;
-    width: 50%;
-    margin: auto;
-    margin-bottom: 2%;
 }
 .search_button{
     background-color: white;
