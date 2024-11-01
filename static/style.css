@@ -1,6 +1,6 @@
 body{
     font-family: Roboto, Helvetica, Arial;
-    background-color: black;
+    background-color: white;
 }
 a.nav_link{
     text-decoration: none;
@@ -36,22 +36,22 @@ ul{
     display: inline;
 }
 li{
-    background-color: white;
+    background-color: #99DFB2;
     padding: 10px;
     display: inline-block;
     border-radius: 8px;
     display: inline-block;
+    margin-right: 0.4%;
 }
 #title{
     text-align: center;
     line-height: 10p;
-    background-color: black;
     padding: 10px;
     width: 50vw;
     margin: auto;
     margin-top: 20px;
     border-radius: 8px;
-    color: white;
+    color: black;
 }
 #page_header{
     text-align: center;
@@ -68,25 +68,25 @@ li{
     text-align: center;
     line-height: 100%;
     font-size: 1vmin;
-    background-color: black;
-    border: 4px solid rgba(0, 0, 0, 0);
+    background-color: #99DFB2;
+    border: 14px solid rgba(0, 0, 0, 0);
     border-radius: 8px;
     margin: auto;
     margin-bottom: 20px;
-    width: 80vw;
-    color: white;
+    width: 95%;
+    color: black;
 }
 #page_mainbody_home{
     text-align: center;
     line-height: 100%;
     font-size: 28px;
-    background-color: black;
+    background-color: #99DFB2;
     border: 4px solid rgba(0, 0, 0, 0);
     border-radius: 8px;
     margin: auto;
     margin-bottom: 20px;
-    width: 100%;
-    color: white;
+    width: auto;
+    color: black;
 }
 #home_image{
     width: 30vw;
@@ -174,12 +174,13 @@ table, th, td{
     border: 2px solid;
     border-radius: 8px;
     margin: auto;
+    border: solid 4px black;
 }
 table{
-    font-size: 20px;
-    border: solid 4px black;
+    font-size: 20%;
     width: 100%;
     text-align: center;
+    border: 0px;
     border-collapse: separate;
     border-spacing: 0.5em 1em;
 }
