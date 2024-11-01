@@ -192,7 +192,21 @@ def user_modify_validate():
         add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/validate/ (user_modify_validate)", False, False)
         return abort(404)
     
-@app.route('/users/account/submission_delete/')
+@app.route('/users/account/submission/modify/')
+def user_submission_modify():
+    if current_user.is_authenticated:
+        if link_check_exists(current_user.id, False):
+            add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", False, False)
+            patient_data = get_patient(link_get(current_user.id)["patient_id"])
+            return render_template('modify_submission.html', page_name="Modify Submission", patient_data=patient_data)
+        else:
+            add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", True, False)
+            return redirect('/users/account/')
+    else:
+        add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", True, False)
+        return redirect('/users/login/')
+    
+@app.route('/users/account/submission/delete/')
 def delete_submissionconfirm():
     if current_user.is_authenticated:
         add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/ (delete_submissionconfirm)", False, False)
@@ -200,7 +214,7 @@ def delete_submissionconfirm():
     else:
         add_access_log(request.remote_addr, current_user.username, "/users/accout/submission_delete/ (delete_submissionconfirm)", True, False)
         abort(404)
-@app.route('/users/account/submission_delete/confirmed/')
+@app.route('/users/account/submission/delete/confirmed/')
 def delete_submission_confirmed():
     if current_user.is_authenticated:
         if link_check_exists(current_user.id, False):

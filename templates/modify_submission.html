@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="page_mainbody">
+        <div id="home_paragraph1">
+                <h3 id="page_header">Submit Info</h3>
+                <div id="page_mainbody_home">
+                    <form id="modifysub_form">
+                            <p>What is your gender?:</p>
+                            <select id="modifysub_gender" name="modifysub_gender" required>
+                                {% if patient_data.patient_gender == "MALE" %}
+                                    <option value="male" selected>Male</option>
+                                {% else %}
+                                    <option value="male">Male</option>
+                                {% endif %}
+                                {% if patient_data.patient_gender == "FEMALE" %}
+                                    <option value="female" selected>Female</option>
+                                {% else %}
+                                    <option value="female">Female</option>
+                                {% endif %}
+                                {% if patient_data.patient_gender == "OTHER" %}
+                                    <option value="other" selected>Other</option>
+                                {% else %}
+                                    <option value="other">Other</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>What is your age?:</p>
+                            <input class="textbox" type="text" id="modifysub_age" name="txt_modifysub_age" required placeholder="Age" pattern="^[0-9]*$" title="Must be a number only" value="{{ patient_data.patient_age }}">
+                            <!--Regex pattern generated with a tool as I don't know how to write it-->
+                            <!--Said tool can be found at: https://regex-generator.olafneumann.org/?sampleText=cmatter%40outlook.com&flags=i&selection=7%7CCharacter,0%7CAlphanumeric%20characters,8%7CAlphanumeric%20characters,16%7CAlphanumeric%20characters-->
+                            <br>
+                            <p>Do you have hypertension?:</p>
+                            <select id="modifysub_hypert" name="modifysub_hypert" required>
+                                {% if patient_data.patient_hyperT == 1%}
+                                    <option value="1" selected>Yes</option>
+                                    <option value="0">No</option>
+                                {% else %}
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>Do you have heart disease?:</p>
+                            <select id="modifysub_hdisease" name="modifysub_hdisease" required>
+                                {% if patient_data.patient_hDisease == 1%}
+                                    <option value="1" selected>Yes</option>
+                                    <option value="0">No</option>
+                                {% else %}
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>Are you married?:</p>
+                            <select id="modifysub_married" name="modifysub_married" required>
+                                {% if patient_data.patient_married == 1%}
+                                    <option value="1" selected>Yes</option>
+                                    <option value="0">No</option>
+                                {% else %}
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>What is your work type?:</p>
+                            <select id="modifysub_married" name="modifysub_married" required>
+                                {% if patient_data.work_type == "NEVER_WORKED" %}
+                                    <option value="Never_worked" selected>Never Worked</option>
+                                {% else %}
+                                    <option value="Never_worked" >Never Worked</option>
+                                {% endif %}
+                                {% if patient_data.work_type == "PRIVATE" %}
+                                    <option value="Private" selected>Private</option>
+                                {% else %}
+                                    <option value="Private">Private</option>
+                                {% endif %}
+                                {% if patient_data.work_Type == "SELF-EMPLOYED" %}
+                                    <option value="Self-employed" selected>Self-Employed</option>
+                                {% else %}
+                                    <option value="Self-employed">Self-Employed</option>
+                                {% endif %}
+                                {% if patient_data.work_type == "GOVT_JOB" %}
+                                    <option value="Govt_job" selected>Government</option>
+                                {% else %}
+                                    <option value="Govt_job">Government</option>
+                                {% endif %}
+                                {% if patient_data.work_type == "CHILDREN" %}
+                                    <option value="children" selected>Childcare</option>
+                                {% else %}
+                                    <option value="children">Childcare</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>What is your residence type?:</p>
+                            <select id="modifysub_married" name="modifysub_married" required>
+                                {% if patient_data.patient_residence_type == "URBAN" %}
+                                    <option value="Urban" selected>Urban</option>
+                                {% else %}
+                                    <option value="Urban">Urban</option>
+                                {% endif %}
+                                {% if patient_data.patient_residence_type == "RURAL" %}
+                                    <option value="Rural" selected>Rural</option>
+                                {% else %}
+                                    <option value="Rural">Rural</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>What is your average glucose level?:</p>
+                            <input class="textbox" type="text" id="modifysub_glevel" name="txt_modifysub_glevel" required placeholder="Glucose" pattern="^[0-9]*$" title="Must be a number only" value="{{ patient_data.patient_avg_gLevel }}">
+                            <br>
+                            <p>What is your BMI?:</p>
+                            <input class="textbox" type="text" id="modifysub_bmi" name="txt_modifysub_bmi" required placeholder="BMI" pattern="^[0-9]*$" title="Must be a number only" value="{{ patient_data.patient_bmi }}">
+                            <br>
+                            <p>Do you smoke?:</p>
+                            <select id="modifysub_smoked" name="modifysub_smoked" required>
+                                {% if patient_data.patient_smoked == "NEVER SMOKED" %}
+                                    <option value="never smoked" selected>No</option>
+                                {% else %}
+                                    <option value="never smoked">No</option>
+                                {% endif %}
+                                {% if patient_data.patient_smoked == "FORMERLY SMOKED" %}
+                                    <option value="formerly smoked" selected>Formerly</option>
+                                {% else %}
+                                    <option value="formerly smoked">Formerly</option>
+                                {% endif %}
+                                {% if patient_data.patient_smoked == "SMOKES" %}
+                                    <option value="smokes" selected>Yes</option>
+                                {% else %}
+                                    <option value="smokes">Yes</option>
+                                {% endif %}
+                                {% if patient_data.patient_smoked == "UNKNOWN" %}
+                                    <option value="unkown" selected hidden>Unkown</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <p>Have you had a stroke?:</p>
+                            <select id="modifysub_stroke" name="modifysub_stroke" required>
+                                {% if patient_data.stroke == 1%}
+                                    <option value="1" selected>Yes</option>
+                                    <option value="0">No</option>
+                                {% else %}
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                {% endif %}
+                            </select>
+                            <br>
+                            <input type="submit" value="Submit" class="submit_button">
+                    </form>
+                </div>
+        </div>
+</div>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src=" {{ url_for('static', filename='scripts/modifysub.js') }}"></script>
+{% endblock %}
