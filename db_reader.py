@@ -46,7 +46,7 @@ def read_presaved_data():
                 mysql_id = insert_patients_data(row_dict)
                 row_dict["MySQL_ID"] = mysql_id
                 mongo_insert(row_dict)
-            print(str(index) + "/" + str(row_count) + " loaded from healthcare-dataset-stroke-data.csv", flush=True, end="\r")
+            print(str(index) + "/" + str(row_count) + " row loaded from healthcare-dataset-stroke-data.csv", flush=True, end="\r")
             index += 1
     csvfile.close()
     print(str(index) + "/" + str(row_count) + " loaded from healthcare-dataset-stroke-data.csv", flush=True)
