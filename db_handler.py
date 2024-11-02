@@ -455,7 +455,7 @@ def admin_dump_data():
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
-    file = open("table_users.txt", "w")
+    file = open("static/dumps/table_users.txt", "w")
     for user in fetch:
         for user_data in user:
             user_data = str(user_data) + ", "
@@ -469,7 +469,7 @@ def admin_dump_data():
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
-    file = open("table_patient_data.txt", "w")
+    file = open("static/dumps/table_patient_data.txt", "w")
     for patient in fetch:
         for patient_data in patient:
             patient_data = str(patient_data) + ", "
@@ -483,7 +483,7 @@ def admin_dump_data():
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
-    file = open("link_user_patient_data.txt", "w")
+    file = open("static/dumps/link_user_patient_data.txt", "w")
     for link in fetch:
         for link_data in link:
             link_data = str(link_data) + ", "
@@ -493,4 +493,4 @@ def admin_dump_data():
         index += 1
     file.close()
     print(str(length) + "/" + str(length) + " links saved to link_user_patient_data.txt", flush=True)
-    print("All tables have been dumped to the /dumps/ directory", flush=True)
+    print("All tables have been dumped to the /static/dumps/ directory", flush=True)

@@ -74,3 +74,29 @@
 [2024.11.02 at 22:35:46] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/dump/ (admin_aDB_dump)
 [2024.11.02 at 22:35:46](ADMIN): 192.168.1.84 (User: BaseAdmin)  dumped all database data
 [2024.11.02 at 22:35:46] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/ (admin_aDB_manage)
+[2024.11.02 at 22:45:28]: 192.168.1.84 (User: BaseAdmin) successfully accessed / (home)
+[2024.11.02 at 22:45:29] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/ (admin_main)
+[2024.11.02 at 22:45:35]: 192.168.1.84 (User: BaseAdmin) successfully accessed / (home)
+[2024.11.02 at 22:45:36]: 192.168.1.84 (User: BaseAdmin) successfully accessed /users/logout/ (user_logout)
+[2024.11.02 at 22:45:36]: 192.168.1.84 (User: BaseAdmin) successfully logged out of their account
+[2024.11.02 at 22:45:36]: 192.168.1.84 (User: Annonymous) successfully accessed / (home)
+[2024.11.02 at 22:45:36]: 192.168.1.84 (User: Annonymous) successfully accessed /favicon.ico (favicon)
+[2024.11.02 at 22:45:37]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/ (user_login)
+[2024.11.02 at 22:45:45]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/validate/ (user_login_validate)
+[2024.11.02 at 22:45:45]: 192.168.1.84 successfully logged in as baseadmin@example.com
+[2024.11.02 at 22:45:45]: 192.168.1.84 (User: BaseAdmin) successfully accessed / (home)
+[2024.11.02 at 22:45:45]: 192.168.1.84 (User: BaseAdmin) successfully accessed /favicon.ico (favicon)
+[2024.11.02 at 22:45:48] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/ (admin_main)
+[2024.11.02 at 22:45:49] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)
+[2024.11.02 at 22:45:50] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/load_db/ (admin_loadDB)
+[2024.11.02 at 22:47:07] (ADMIN): 192.168.1.84 (User: BaseAdmin) loaded the database from healthcare-dataset-stroke-data.csv
+[2024.11.02 at 22:47:07] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)
+[2024.11.02 at 22:49:43] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/ (admin_main)
+[2024.11.02 at 22:49:44] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/ (admin_aDB_manage)
+[2024.11.02 at 22:49:45] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/dump/ (admin_aDB_dump)
+[2024.11.02 at 22:49:45](ADMIN): 192.168.1.84 (User: BaseAdmin)  dumped all database data
+[2024.11.02 at 22:49:45] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/ (admin_aDB_manage)
+[2024.11.02 at 22:50:34] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/ (admin_aDB_manage)
+[2024.11.02 at 22:50:35] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/dump/ (admin_aDB_dump)
+[2024.11.02 at 22:50:35](ADMIN): 192.168.1.84 (User: BaseAdmin)  dumped all database data
+[2024.11.02 at 22:50:35] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/all_databases/manage/ (admin_aDB_manage)

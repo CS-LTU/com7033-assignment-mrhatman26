@@ -1,4 +1,9 @@
 import datetime as dt
+'''This is the access_logger.
+It is used to log all pages users access and actions they make.
+All 
+'''
+
 def get_time():
     current_time = dt.datetime.now()
     return str("[" + current_time.strftime("%Y.%m.%d at %H:%M:%S") + "]")
