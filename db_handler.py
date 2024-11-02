@@ -2,6 +2,7 @@ from os import stat
 import mysql.connector
 import hashlib
 from db_config import get_db_config
+from mongodb import mongo_nuke
 
 deployed = False
 
@@ -61,7 +62,6 @@ def user_check_validate(userdata):
         else:
             return False
     else:
-        print("failure")
         return False
     
 #Get
@@ -395,3 +395,16 @@ def admin_delete_patient_data(patient_id):
     database.commit()
     cursor.close()
     database.close()
+
+def admin_nuke(m_client):
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("DELETE FROM link_user_patient_data WHERE 1=1")
+    database.commit()
+    cursor.execute("DELETE FROM table_users WHERE user_email != %s", ("baseadmin@example.com", ))
+    database.commit()
+    cursor.execute("DELETE FROM table_patient_data WHERE 1=1")
+    database.commit()
+    cursor.close()
+    database.close()
+    mongo_nuke(m_client)

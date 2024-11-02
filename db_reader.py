@@ -14,7 +14,7 @@ def str_to_booInt(YesNo):
             return 0
 
     
-def read_presaved_data():
+def read_presaved_data(mongodb, mysql, m_client):
     with open("healthcare-dataset-stroke-data.csv") as csvfile:
         reader = csv.reader(csvfile, delimiter=" ")
         data = list(reader)
@@ -43,10 +43,15 @@ def read_presaved_data():
                 "patient_stroke": str_to_booInt(row[11].upper())
             }
             if row[0] != "id":
-                mysql_id = insert_patient_data(row_dict)
-                row_dict["MySQL_ID"] = mysql_id
-                mongo_insert(row_dict)
-            print(str(index) + "/" + str(row_count) + " row loaded from healthcare-dataset-stroke-data.csv", flush=True, end="\r")
+                if mysql is True:
+                    mysql_id = insert_patient_data(row_dict)
+                else:
+                    mysql_id = -99
+                if mongodb is True:
+                    row_dict["MySQL_ID"] = mysql_id
+                    mongo_insert(row_dict, m_client)
+            print(str(index) + "/" + str(row_count) + " rows loaded from healthcare-dataset-stroke-data.csv", flush=True, end="\r")
             index += 1
     csvfile.close()
-    print(str(index) + "/" + str(row_count) + " loaded from healthcare-dataset-stroke-data.csv", flush=True)
+    print(str(index) + "/" + str(row_count) + " rows loaded from healthcare-dataset-stroke-data.csv", flush=True)
+    return True

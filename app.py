@@ -11,6 +11,7 @@ from misc import clean_subdata
 app = Flask(__name__)
 app.secret_key = "HealthyIGuess"
 deployed = False
+m_client = pymongo.MongoClient("mongodb://localhost:27017")
 
 '''Login Manager'''
 login_manager = LoginManager()
@@ -61,7 +62,7 @@ def submission_validate():
             subdata["MySQL_ID"] = mysql_id
             mysql_done = True
             add_new_patient_log(request.remote_addr, log_get_user(), False, False)
-            mongo_insert(subdata)
+            mongo_insert(subdata, m_client)
             add_new_patient_log(request.remote_addr, log_get_user(), False, True)
             return "success"
         except Exception as e:
@@ -76,7 +77,7 @@ def submission_validate():
 def view_data():
     if current_user.is_authenticated:
         add_access_log(request.remote_addr, log_get_user(), "/data/view/ (view_data)", False, False)
-        return render_template('data.html', page_name="Submitted Data", patient_data=mongo_find_all(False))
+        return render_template('data.html', page_name="Submitted Data", patient_data=mongo_find_all(False, m_client))
     else:
         add_access_log(request.remote_addr, log_get_user(), "/data/view/ (view_data)", True, False)
         return redirect('/users/login/')
@@ -219,7 +220,7 @@ def user_submission_modify_validate():
                 update_patient(subdata, patient_id)
                 add_delete_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
                 is_mongodb = True
-                mongo_update({"MySQL_ID": int(patient_id)}, subdata)
+                mongo_update({"MySQL_ID": int(patient_id)}, subdata, m_client)
                 add_delete_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
                 return "success"
             except Exception as e:
@@ -250,7 +251,7 @@ def delete_submission_confirmed():
             patient_id = link_get(current_user.id)["patient_id"]
             admin_delete_patient_data(patient_id)
             add_delete_db_log(request.remote_addr, log_get_user(), False, patient_id, False)
-            mongo_delete({"MySQL_ID": int(patient_id)})
+            mongo_delete({"MySQL_ID": int(patient_id)}, m_client)
             add_delete_db_log(request.remote_addr, log_get_user(), False, patient_id, False)
             return redirect('/users/account/')
         else:
@@ -389,7 +390,7 @@ def admin_database_management_mongodb():
     if current_user.is_authenticated:
         if current_user.is_admin:
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/mongodb/ (admin_database_management_mongodb)", False, True)
-            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MongoDB)", patient_data=mongo_find_all(True), is_mongodb=True)
+            return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MongoDB)", patient_data=mongo_find_all(True, m_client), is_mongodb=True)
         else:
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)
@@ -405,7 +406,7 @@ def admin_database_delete(patient_id):
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", False, True)
             admin_delete_patient_data(patient_id)
             add_delete_db_log(request.remote_addr, log_get_user(), False, patient_id, True)
-            mongo_delete({"MySQL_ID": int(patient_id)})
+            mongo_delete({"MySQL_ID": int(patient_id)}, m_client)
             add_delete_db_log(request.remote_addr, log_get_user(), True, patient_id, True)
             return redirect('/admin/database/manage/')
         else:
@@ -423,7 +424,7 @@ def admin_loadDB():
         if current_user.is_admin is True:
             add_access_log(request.remote_addr, log_get_user(), "/admin/load_db/ (admin_loadDB)", False, True)
             from db_reader import read_presaved_data
-            read_presaved_data()
+            read_presaved_data(True, True, m_client)
             add_readDB_admin_log(request.remote_addr, log_get_user())
             return redirect('/admin/database/manage/')
         else:

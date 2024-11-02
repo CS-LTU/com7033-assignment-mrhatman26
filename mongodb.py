@@ -1,15 +1,17 @@
 import pymongo
 #Insert
-def mongo_insert(data):
-    m_client = pymongo.MongoClient("mongodb://localhost:27017")
+def mongo_insert(data, m_client):
+    #m_client = pymongo.MongoClient("mongodb://localhost:27017")
     m_database = m_client["healthdb"]
     m_collection = m_database["patient_data"]
     x = m_collection.insert_one(data)
+    #m_client.close()
+    return x
 
 #Find
-def mongo_find_all(admin):
+def mongo_find_all(admin, m_client):
     records = []
-    m_client = pymongo.MongoClient("mongodb://localhost:27017")
+    #m_client = pymongo.MongoClient("mongodb://localhost:27017")
     m_database = m_client["healthdb"]
     m_collection = m_database["patient_data"]
     for item in m_collection.find():
@@ -17,19 +19,31 @@ def mongo_find_all(admin):
             item.pop("_id")
             item.pop("MySQL_ID")
         records.append(item)
+    #m_client.close()
     return records
 
 #Delete
-def mongo_delete(delete_query):
-    m_client = pymongo.MongoClient("mongodb://localhost:27017")
+def mongo_delete(delete_query, m_client):
+    #m_client = pymongo.MongoClient("mongodb://localhost:27017")
     m_database = m_client["healthdb"]
     m_collection = m_database["patient_data"]
-    m_collection.delete_many(delete_query)
+    x = m_collection.delete_many(delete_query)
+    #m_client.close()
+    return x
+
+def mongo_nuke(m_client):
+    #m_client = pymongo.MongoClient("mongodb://localhost:27017")
+    m_database = m_client["healthdb"]
+    m_collection = m_database["patient_data"]
+    x = m_collection.delete_many({})
+    #m_client.close()
 
 #Update
-def mongo_update(update_query, new_values):
-    m_client = pymongo.MongoClient("mongodb://localhost:27017")
+def mongo_update(update_query, new_values, m_client):
+    #m_client = pymongo.MongoClient("mongodb://localhost:27017")
     m_database = m_client["healthdb"]
     m_collection = m_database["patient_data"]
     new_values = {"$set": new_values}
-    m_collection.update_many(update_query, new_values)
+    x = m_collection.update_many(update_query, new_values)
+    #m_client.close()
+    return x
