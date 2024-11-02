@@ -218,13 +218,13 @@ def user_submission_modify_validate():
             try:
                 clean_subdata(subdata)
                 update_patient(subdata, patient_id)
-                add_delete_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
+                add_modify_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
                 is_mongodb = True
                 mongo_update({"MySQL_ID": int(patient_id)}, subdata, m_client)
-                add_delete_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
+                add_modify_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
                 return "success"
             except Exception as e:
-                add_delete_patient_log(request.remote_addr, log_get_user(), True, is_mongodb, patient_id)
+                add_modify_patient_log(request.remote_addr, log_get_user(), True, is_mongodb, patient_id)
                 add_error_log(request.remote_addr, log_get_user(), "Failed to modify user submission", e)
                 return "servererror"
         else:
