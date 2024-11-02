@@ -549,6 +549,21 @@ def admin_aDB_delete_nuke_all_confirmed():
         add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/confirmed/ (admin_aDB_delete_nuke_all_confirmed)", True, True)
         abort(404)
 
+@app.route('/admin/all_databases/manage/dump/')
+def admin_aDB_dump():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/dump/ (admin_aDB_dump)", False, True)
+            admin_dump_data()
+            add_admin_dump_log(request.remote_addr, log_get_user())
+            return redirect('/admin/all_databases/manage/')
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/dump/ (admin_aDB_dump)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/dump/ (admin_aDB_dump)", True, True)
+        abort(404)
+
 #DB Loader
 @app.route('/admin/database/manage/load_db/')
 def admin_loadDB():

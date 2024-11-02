@@ -447,3 +447,50 @@ def admin_nuke(m_client):
     cursor.close()
     database.close()
     mongo_nuke(m_client)
+
+def admin_dump_data():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM table_users")
+    fetch = cursor.fetchall()
+    length = len(fetch)
+    index = 0
+    file = open("table_users.txt", "w")
+    for user in fetch:
+        for user_data in user:
+            user_data = str(user_data) + ", "
+            file.write(user_data)
+        file.write("\n")
+        print(str(index) + "/" + str(length) + " users saved to table_users.txt", end="\r", flush=True)
+        index += 1
+    file.close()
+    print(str(length) + "/" + str(length) + " users saved to table_users.txt", flush=True)
+    cursor.execute("SELECT * FROM table_patient_data")
+    fetch = cursor.fetchall()
+    length = len(fetch)
+    index = 0
+    file = open("table_patient_data.txt", "w")
+    for patient in fetch:
+        for patient_data in patient:
+            patient_data = str(patient_data) + ", "
+            file.write(patient_data)
+        file.write("\n")
+        print(str(index) + "/" + str(length) + " patients saved to table_patient_data.txt", end="\r", flush=True)
+        index += 1
+    file.close()
+    print(str(length) + "/" + str(length) + " patients saved to table_patient_data.txt", flush=True)
+    cursor.execute("SELECT * FROM link_user_patient_data")
+    fetch = cursor.fetchall()
+    length = len(fetch)
+    index = 0
+    file = open("link_user_patient_data.txt", "w")
+    for link in fetch:
+        for link_data in link:
+            link_data = str(link_data) + ", "
+            file.write(link_data)
+        file.write("\n")
+        print(str(index) + "/" + str(length) + " links saved to link_user_patient_data.txt", end="\r", flush=True)
+        index += 1
+    file.close()
+    print(str(length) + "/" + str(length) + " links saved to link_user_patient_data.txt", flush=True)
+    print("All tables have been dumped to the /dumps/ directory", flush=True)

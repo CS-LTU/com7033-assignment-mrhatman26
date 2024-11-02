@@ -173,3 +173,11 @@ def add_admin_nuke_log(ip, username, wwDeleted, everything):
         text = text + "(!!!!ADMIN_NUKE!!!!):  " + ip + " (User: " + username + ") deleted ALL data from ALL tables"
     log_file.write(text)
     log_file.close()
+
+def add_admin_dump_log(ip, username):
+    log_file = open("static/logs.txt", "at")
+    current_time = dt.datetime.now()
+    text = "\n" + get_time()
+    text = text + "(ADMIN): " + ip + " (User: " + username + ") " + " dumped all database data"
+    log_file.write(text)
+    log_file.close()
