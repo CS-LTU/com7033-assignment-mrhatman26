@@ -53,6 +53,7 @@ def user_check_validate(userdata):
         cursor = database.cursor()
         cursor.execute("SELECT user_password FROM table_users WHERE user_email = %s", (str(userdata["username"]),))
         hashed_data = string_hash(userdata["password"])
+        print(hashed_data)
         if hashed_data == cursor.fetchall()[0][0]:
             cursor.close()
             database.close()
@@ -60,6 +61,7 @@ def user_check_validate(userdata):
         else:
             return False
     else:
+        print("failure")
         return False
     
 #Get
@@ -195,7 +197,7 @@ def get_patient(patient_id):
         return None
 
 #Insert
-def insert_patients_data(patient_data):
+def insert_patient_data(patient_data):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT patient_id FROM table_patient_data")
@@ -210,7 +212,7 @@ def insert_patients_data(patient_data):
     database.close()
     return new_id
 
-def insert_new_patient(subdata, userid):
+def insert_new_patient_link(subdata, userid):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT patient_id FROM table_patient_data")
@@ -278,10 +280,18 @@ def link_get(user_id):
         return {"user_id": fetch[0][0], "patient_id": fetch[0][1]}
     else:
         return None
+    
+def link_delete(user_id): #Unused apart from in testing
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("DELETE FROM link_user_patient_data WHERE user_id = %s", (user_id,))
+    database.commit()
+    cursor.close()
+    database.close()
 
 
 '''Admin commands'''
-def admin_user_admin_check(username): ###DEPRECATED###
+def admin_user_admin_check(username):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_admin FROM table_users WHERE user_email = %s", (str(username),))
@@ -337,7 +347,6 @@ def admin_get_patient_data():
     database.close()
     return patients
 
-#Insert
 #Update
 def admin_hash_basepass():
     database = mysql.connector.connect(**get_db_config(deployed))

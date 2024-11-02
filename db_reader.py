@@ -1,5 +1,5 @@
 import csv
-from db_handler import insert_patients_data
+from db_handler import insert_patient_data
 from mongodb import mongo_insert
 from misc import is_number
 import time as t
@@ -43,7 +43,7 @@ def read_presaved_data():
                 "patient_stroke": str_to_booInt(row[11].upper())
             }
             if row[0] != "id":
-                mysql_id = insert_patients_data(row_dict)
+                mysql_id = insert_patient_data(row_dict)
                 row_dict["MySQL_ID"] = mysql_id
                 mongo_insert(row_dict)
             print(str(index) + "/" + str(row_count) + " row loaded from healthcare-dataset-stroke-data.csv", flush=True, end="\r")

@@ -63,7 +63,11 @@
                                         <td>{{ patient.wtype }}</td>
                                         <td>{{ patient.rtype }}</td>
                                         <td>{{ patient.glevel }}</td>
-                                        <td>{{ patient.bmi }}</td>
+                                        {% if patient.bmi is none %}
+                                            <td>0</td>
+                                        {% else %}
+                                            <td>{{ patient.bmi }}</td>
+                                        {% endif %}
                                         <td>{{ patient.smoked }}</td>
                                         {% if patient.stroke == 1 %}
                                             <td>Yes</td>
@@ -96,7 +100,11 @@
                                         <td>{{ patient.patient_work_type }}</td>
                                         <td>{{ patient.patient_residence_type }}</td>
                                         <td>{{ patient.patient_avg_gLevel }}</td>
-                                        <td>{{ patient.patient_bmi }}</td>
+                                        {% if patient.patient_bmi is none %}
+                                            <td>0</td>
+                                        {% else %}
+                                            <td>{{ patient.patient_bmi }}</td>
+                                        {% endif %}
                                         <td>{{ patient.patient_smoked }}</td>
                                         {% if patient.patient_stroke == 1 %}
                                             <td>Yes</td>

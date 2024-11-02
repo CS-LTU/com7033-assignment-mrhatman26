@@ -14,20 +14,20 @@ def add_error_log(ip, user, wFailed, theException=None):
     log_file.write(text)
     log_file.close()
 
-def add_access_log(ip, user, wwAccessed, failed, admin):
+def add_access_log(ip, username, wwAccessed, failed, admin):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()
     text = "\n" + get_time()
     if admin is False:
         if failed is False:
-            text = text + ": " + ip + " (User: " + user + ") successfully accessed " + wwAccessed
+            text = text + ": " + ip + " (User: " + username + ") successfully accessed " + wwAccessed
         else:
-            text = text + ": " + ip + " (User: " + user + ") FAILED to access " + wwAccessed
+            text = text + ": " + ip + " (User: " + username + ") FAILED to access " + wwAccessed
     else:
         if failed is False:
-            text = text + " (ADMIN): " + ip + " (User: " + user + ") successfully accessed Admin resource " + wwAccessed
+            text = text + " (ADMIN): " + ip + " (User: " + username + ") successfully accessed Admin resource " + wwAccessed
         else:
-            text = text + " (ADMIN): " + ip + " (User: " + user + ") FAILED to access Admin resource " + wwAccessed
+            text = text + " (ADMIN): " + ip + " (User: " + username + ") FAILED to access Admin resource " + wwAccessed
     log_file.write(text)
     log_file.close()
 
@@ -142,7 +142,7 @@ def add_readDB_admin_log(ip, username):
     log_file = open("static/logs.txt", "at")
     current_time = dt.datetime.now()
     text = "\n" + get_time()
-    text = text + " (ADMIN): " + ip + " (User: " + username + " loaded the database from healthcare-dataset-stroke-data.csv"
+    text = text + " (ADMIN): " + ip + " (User: " + username + ") loaded the database from healthcare-dataset-stroke-data.csv"
     log_file.write(text)
     log_file.close()
 

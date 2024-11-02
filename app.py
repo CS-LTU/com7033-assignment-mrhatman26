@@ -42,10 +42,10 @@ def home():
 @app.route('/submission/')
 def submission():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/submission/ (submission)", False, False)
         return render_template('submission.html', page_name="Submission", already_submitted=link_check_exists(current_user.id, False))
     else:
-        add_access_log(request.remote_addr, current_user.username, "/submission/ (submission)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/submission/ (submission)", True, False)
         return redirect('/users/login/')
 @app.route('/submission/validate/', methods=['POST'])
 def submission_validate():
@@ -53,32 +53,32 @@ def submission_validate():
         subdata = request.get_data()
         subdata = subdata.decode()
         subdata = ast.literal_eval(subdata)
-        add_access_log(request.remote_addr, current_user.username, "/submission/validate/ (submission_validate)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/submission/validate/ (submission_validate)", False, False)
         mysql_done = False
         try:
             clean_subdata(subdata)
-            mysql_id = insert_new_patient(subdata, current_user.id)
+            mysql_id = insert_new_patient_link(subdata, current_user.id)
             subdata["MySQL_ID"] = mysql_id
             mysql_done = True
-            add_new_patient_log(request.remote_addr, current_user.username, False, False)
+            add_new_patient_log(request.remote_addr, log_get_user(), False, False)
             mongo_insert(subdata)
-            add_new_patient_log(request.remote_addr, current_user.username, False, True)
+            add_new_patient_log(request.remote_addr, log_get_user(), False, True)
             return "success"
         except Exception as e:
-            add_new_patient_log(request.remote_addr, current_user.username, True, mysql_done)
-            add_error_log(request.remote_addr, current_user.username, "Submission data insertion failed.", e)
+            add_new_patient_log(request.remote_addr, log_get_user(), True, mysql_done)
+            add_error_log(request.remote_addr, log_get_user(), "Submission data insertion failed.", e)
             return "servererror"
     else:
-        add_access_log(request.remote_addr, current_user.username, "/submission/validate/ (submission_validate)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/submission/validate/ (submission_validate)", True, False)
         return redirect('/users/login/')
     
 @app.route('/data/view/')
 def view_data():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/data/view/ (view_data)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/data/view/ (view_data)", False, False)
         return render_template('data.html', page_name="Submitted Data", patient_data=mongo_find_all(False))
     else:
-        add_access_log(request.remote_addr, current_user.username, "/data/view/ (view_data)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/data/view/ (view_data)", True, False)
         return redirect('/users/login/')
     
 '''User Routes'''
@@ -86,7 +86,7 @@ def view_data():
 @app.route('/users/login/')
 def user_login():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/login/ (user_login)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/login/ (user_login)", True, False)
         return redirect('/')
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/login/ (user_login)", False, False)
@@ -94,7 +94,7 @@ def user_login():
 @app.route('/users/login/validate/', methods=['POST'])
 def user_login_validate():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/login/validate/ (user_login_validate)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/login/validate/ (user_login_validate)", True, False)
         return redirect('/')
     else:
         userdata = request.get_data()
@@ -118,7 +118,7 @@ def user_login_validate():
 @app.route('/users/signup/')
 def user_signup():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/signup/ (user_signup)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/signup/ (user_signup)", True, False)
         return redirect('/')
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/signup/ (user_signup)", False, False)
@@ -126,7 +126,7 @@ def user_signup():
 @app.route('/users/signup/validate/', methods=['POST'])
 def user_signup_validate():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/signup/validate/ (user_signup_validate)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/signup/validate/ (user_signup_validate)", True, False)
         return redirect('/')
     else:
         userdata = request.get_data()
@@ -149,7 +149,7 @@ def user_signup_validate():
 @app.route('/users/account/')
 def user_account():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/ (user_account)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/ (user_account)", False, False)
         if link_check_exists(current_user.id, False):
             user_submission = get_patient(link_get(current_user.id)["patient_id"])
         else:
@@ -163,7 +163,7 @@ def user_account():
 @app.route('/users/account/modify/')
 def user_modify():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/modify/ (user_modify)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/ (user_modify)", False, False)
         return render_template('/users/modify.html', page_name="Modify Account", userdata=user_get_single(current_user.id))
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/ (user_modify)", True, False)
@@ -175,7 +175,7 @@ def user_modify_validate():
         userdata = userdata.decode()
         userdata = ast.literal_eval(userdata)
         userdata["id"] = current_user.id
-        add_access_log(request.remote_addr, current_user.username, "/users/account/modify/validate/ (user_modify_validate)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/modify/validate/ (user_modify_validate)", False, False)
         try:
             if user_update(userdata) is True:
                 add_modify_user_log(request.remote_addr, userdata["email"], False)
@@ -195,14 +195,14 @@ def user_modify_validate():
 def user_submission_modify():
     if current_user.is_authenticated:
         if link_check_exists(current_user.id, False):
-            add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", False, False)
+            add_access_log(request.remote_addr, log_get_user(), "/users/account/submission/modify/ (user_submission_modify)", False, False)
             patient_data = get_patient(link_get(current_user.id)["patient_id"])
             return render_template('modify_submission.html', page_name="Modify Submission", patient_data=patient_data)
         else:
-            add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", True, False)
+            add_access_log(request.remote_addr, log_get_user(), "/users/account/submission/modify/ (user_submission_modify)", True, False)
             return redirect('/users/account/')
     else:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/ (user_submission_modify)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/submission/modify/ (user_submission_modify)", True, False)
         return redirect('/users/login/')
 @app.route('/users/account/submission/modify/validate/', methods=['POST'])
 def user_submission_modify_validate():
@@ -210,24 +210,24 @@ def user_submission_modify_validate():
         subdata = request.get_data()
         subdata = subdata.decode()
         subdata = ast.literal_eval(subdata)
-        add_access_log(request.remote_addr, current_user.username, "/users/account/submission/modify/validate/' (user_submission_modify_validate)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/submission/modify/validate/' (user_submission_modify_validate)", False, False)
         if link_check_exists(current_user.id, False):
             is_mongodb = False
             patient_id = link_get(current_user.id)["patient_id"]
             try:
                 clean_subdata(subdata)
                 update_patient(subdata, patient_id)
-                add_delete_patient_log(request.remote_addr, current_user.username, False, is_mongodb, patient_id)
+                add_delete_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
                 is_mongodb = True
                 mongo_update({"MySQL_ID": int(patient_id)}, subdata)
-                add_delete_patient_log(request.remote_addr, current_user.username, False, is_mongodb, patient_id)
+                add_delete_patient_log(request.remote_addr, log_get_user(), False, is_mongodb, patient_id)
                 return "success"
             except Exception as e:
-                add_delete_patient_log(request.remote_addr, current_user.username, True, is_mongodb, patient_id)
-                add_error_log(request.remote_addr, current_user.username, "Failed to modify user submission", e)
+                add_delete_patient_log(request.remote_addr, log_get_user(), True, is_mongodb, patient_id)
+                add_error_log(request.remote_addr, log_get_user(), "Failed to modify user submission", e)
                 return "servererror"
         else:
-            add_error_log(request.remote_addr, current_user.username, "Failed to modify user submission, user has no link to any patient data", None)
+            add_error_log(request.remote_addr, log_get_user(), "Failed to modify user submission, user has no link to any patient data", None)
             return "nolink"
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/account/submission/modify/validate/' (user_submission_modify_validate)", True, False)
@@ -237,34 +237,34 @@ def user_submission_modify_validate():
 @app.route('/users/account/submission/delete/')
 def delete_submissionconfirm():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/ (delete_submissionconfirm)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/submission_delete/ (delete_submissionconfirm)", False, False)
         return render_template('delete_submission.html', page_name="Delete Submission Confirmation")
     else:
-        add_access_log(request.remote_addr, current_user.username, "/users/accout/submission_delete/ (delete_submissionconfirm)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/accout/submission_delete/ (delete_submissionconfirm)", True, False)
         abort(404)
 @app.route('/users/account/submission/delete/confirmed/')
 def delete_submission_confirmed():
     if current_user.is_authenticated:
         if link_check_exists(current_user.id, False):
-            add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", False, False)
+            add_access_log(request.remote_addr, log_get_user(), "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", False, False)
             patient_id = link_get(current_user.id)["patient_id"]
             admin_delete_patient_data(patient_id)
-            add_delete_db_log(request.remote_addr, current_user.username, False, patient_id, False)
+            add_delete_db_log(request.remote_addr, log_get_user(), False, patient_id, False)
             mongo_delete({"MySQL_ID": int(patient_id)})
-            add_delete_db_log(request.remote_addr, current_user.username, False, patient_id, False)
+            add_delete_db_log(request.remote_addr, log_get_user(), False, patient_id, False)
             return redirect('/users/account/')
         else:
-            add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", True, False)
+            add_access_log(request.remote_addr, log_get_user(), "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", True, False)
             return redirect('/users/account/')
     else:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", True, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/submission_delete/confirmed/ (delete_submission_confirmed)", True, False)
         abort(404)
     
 #Delete
 @app.route('/users/account/delete/')
 def user_deleteconfirm():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/delete/ (user_deleteconfirm)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/delete/ (user_deleteconfirm)", False, False)
         return render_template('/users/delete.html', page_name="Delete Confirmation")
     else:
         add_access_log(request.remote_addr, log_get_user(), "/users/account/delete/ (user_deleteconfirm)", True, False)
@@ -272,9 +272,9 @@ def user_deleteconfirm():
 @app.route('/users/account/delete/confirmed/')
 def user_delete():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/account/delete/confirmed/ (user_delete)", False, False)
+        add_access_log(request.remote_addr, log_get_user(), "/users/account/delete/confirmed/ (user_delete)", False, False)
         temp_user_id = current_user.id
-        add_login_log(request.remote_addr, current_user.username, False, True)
+        add_login_log(request.remote_addr, log_get_user(), False, True)
         logout_user()
         add_delete_user_log(request.remote_addr, log_get_user(), False, False)
         admin_delete_user(temp_user_id)
@@ -287,8 +287,8 @@ def user_delete():
 @app.route('/users/logout/')
 def user_logout():
     if current_user.is_authenticated:
-        add_access_log(request.remote_addr, current_user.username, "/users/logout/ (user_logout)", False, False)
-        add_login_log(request.remote_addr, current_user.username, False, True)
+        add_access_log(request.remote_addr, log_get_user(), "/users/logout/ (user_logout)", False, False)
+        add_login_log(request.remote_addr, log_get_user(), False, True)
         logout_user()
         return redirect('/')
     else:
@@ -301,10 +301,10 @@ def user_logout():
 def admin_main():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            add_access_log(request.remote_addr, current_user.username, "/admin/ (admin_main)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/ (admin_main)", False, True)
             return render_template('/admin/admin_main.html', page_name="Admin: Home")
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/ (admin_main)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/ (admin_main)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/ (admin_main)", True, True)
@@ -315,10 +315,10 @@ def admin_main():
 def admin_user_management():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            add_access_log(request.remote_addr, current_user.username, "/admin/users/ (admin_user_management)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/users/ (admin_user_management)", False, True)
             return render_template('/admin/admin_user_management.html', page_name="Admin: User Management", userdata=user_get_all())
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/users/ (admin_user_management)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/users/ (admin_user_management)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/users/ (admin_user_management)", True, True)
@@ -328,14 +328,14 @@ def admin_user_management():
 def admin_user_apply_admin(user_id):
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            add_access_log(request.remote_addr, current_user.username, "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", False, True)
             if admin_apply_admin_user(user_id) is True:
                 add_user_admin_log(request.remote_addr, user_get_username(user_id), False, False)
             else:
                 add_user_admin_log(request.remote_addr, user_get_username(user_id), False, True)
             return redirect('/admin/users/')
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/users/makeadmin/user_id=" + str(user_id) + " (admin_user_apply_admin)", True, True)
@@ -345,7 +345,7 @@ def admin_user_apply_admin(user_id):
 def admin_user_delete(user_id):
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            add_access_log(request.remote_addr, current_user.username, "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", False, True)
             if int(user_id) == current_user.id:
                 user = user_get_username(user_id)
                 logout_user()
@@ -358,7 +358,7 @@ def admin_user_delete(user_id):
                 admin_delete_user(user_id)
                 return redirect('/admin/users/')
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/users/delete/user_id=" + str(user_id) + " (admin_user_delete)", True, True)
@@ -369,7 +369,7 @@ def admin_user_delete(user_id):
 def admin_database_management():
     if current_user.is_authenticated:
         if current_user.is_admin:
-            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", False, True)
             patient_data = admin_get_patient_data()
             links = link_get_all()
             if links is not None and len(links) >= 1:
@@ -379,7 +379,7 @@ def admin_database_management():
                             patient["user_link"] = link["user_name"]
             return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MySQL)", patient_data=patient_data, is_mongodb=False)
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
@@ -388,10 +388,10 @@ def admin_database_management():
 def admin_database_management_mongodb():
     if current_user.is_authenticated:
         if current_user.is_admin:
-            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/mongodb/ (admin_database_management_mongodb)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/mongodb/ (admin_database_management_mongodb)", False, True)
             return render_template('/admin/admin_patient_management.html', page_name="Admin: Patient Data Management (MongoDB)", patient_data=mongo_find_all(True), is_mongodb=True)
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/database/manage/ (admin_database_management)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/database/manage/ (admin_database_management)", True, True)
@@ -404,9 +404,9 @@ def admin_database_delete(patient_id):
         if current_user.is_admin:
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", False, True)
             admin_delete_patient_data(patient_id)
-            add_delete_db_log(request.remote_addr, current_user.username, False, patient_id, True)
+            add_delete_db_log(request.remote_addr, log_get_user(), False, patient_id, True)
             mongo_delete({"MySQL_ID": int(patient_id)})
-            add_delete_db_log(request.remote_addr, current_user.username, True, patient_id, True)
+            add_delete_db_log(request.remote_addr, log_get_user(), True, patient_id, True)
             return redirect('/admin/database/manage/')
         else:
             add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", True, True)
@@ -421,13 +421,13 @@ def admin_database_delete(patient_id):
 def admin_loadDB():
     if current_user.is_authenticated:
         if current_user.is_admin is True:
-            add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", False, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/load_db/ (admin_loadDB)", False, True)
             from db_reader import read_presaved_data
             read_presaved_data()
-            add_readDB_admin_log(request.remote_addr, current_user.username)
+            add_readDB_admin_log(request.remote_addr, log_get_user())
             return redirect('/admin/database/manage/')
         else:
-            add_access_log(request.remote_addr, current_user.username, "/admin/load_db/ (admin_loadDB)", True, True)
+            add_access_log(request.remote_addr, log_get_user(), "/admin/load_db/ (admin_loadDB)", True, True)
             abort(404)
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/load_db/ (admin_loadDB)", True, True)
