@@ -396,6 +396,45 @@ def admin_delete_patient_data(patient_id):
     cursor.close()
     database.close()
 
+def admin_user_nuke():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT user_id FROM table_users")
+    for user in cursor.fetchall():
+        if link_check_exists(user[0], False) is True:
+            link_delete(user[0])
+    cursor.execute("DELETE FROM table_users WHERE user_email != %s", ("baseadmin@example.com",))
+    database.commit()
+    cursor.close()
+    database.close()
+
+def admin_patient_nuke():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("SELECT patient_id FROM table_patient_data")
+    fetch = cursor.fetchall()
+    length = len(fetch)
+    index = 0
+    for patient in fetch:
+        if link_check_exists(patient[0], True):
+            cursor.execute("DELETE FROM link_user_patient_data WHERE patient_id = %s", (patient[0],))
+            database.commit()
+        print(str(index) + "/" + str(length) + " patient records deleted", end="\r", flush=True)
+        index += 1
+    cursor.execute("DELETE FROM table_patient_data WHERE 1=1")
+    database.commit()
+    cursor.close()
+    database.close()
+    print(str(length) + "/" + str(length) + " patient records deleted", flush=True)
+
+def admin_link_nuke():
+    database = mysql.connector.connect(**get_db_config(deployed))
+    cursor = database.cursor()
+    cursor.execute("DELETE FROM link_user_patient_data WHERE 1=1")
+    database.commit()
+    cursor.close()
+    database.close()
+
 def admin_nuke(m_client):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()

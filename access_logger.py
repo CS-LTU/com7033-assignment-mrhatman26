@@ -152,13 +152,24 @@ def add_delete_db_log(ip, username, is_mongodb, patient_id, admin):
     text = "\n" + get_time()
     if admin is True:
         if is_mongodb is False:
-            text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
+            text = text + "(ADMIN): " + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
         else:
-            text = text + ": (ADMIN)" + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
+            text = text + "(ADMIN): " + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
     else:
         if is_mongodb is False:
             text = text + ": " + ip + " (User: " + username + ") " + "successfully deleted patient data from MySQL (Deleted patient_id was " + str(patient_id) + ")"
         else:
             text = text + ": " + ip + " (User: " + username + ") " + "successfully deleted patient data from MongoDB (Deleted MySQL_ID was " + str(patient_id) + ")"
+    log_file.write(text)
+    log_file.close()
+
+def add_admin_nuke_log(ip, username, wwDeleted, everything):
+    log_file = open("static/logs.txt", "at")
+    current_time = dt.datetime.now()
+    text = "\n" + get_time()
+    if everything is False:
+        text = text + "(ADMIN): " + ip + " (User: " + username + ") " + " deleted all data in " + wwDeleted
+    else:
+        text = text + "(!!!!ADMIN_NUKE!!!!):  " + ip + " (User: " + username + ") deleted ALL data from ALL tables"
     log_file.write(text)
     log_file.close()

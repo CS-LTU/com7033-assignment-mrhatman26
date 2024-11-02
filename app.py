@@ -415,7 +415,139 @@ def admin_database_delete(patient_id):
     else:
         add_access_log(request.remote_addr, log_get_user(), "/admin/database/delete/patient_id=" + str(patient_id) + " (admin_database_delete)", True, True)
         abort(404)
-        
+
+#Database Management
+@app.route('/admin/all_databases/manage/')
+def admin_aDB_manage():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/ (admin_aDB_manage)", False, True)
+            return render_template('/admin/admin_database_management.html', page_name="Admin: Database Management")
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/ (admin_aDB_manage)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/ (admin_aDB_manage)", True, True)
+        abort(404)
+
+#Delete All Users        
+@app.route('/admin/all_databases/manage/delete_users/')
+def admin_aDB_delete_users():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_users/ (admin_aDB_delete_users)", False, True)
+            return render_template('/admin/confirmation.html', page_name="Admin: Delete All Users", dir_to_use="admin_aDB_delete_users_confirmed", message="Are you sure you want to delete ALL users?:", yes_message="Delete All Users", no_message="Keep All Users")
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_users/ (admin_aDB_delete_users)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_users/ (admin_aDB_delete_users)", True, True)
+        abort(404)
+@app.route('/admin/all_databases/manage/delete_users/confirmed/')
+def admin_aDB_delete_users_confirmed():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_users/confirmed/ (admin_aDB_delete_users_confirmed)", False, True)
+            user = current_user.username
+            if current_user.username != "BaseAdmin":
+                logout_user()
+            admin_user_nuke()
+            add_admin_nuke_log(request.remote_addr, user, "table_users", False)
+            return redirect('/')
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_users/confirmed/ (admin_aDB_delete_users_confirmed)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_users/confirmed/ (admin_aDB_delete_users_confirmed)", True, True)
+        abort(404)
+
+#Delete All Patients        
+@app.route('/admin/all_databases/manage/delete_patients/')
+def admin_aDB_delete_patients():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_patients/ (admin_aDB_delete_patients)", False, True)
+            return render_template('/admin/confirmation.html', page_name="Admin: Delete All Patient Data", dir_to_use="admin_aDB_delete_patients_confirmed", message="Are you sure you want to delete ALL patient data? (Refer to terminal for progress):", yes_message="Delete All Patient Data", no_message="Keep All Patient Data")
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_patients/ (admin_aDB_delete_patients)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_patients/ (admin_aDB_delete_patients)", True, True)
+        abort(404)
+@app.route('/admin/all_databases/manage/delete_patients/confirmed/')
+def admin_aDB_delete_patients_confirmed():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_patients/confirmed/ (admin_aDB_delete_patients_confirmed)", False, True)
+            admin_patient_nuke()
+            mongo_nuke(m_client)
+            add_admin_nuke_log(request.remote_addr, log_get_user(), "table_patient_data", False)
+            return redirect('/admin/all_databases/manage/')
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_patients/confirmed/ (admin_aDB_delete_patients_confirmed)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_patients/confirmed/ (admin_aDB_delete_patients_confirmed)", True, True)
+        abort(404)
+
+#Delete All Links        
+@app.route('/admin/all_databases/manage/delete_links/')
+def admin_aDB_delete_links():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_links/ (admin_aDB_delete_links)", False, True)
+            return render_template('/admin/confirmation.html', page_name="Admin: Delete All Patient Data", dir_to_use="admin_aDB_delete_links_confirmed", message="Are you sure you want to delete ALL links between users and patient data?:", yes_message="Delete All Links", no_message="Keep All Links")
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_links/ (admin_aDB_delete_links)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_links/ (admin_aDB_delete_links)", True, True)
+        abort(404)
+@app.route('/admin/all_databases/manage/delete_links/confirmed/')
+def admin_aDB_delete_links_confirmed():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_links/confirmed/ (admin_aDB_delete_links_confirmed)", False, True)
+            admin_link_nuke()
+            add_admin_nuke_log(request.remote_addr, log_get_user(), "link_user_patient_data", False)
+            return redirect('/admin/all_databases/manage/')
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_links/confirmed/ (admin_aDB_delete_links_confirmed)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_links/confirmed/ (admin_aDB_delete_links_confirmed)", True, True)
+        abort(404)
+
+#Delete EVERYTHING        
+@app.route('/admin/all_databases/manage/delete_nuke_all/')
+def admin_aDB_delete_nuke_all():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/ (admin_aDB_delete_nuke_all)", False, True)
+            return render_template('/admin/confirmation.html', page_name="Admin: Delete All Patient Data", dir_to_use="admin_aDB_delete_nuke_all_confirmed", message="Are you sure you want to delete ALL DATA?!:", yes_message="Delete All Data", no_message="Keep All Data")
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/ (admin_aDB_delete_nuke_all)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/ (admin_aDB_delete_nuke_all)", True, True)
+        abort(404)
+@app.route('/admin/all_databases/manage/delete_nuke_all/confirmed/')
+def admin_aDB_delete_nuke_all_confirmed():
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/confirmed/ (admin_aDB_delete_nuke_all_confirmed)", False, True)
+            user = current_user.username
+            if current_user.username != "BaseAdmin":
+                logout_user()
+            admin_nuke(m_client)
+            add_admin_nuke_log(request.remote_addr, user, "EVERYTHING!", True)
+            return redirect('/')
+        else:
+            add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/confirmed/ (admin_aDB_delete_nuke_all_confirmed)", True, True)
+            abort(404)
+    else:
+        add_access_log(request.remote_addr, log_get_user(), "/admin/all_databases/manage/delete_nuke_all/confirmed/ (admin_aDB_delete_nuke_all_confirmed)", True, True)
+        abort(404)
 
 #DB Loader
 @app.route('/admin/database/manage/load_db/')
