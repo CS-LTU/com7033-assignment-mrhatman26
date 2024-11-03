@@ -1,0 +1,62 @@
+
+[2024.11.03 at 15:16:43] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/ (admin_main)
+[2024.11.03 at 15:16:46] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/users/ (admin_user_management)
+[2024.11.03 at 15:16:47] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/ (admin_main)
+[2024.11.03 at 15:16:48] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)
+[2024.11.03 at 15:16:54]: 192.168.1.84 (User: Annonymous) successfully accessed / (home)
+[2024.11.03 at 15:16:54]: 192.168.1.84 (User: Annonymous) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:16:57]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/ (user_login)
+[2024.11.03 at 15:16:59]: 192.168.1.84 (User: Annonymous) successfully accessed /users/signup/ (user_signup)
+[2024.11.03 at 15:17:33]: 192.168.1.84 (User: Annonymous) successfully accessed /users/signup/validate/ (user_signup_validate)
+[2024.11.03 at 15:17:33]: 192.168.1.84 successfully created new user with username of jsmith@outlook.com
+[2024.11.03 at 15:17:33]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/ (user_login)
+[2024.11.03 at 15:17:33]: 192.168.1.84 (User: Annonymous) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:17:45]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/validate/ (user_login_validate)
+[2024.11.03 at 15:17:45]: 192.168.1.84 successfully logged in as jsmith@outlook.com
+[2024.11.03 at 15:17:45]: 192.168.1.84 (User: John Smith) successfully accessed / (home)
+[2024.11.03 at 15:17:45]: 192.168.1.84 (User: John Smith) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:17:47]: 192.168.1.84 (User: John Smith) successfully accessed /submission/ (submission)
+[2024.11.03 at 15:17:47]: 192.168.1.84 (User: John Smith) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:18:00]: 192.168.1.84 (User: John Smith) successfully accessed /submission/validate/ (submission_validate)
+[2024.11.03 at 15:18:00]: 192.168.1.84 successfully added new patient data to MySQL with a link to John Smith
+[2024.11.03 at 15:18:00]: 192.168.1.84 successfully added new patient data to MongoDB
+[2024.11.03 at 15:18:00]: 192.168.1.84 (User: John Smith) successfully accessed /users/account/ (user_account)
+[2024.11.03 at 15:19:43]: 192.168.1.84 (User: John Smith) successfully accessed /users/account/ (user_account)
+[2024.11.03 at 15:19:44]: 192.168.1.84 (User: John Smith) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:21:11]: 192.168.1.84 (User: John Smith) successfully accessed /users/logout/ (user_logout)
+[2024.11.03 at 15:21:11]: 192.168.1.84 (User: John Smith) successfully logged out of their account
+[2024.11.03 at 15:21:11]: 192.168.1.84 (User: Annonymous) successfully accessed / (home)
+[2024.11.03 at 15:21:11]: 192.168.1.84 (User: Annonymous) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:21:12]: 192.168.1.84 (User: Annonymous) successfully accessed /users/signup/ (user_signup)
+[2024.11.03 at 15:21:45]: 192.168.1.84 (User: Annonymous) successfully accessed /users/signup/validate/ (user_signup_validate)
+[2024.11.03 at 15:21:45]: 192.168.1.84 successfully created new user with username of cmatter@outlook.com
+[2024.11.03 at 15:21:45]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/ (user_login)
+[2024.11.03 at 15:21:45]: 192.168.1.84 (User: Annonymous) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:21:59]: 192.168.1.84 (User: Annonymous) successfully accessed /users/login/validate/ (user_login_validate)
+[2024.11.03 at 15:21:59]: 192.168.1.84 successfully logged in as cmatter@outlook.com
+[2024.11.03 at 15:21:59]: 192.168.1.84 (User: Clara Matter) successfully accessed / (home)
+[2024.11.03 at 15:21:59]: 192.168.1.84 (User: Clara Matter) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:22:31]: 192.168.1.84 (User: Clara Matter) successfully accessed /submission/ (submission)
+[2024.11.03 at 15:22:31]: 192.168.1.84 (User: Clara Matter) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:23:06]: 192.168.1.84 (User: Clara Matter) successfully accessed /submission/validate/ (submission_validate)
+[2024.11.03 at 15:23:06]: 192.168.1.84 successfully added new patient data to MySQL with a link to Clara Matter
+[2024.11.03 at 15:23:06]: 192.168.1.84 successfully added new patient data to MongoDB
+[2024.11.03 at 15:23:06]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/ (user_account)
+[2024.11.03 at 15:23:06]: 192.168.1.84 (User: Clara Matter) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:23:28]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/submission/modify/ (user_submission_modify)
+[2024.11.03 at 15:23:28]: 192.168.1.84 (User: Clara Matter) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:24:03]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/submission/modify/validate/' (user_submission_modify_validate)
+[2024.11.03 at 15:24:03]: 192.168.1.84 (User: Clara Matter) successfully modified patient data with ID of 5111 in MySQL
+[2024.11.03 at 15:24:03]: 192.168.1.84 (User: Clara Matter) successfully modified patient data with ID of 5111 in MongoDB
+[2024.11.03 at 15:24:03]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/ (user_account)
+[2024.11.03 at 15:24:03]: 192.168.1.84 (User: Clara Matter) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:24:08]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/submission/modify/ (user_submission_modify)
+[2024.11.03 at 15:24:25]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/ (user_account)
+[2024.11.03 at 15:24:27]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/submission_delete/ (delete_submissionconfirm)
+[2024.11.03 at 15:24:27]: 192.168.1.84 (User: Clara Matter) successfully accessed /favicon.ico (favicon)
+[2024.11.03 at 15:24:28]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/submission_delete/confirmed/ (delete_submission_confirmed)
+[2024.11.03 at 15:24:28]: 192.168.1.84 (User: Clara Matter) successfully deleted patient data from MySQL (Deleted patient_id was 5111)
+[2024.11.03 at 15:24:28]: 192.168.1.84 (User: Clara Matter) successfully deleted patient data from MySQL (Deleted patient_id was 5111)
+[2024.11.03 at 15:24:28]: 192.168.1.84 (User: Clara Matter) successfully accessed /users/account/ (user_account)
+[2024.11.03 at 15:24:30]: 192.168.1.84 (User: Clara Matter) successfully accessed /submission/ (submission)
+[2024.11.03 at 15:24:38] (ADMIN): 192.168.1.84 (User: BaseAdmin) successfully accessed Admin resource /admin/database/manage/ (admin_database_management)

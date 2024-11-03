@@ -16,3 +16,7 @@ def get_db_config(deployed):
             'database': 'healthDB'
         }
     return db_config
+
+#This file simply defines the settings used to connect to the database.
+#If the website is deployed, the host is "db".
+#If not, the host is the localhost.
