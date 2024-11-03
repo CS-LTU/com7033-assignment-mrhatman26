@@ -4,7 +4,7 @@ import hashlib
 from db_config import get_db_config
 from mongodb import mongo_nuke
 
-deployed = False
+deployed = True
 
 '''Misc Commands'''
 def string_hash(text):
