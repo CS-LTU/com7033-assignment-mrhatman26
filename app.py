@@ -8,14 +8,16 @@ from mongodb import *
 from misc import clean_subdata
 
 '''Server Vars'''
-app = Flask(__name__)
-app.secret_key = "HealthyIGuess"
-deployed = False
-m_client = pymongo.MongoClient("mongodb://localhost:27017")
+app = Flask(__name__) #Create the flask application
+app.secret_key = "HealthyIGuess" #The secret key used to store user data. In future, I should randomise this.
+deployed = False #If this application is deployed or not. If not, it is considered to be being debugged/developed.
+m_client = pymongo.MongoClient("mongodb://localhost:27017") #Open a socket connection to the mongodb database.
+#Note: The mongodb connection is created here as opening it too many times exhausts available sockets.
+#This is hard to do normally, but with the volume of the data we are adding, it happens easily. Weirdly, this problem is more common when using pytest?
 
 '''Login Manager'''
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager() #Creates an instance of the Flask-Login LoginManager that handles user logging in, out and keeping them logged in.
+login_manager.init_app(app) #Binds the LoginManager to this Flask application.
 @login_manager.user_loader
 def load_fuser(id):
     user_check = user_check_reconfirm(id)
@@ -23,12 +25,20 @@ def load_fuser(id):
         return None
     else:
         return User(user_check[0], user_check[1], bool(user_check[2]))
+#This is run everytime a page is loaded. It keeps the user logged in by reconfirming their ID. If the user no longer exists though, they are automatically logged out.
+#The login manager provides the base User through UserMixin which has many attributes, but the ones for my users are:
+#id = The ID of the user
+#username = The full name of the user. Not their email.
+#is_admin = If the user is an admin or not.
     
 def log_get_user():
     if hasattr(current_user, 'username'):
         return current_user.username
     else:
         return "Annonymous"
+    #Checks the current_user (provided by the LoginManager) and if it has the username attribute.
+    #If it does, then the user is logged in so we can safely return their username.
+    #If it doesn't, the the user is not logged in so we return a placeholder string of "Annonymous".
 
 '''General Routes'''
 #Home/Index
@@ -36,8 +46,13 @@ def log_get_user():
 def home():
     if admin_check_basepass() is False:
         admin_hash_basepass()
+    #This checks if the baseadmin has had their password hashed or not.
+    #If not, their password is hashed and added to their database entry.
     add_access_log(request.remote_addr, log_get_user(), "/ (home)", False, False)
+    #Add a log to show that this page has been accessed, who accessed it and that it has neither failed nor is an admin page.
     return render_template('home.html', page_name="Home")
+#This is the home page. It shows the standard for most of my routes.
+#That is: We return a render_template using my HTML pages and provide those pages the variable "page_name" which is shown in the browsers tabs using the title tag.
 
 #Data Submission
 @app.route('/submission/')
