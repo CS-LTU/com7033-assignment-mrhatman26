@@ -343,21 +343,27 @@ def link_get(user_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT * FROM link_user_patient_data WHERE user_id = %s", (user_id, ))
+    #Get the links of the selected user from the database.
     fetch = cursor.fetchall()
     cursor.close()
     database.close()
-    if len(fetch) >= 1:
+    if len(fetch) >= 1: #If a link is found, return it as a dictionary.
         return {"user_id": fetch[0][0], "patient_id": fetch[0][1]}
-    else:
+    else: #Else, return None.
         return None
+    #This function gets the link of a user from the database and returns it as a dictionary.
+    #user_id = The user ID to check the links of. (Integer)
     
 def link_delete(user_id): #Unused apart from in testing
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("DELETE FROM link_user_patient_data WHERE user_id = %s", (user_id,))
+    #Delete the link between the selected user and patient_id.
     database.commit()
     cursor.close()
     database.close()
+    #This function deletes the selected user's links to any patient data.
+    #user_id = The ID of the user to delete links from. (Integer)
 
 
 '''Admin commands'''
@@ -365,31 +371,37 @@ def admin_user_admin_check(username):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_admin FROM table_users WHERE user_email = %s", (str(username),))
+    #Select the admin status of the selected user using their email.
     fetch = cursor.fetchall()
     cursor.close()
     database.close()
-    if len(fetch) >= 1:
-        if str(fetch[0][0]) == "1":
+    if len(fetch) >= 1: #If the user exists:
+        if str(fetch[0][0]) == "1": #If the user is an admin, return True.
             return True
-        else:
+        else: #Else, return False.
             return False
-    return False
+    return False #Return False if the user does not exist.
+    #This function returns the admin status of the selected user.
+    #username = The email of the user to check. (String)
 
 #Check
 def admin_check_basepass():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_password FROM table_users WHERE user_id = 0")
+    #Get the password of the baseadmin
     fetch = cursor.fetchall()
     cursor.close()
     database.close()
     if len(fetch) >= 1:
-        if fetch[0][0] == "-1":
+        if fetch[0][0] == "-1": #If the baseadmin's password has been hashed, return True, else return False.
             return False
         else:
             return True
     else:
         return False
+    #This function checks if the baseadmin has had their password hashed or not.
+    #This function takes no parameters.
 
 #Get
 def admin_get_patient_data():
@@ -397,6 +409,7 @@ def admin_get_patient_data():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT * FROM table_patient_data")
+    #Get all patient data. Unlike the normal get command, this includes space for the user linked to it and also the patient's ID.
     for patient in cursor.fetchall():
         patients.append({
             "id": patient[0],
@@ -416,32 +429,42 @@ def admin_get_patient_data():
     cursor.close()
     database.close()
     return patients
+    #This function returns all of the patients in the database along with their IDs.
+    #This function takes no parameters.
 
 #Update
 def admin_hash_basepass():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
-    admin_pass = string_hash("healthyadmin")
+    admin_pass = string_hash("healthyadmin") #Hash the admin password.
     cursor.execute("UPDATE table_users SET user_password = %s WHERE user_fullname = 'BaseAdmin'", (str(admin_pass),))
+    #Update the baseadmin to have their hashed password.
     database.commit()
     cursor.close()
     database.close()
+    #This function hashes the admin password.
+    #This function takes no parameters.
 
 def admin_apply_admin_user(user_id):
     status = True
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_admin FROM table_users WHERE user_id = %s", (user_id,))
+    #Get the admin status of the selected user.
     if cursor.fetchall()[0][0] == 1:
         cursor.execute("UPDATE table_users SET user_admin = 0 WHERE user_id = %s", (user_id,))
+        #If the user is already an admin, revoke their admin status.
         status = False
     else:
         cursor.execute("UPDATE table_users SET user_admin = 1 WHERE user_id = %s", (user_id,))
+        #If the user is not an admin, make them an admin.
         status = True
     database.commit()
     cursor.close()
     database.close()
     return status
+    #This function swaps the admin status of the selected user.
+    #user_id = The ID of the user to modify. (Integer)
 
 #Delete
 def admin_delete_user(user_id):
@@ -449,84 +472,112 @@ def admin_delete_user(user_id):
     cursor = database.cursor()
     if link_check_exists(user_id, False) is True:
         cursor.execute("DELETE FROM link_user_patient_data WHERE user_id = %s", (user_id,))
+        #If the user has any links, delete them.
         database.commit()
     cursor.execute("DELETE FROM table_users WHERE user_id = %s", (user_id,))
+    #Delete the selected the user.
     database.commit()
     cursor.close()
     database.close()
+    #This function deletes the selected user.
+    #user_id = The ID of the user to delete. (Integer)
 
 def admin_delete_patient_data(patient_id):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     if link_check_exists(patient_id, True):
         cursor.execute("DELETE FROM link_user_patient_data WHERE patient_id = %s", (patient_id,))
+        #If the patient has any links, delete them.
         database.commit()
     cursor.execute("DELETE FROM table_patient_data WHERE patient_id = %s", (patient_id,))
+    #Delete the selected patient.
     database.commit()
     cursor.close()
     database.close()
+    #This function deletes the selected patient.
+    #patient_id = The ID of the patient to delay. (Integer)
 
 def admin_user_nuke():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT user_id FROM table_users")
+    #Select all user IDs.
     for user in cursor.fetchall():
+        #For each user, if they have any links, delete them.
         if link_check_exists(user[0], False) is True:
             link_delete(user[0])
     cursor.execute("DELETE FROM table_users WHERE user_email != %s", ("baseadmin@example.com",))
+    #Delete all users apart from the BaseAdmin.
     database.commit()
     cursor.close()
     database.close()
+    #This function deletes all users apart from the BaseAdmin.
+    #This function takes no parameters.
 
 def admin_patient_nuke():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT patient_id FROM table_patient_data")
+    #Select all patient IDs.
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
     for patient in fetch:
         if link_check_exists(patient[0], True):
+            #If any of the patients have any links, delete them.
             cursor.execute("DELETE FROM link_user_patient_data WHERE patient_id = %s", (patient[0],))
             database.commit()
         print(str(index) + "/" + str(length) + " patient records deleted", end="\r", flush=True)
+        #Because this can take a while, show the progress of this for loop.
         index += 1
     cursor.execute("DELETE FROM table_patient_data WHERE 1=1")
+    #Delete all patient data.
     database.commit()
     cursor.close()
     database.close()
     print(str(length) + "/" + str(length) + " patient records deleted", flush=True)
+    #This function deletes all patients.
+    #This function takes no parameters.
 
 def admin_link_nuke():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("DELETE FROM link_user_patient_data WHERE 1=1")
+    #Delete all links.
     database.commit()
     cursor.close()
     database.close()
+    #This function deletes all links.
+    #This function takes no parameters.
 
 def admin_nuke(m_client):
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("DELETE FROM link_user_patient_data WHERE 1=1")
+    #Delete all links.
     database.commit()
     cursor.execute("DELETE FROM table_users WHERE user_email != %s", ("baseadmin@example.com", ))
+    #Delete all users apart from the BaseAdmin
     database.commit()
     cursor.execute("DELETE FROM table_patient_data WHERE 1=1")
+    #Delete all patient data.
     database.commit()
     cursor.close()
     database.close()
-    mongo_nuke(m_client)
+    mongo_nuke(m_client) #Delete all data from MongoDB.
+    #This function deletes all data from all tables apart from the BaseAdmin.
+    #This function takes no parameters.
 
 def admin_dump_data():
     database = mysql.connector.connect(**get_db_config(deployed))
     cursor = database.cursor()
     cursor.execute("SELECT * FROM table_users")
+    #Select all data from table_users.
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
     file = open("static/dumps/table_users.txt", "w")
-    for user in fetch:
+    for user in fetch: #For each user in the table, save them to "/static/dumps/table_users.txt".
         for user_data in user:
             user_data = str(user_data) + ", "
             file.write(user_data)
@@ -536,11 +587,12 @@ def admin_dump_data():
     file.close()
     print(str(length) + "/" + str(length) + " users saved to table_users.txt", flush=True)
     cursor.execute("SELECT * FROM table_patient_data")
+    #Select all data from table_patient_data.
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
     file = open("static/dumps/table_patient_data.txt", "w")
-    for patient in fetch:
+    for patient in fetch: #For each patient in the table, save them to "/static/dumps/table_patient_data.txt".
         for patient_data in patient:
             patient_data = str(patient_data) + ", "
             file.write(patient_data)
@@ -550,11 +602,12 @@ def admin_dump_data():
     file.close()
     print(str(length) + "/" + str(length) + " patients saved to table_patient_data.txt", flush=True)
     cursor.execute("SELECT * FROM link_user_patient_data")
+    #Select all links from link_user_patient_data.
     fetch = cursor.fetchall()
     length = len(fetch)
     index = 0
     file = open("static/dumps/link_user_patient_data.txt", "w")
-    for link in fetch:
+    for link in fetch: #For each link in the table, save it to "/static/dumps/link_user_patient_data.txt".
         for link_data in link:
             link_data = str(link_data) + ", "
             file.write(link_data)
@@ -564,3 +617,4 @@ def admin_dump_data():
     file.close()
     print(str(length) + "/" + str(length) + " links saved to link_user_patient_data.txt", flush=True)
     print("All tables have been dumped to the /static/dumps/ directory", flush=True)
+    #This function dumps all data from all tables to the "/static/dumps/" directory.
