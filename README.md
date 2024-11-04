@@ -153,15 +153,15 @@ What is in this website?:\
             -Favicon (Route: '/favicon.ico')
                 Returns the URL for the favicon.ico file in the static folder. Surpresses the favicon.ico error.
 
-Noteworthy Files:
-    -app.py:
-        This Python file handles the website using Python Flask.
-    -db_handler.py:
-        Handles all database requests for the MySQL database.
-    -mongodb.py:
-        Handles all database requests for the MongoDB database.
-    -access_logger.py:
-        Handles all of the logging. When a user does anything, this file logs that action in '/static/logs.txt/'
+Noteworthy Files:\
+    -app.py:\
+        This Python file handles the website using Python Flask.\
+    -db_handler.py:\
+        Handles all database requests for the MySQL database.\
+    -mongodb.py:\
+        Handles all database requests for the MongoDB database.\
+    -access_logger.py:\
+        Handles all of the logging. When a user does anything, this file logs that action in '/static/logs.txt/'\
 
 Thank you for reading, if you have. If you haven't... I don't care `¯\_(ツ)_/¯`.\
 Have a good one.
