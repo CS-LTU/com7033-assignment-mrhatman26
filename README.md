@@ -1,45 +1,45 @@
-What is this?:
+What is this?:\
 This is a simple website that allows for users to submit information about themselves relating to their health.
 The intent of this is to use their submitted data to create an A.I that can help diagnose people who are at risk of
-having a stroke.
-
+having a stroke.\
+\
 To help start the website data, a dataset from Kaggle is provided called "healthcare-dataset-stroke-data.csv" which can
-be loaded into the website while it is running.
-
-How do you run it?:
-Before you can run this website, please make sure you have Docker Desktop and the community edition of MongoDB installed.
-Both can be found at:
-Docker Desktop: https://docs.docker.com/desktop/install/windows-install/
-MongoDB Community Server: https://www.mongodb.com/try/download/community-kubernetes-operator
-
-After installing them, there are two ways to launch the website:
-1. Docker Compose:
-    This way is the simplest:
-        -1. Make sure Docker Desktop is running.
-        2. Use a command prompt and open it to the same directory as this README.md.
-        3. Enter `docker-compose up --build`.
-    Once docker compose is run, wait for docker to set everything up and then connect to the website
-    using the localhost on port 5000.
-    Note: Using Docker Compose does not allow you to see print statements nor can you enter MySQL commands.
-
-2. Multiple command lines:
-    1. Open one instance of the command line and one instance of PowerShell.
-    2. In both the command prompt and PowerShell windows, navigate to the ./HealthStack/ directory which is a subdirectory in the same directory as this README.md file.
-    3. Modify the "deployed" variable in app.py and db_handler.py to be False. Leaving it as True will not allow the website to run correctly.
-    4. Run "python app.py" in the command line.
-    5. In the PowerShell window, make sure Docker Desktop is running and then enter the following commands in order:
-        -`docker run --name healthDB -p1234:3306 -e MYSQL_ROOT_PASSWORD=healthyboi -d mysql`
-        -`docker cp healthdb.sql healthDB:healthdb.sql`
-        -`docker exec -it healthDB mysql -p`
-    After running these commands, the PowerShell window will now be in MySQL where you can enter MySQL commands.
-    6. Connect to the website using the localhost on port 5000.
-
-How do I use the Admin?:
+be loaded into the website while it is running.\
+\
+How do you run it?:\
+Before you can run this website, please make sure you have Docker Desktop and the community edition of MongoDB installed.\
+Both can be found at:\
+Docker Desktop: https://docs.docker.com/desktop/install/windows-install/\
+MongoDB Community Server: https://www.mongodb.com/try/download/community-kubernetes-operator\
+\
+After installing them, there are two ways to launch the website:\
+1. Docker Compose:\
+    This way is the simplest:\
+        -1. Make sure Docker Desktop is running.\
+        2. Use a command prompt and open it to the same directory as this README.md.\
+        3. Enter `docker-compose up --build`.\
+    Once docker compose is run, wait for docker to set everything up and then connect to the website\
+    using the localhost on port 5000.\
+    Note: Using Docker Compose does not allow you to see print statements nor can you enter MySQL commands.\
+\
+2. Multiple command lines:\
+    1. Open one instance of the command line and one instance of PowerShell.\
+    2. In both the command prompt and PowerShell windows, navigate to the ./HealthStack/ directory which is a subdirectory in the same directory as this README.md file.\
+    3. Modify the "deployed" variable in app.py and db_handler.py to be False. Leaving it as True will not allow the website to run correctly.\
+    4. Run "python app.py" in the command line.\
+    5. In the PowerShell window, make sure Docker Desktop is running and then enter the following commands in order:\
+        -`docker run --name healthDB -p1234:3306 -e MYSQL_ROOT_PASSWORD=healthyboi -d mysql`\
+        -`docker cp healthdb.sql healthDB:healthdb.sql`\
+        -`docker exec -it healthDB mysql -p`\
+    After running these commands, the PowerShell window will now be in MySQL where you can enter MySQL commands.\
+    6. Connect to the website using the localhost on port 5000.\
+\
+How do I use the Admin?:\
 To use the admin, make sure you visit the home page of the website to hash their password and then go to the login screen and
-enter the following username and password:
-    -Username: "baseadmin@example.com"
-    -Password: "healthyadmin"
-With this admin, you can make other users admins or delete them, delete patient data or delete all data from the tables. (Or dump the data)
+enter the following username and password:\
+    -Username: "baseadmin@example.com"\
+    -Password: "healthyadmin"\
+With this admin, you can make other users admins or delete them, delete patient data or delete all data from the tables. (Or dump the data)\
 
 What is in this website?:
     Routes:
@@ -163,5 +163,5 @@ Noteworthy Files:
     -access_logger.py:
         Handles all of the logging. When a user does anything, this file logs that action in '/static/logs.txt/'
 
-Thank you for reading, if you have. If you haven't... I don't care ¯\_(ツ)_/¯.
+Thank you for reading, if you have. If you haven't... I don't care `¯\_(ツ)_/¯`.\
 Have a good one.
