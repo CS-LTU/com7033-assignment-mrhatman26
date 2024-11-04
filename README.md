@@ -21,38 +21,38 @@ After installing them, there are two ways to launch the website:\
     Once docker compose is run, wait for docker to set everything up and then connect to the website\
     using the localhost on port 5000.\
     Note: Using Docker Compose does not allow you to see print statements nor can you enter MySQL commands.\
-\
-2. Multiple command lines:\
-    1. Open one instance of the command line and one instance of PowerShell.\
-    2. In both the command prompt and PowerShell windows, navigate to the ./HealthStack/ directory which is a subdirectory in the same directory as this README.md file.\
-    3. Modify the "deployed" variable in app.py and db_handler.py to be False. Leaving it as True will not allow the website to run correctly.\
-    4. Run "python app.py" in the command line.\
+
+2. Multiple command lines:
+    1. Open one instance of the command line and one instance of PowerShell.
+    2. In both the command prompt and PowerShell windows, navigate to the ./HealthStack/ directory which is a subdirectory in the same directory as this README.md file.
+    3. Modify the "deployed" variable in app.py and db_handler.py to be False. Leaving it as True will not allow the website to run correctly.
+    4. Run "python app.py" in the command line.
     5. In the PowerShell window, make sure Docker Desktop is running and then enter the following commands in order:\
-        -`docker run --name healthDB -p1234:3306 -e MYSQL_ROOT_PASSWORD=healthyboi -d mysql`\
-        -`docker cp healthdb.sql healthDB:healthdb.sql`\
-        -`docker exec -it healthDB mysql -p`\
-    After running these commands, the PowerShell window will now be in MySQL where you can enter MySQL commands.\
+        -`docker run --name healthDB -p1234:3306 -e MYSQL_ROOT_PASSWORD=healthyboi -d mysql`
+        -`docker cp healthdb.sql healthDB:healthdb.sql`
+        -`docker exec -it healthDB mysql -p`
+    After running these commands, the PowerShell window will now be in MySQL where you can enter MySQL commands.
     6. Connect to the website using the localhost on port 5000.\
-\
-How do I use the Admin?:\
+
+How do I use the Admin?:
 To use the admin, make sure you visit the home page of the website to hash their password and then go to the login screen and
 enter the following username and password:\
     -Username: "baseadmin@example.com"\
     -Password: "healthyadmin"\
 With this admin, you can make other users admins or delete them, delete patient data or delete all data from the tables. (Or dump the data)\
 
-What is in this website?:
-    Routes:
-    This website contains the following pages:
-        Normal Pages:
-            -Home (Route: '/')
-                This is the home page
-            -Submission (Route: '/submission/)
-                -This is the page in which a logged in user can submit their data. If they already have, it will tell the user they cannot enter more.
-            -Submission Validation (Route: '/submission/validate/)
-                -This page attempts to save the entered submission to the databases and redirects to the user's account page when successful.
-            -View Data (Route: '/data/view/')
-                -This page allows logged in users to see patient data. They cannot see who submitted this data however.
+What is in this website?:\
+    Routes:\
+    This website contains the following pages:\
+        Normal Pages:\
+            -Home (Route: '/')\
+                This is the home page\
+            -Submission (Route: '/submission/)\
+                -This is the page in which a logged in user can submit their data. If they already have, it will tell the user they cannot enter more.\
+            -Submission Validation (Route: '/submission/validate/)\
+                -This page attempts to save the entered submission to the databases and redirects to the user's account page when successful.\
+            -View Data (Route: '/data/view/')\
+                -This page allows logged in users to see patient data. They cannot see who submitted this data however.\
         
         Accout/User Pages:
             -Login (Route: '/users/login/)
