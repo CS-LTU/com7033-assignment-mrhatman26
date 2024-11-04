@@ -73,8 +73,12 @@ def user_check_validate(userdata):
             database.close()
             return True
         else: #The password is wrong, return False.
+            cursor.close()
+            database.close()
             return False
     else:
+        cursor.close()
+        database.close()
         return False
     #This fuction checks to see if the submitted user email exists and if the submitted password is correct.
     #Return True if both the email and password are correct and False if not.
