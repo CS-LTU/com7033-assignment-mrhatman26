@@ -4,7 +4,7 @@ import hashlib
 from db_config import get_db_config
 from mongodb import mongo_nuke
 
-deployed = True
+deployed = False
 
 '''Misc Commands'''
 def string_hash(text):
@@ -77,8 +77,6 @@ def user_check_validate(userdata):
             database.close()
             return False
     else:
-        cursor.close()
-        database.close()
         return False
     #This fuction checks to see if the submitted user email exists and if the submitted password is correct.
     #Return True if both the email and password are correct and False if not.

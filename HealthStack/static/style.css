@@ -177,8 +177,8 @@ table, th, td{
     border: solid 4px black;
 }
 table{
-    font-size: 75%;
-    width: 100%;
+    font-size: 60%;
+    width: 75%;
     text-align: center;
     border: 0px;
     border-collapse: separate;
