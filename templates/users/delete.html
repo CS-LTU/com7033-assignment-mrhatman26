@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="page_mainbody">
+        <div id="home_paragraph1">
+                <h3 id="page_header">Delete Confirmation</h3>
+                <div id="page_mainbody_home">
+                        <p>Are you sure you want to delete your account?</p>
+                        <a href="{{ url_for('user_delete') }}" class="button_link"><p class="button" style="background-color: red; border-color: red; color: white;">Delete Account</p></a>
+                        <a href="{{ url_for('user_account') }}" class="button_link"><p class="button" style="background-color: green; border-color: green; color: white;">Keep Account</p></a>
+                </div>
+        </div>
+</div>
+{% endblock %}

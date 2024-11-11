@@ -1,5 +1,0 @@
-flask
-flask-login
-mysql-connector-python
-pymongo
-waitress

@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="page_mainbody">
+        <div id="home_paragraph1">
+                <h3 id="page_header">Account Info</h3>
+                <div id="page_mainbody_home">
+                        <p>Your Name: {{ userdata.user_fullname }}</p>
+                        <p>Your Email Address: {{ userdata.user_email }}</p>
+                        <p>Your Phone Number: {{ userdata.user_phone }}</p>
+                        {% if current_user.is_admin %}
+                                <p style="color: blue;">You are an admin</p>
+                        {% endif %}
+                        {% if user_submission is not none and user_submission|length > 0 %}
+                                <p>Your submitted data:</p>
+                                <table>
+                                        <tr>
+                                                <th>Gender</th>
+                                                <th>Age</th>
+                                                <th>Hypertension?</th>
+                                                <th>Heart Disease?</th>
+                                                <th>Married?</th>
+                                                <th>Work Type</th>
+                                                <th>Residence Type</th>
+                                                <th>Average Glucose</th>
+                                                <th>BMI</th>
+                                                <th>Smoked?</th>
+                                                <th>Had Stroke?</th>
+                                        </tr>
+                                        <tr>
+                                                <td>{{ user_submission.patient_gender }}</td>
+                                                <td>{{ user_submission.patient_age }}</td>
+                                                {% if user_submission.patient_hyperT == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
+                                                {% if user_submission.patient_hDisease == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
+                                                {% if user_submission.patient_married == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
+                                                <td>{{ user_submission.patient_work_type }}</td>
+                                                <td>{{ user_submission.patient_residence_type }}</td>
+                                                <td>{{ user_submission.patient_avg_gLevel }}</td>
+                                                <td>{{ user_submission.patient_bmi }}</td>
+                                                <td>{{ user_submission.patient_smoked }}</td>
+                                                {% if user_submission.patient_stroke == 1 %}
+                                                        <td>Yes</td>
+                                                {% else %}
+                                                        <td>No</td>
+                                                {% endif %}
+                                        </tr>
+                                </table>
+                                <a href="{{ url_for('user_submission_modify') }}" class="button_link"><p class="button">Modify Your Submitted Data</p></a>
+                                <a href="{{ url_for('delete_submissionconfirm') }}" class="button_link"><p class="button">Delete Your Submitted Data</p></a>
+                        {% endif %}
+                        {% if current_user.id != 0 %}
+                                <a href="{{ url_for('user_modify') }}" class="button_link"><p class="button">Modify Account</p></a>
+                                <a href="{{ url_for('user_deleteconfirm') }}" class="button_link"><p class="button" style="background-color: red; border-color: red; color: white;">Delete Account</p></a>
+                        {% endif %}
+                </div>
+        </div>
+</div>
+{% endblock %}
