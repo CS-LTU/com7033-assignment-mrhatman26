@@ -12,16 +12,7 @@ Both can be found at:\
 Docker Desktop: https://docs.docker.com/desktop/install/windows-install/\
 MongoDB Community Server: https://www.mongodb.com/try/download/community-kubernetes-operator\
 \
-After installing them, there are two ways to launch the website:\
-1. Docker Compose:\
-    This way is the simplest:\
-        -1. Make sure Docker Desktop is running.\
-        2. Use a command prompt and open it to the same directory as this README.md.\
-        3. Enter `docker-compose up --build`.\
-    Once docker compose is run, wait for docker to set everything up and then connect to the website\
-    using the localhost on port 5000.\
-    Note: Using Docker Compose does not allow you to see print statements nor can you enter MySQL commands.\
-
+After installing them, launch the website by doing the following:\
 2. Multiple command lines:
     1. Open one instance of the command line and one instance of PowerShell.
     2. In both the command prompt and PowerShell windows, navigate to the ./HealthStack/ directory which is a subdirectory in the same directory as this README.md file.
@@ -31,6 +22,7 @@ After installing them, there are two ways to launch the website:\
         -`docker run --name healthDB -p1234:3306 -e MYSQL_ROOT_PASSWORD=healthyboi -d mysql`
         -`docker cp healthdb.sql healthDB:healthdb.sql`
         -`docker exec -it healthDB mysql -p`
+        -Alternatively, run the batch file "run.bat" in PowerShell.
     After running these commands, the PowerShell window will now be in MySQL where you can enter MySQL commands.
     6. Connect to the website using the localhost on port 5000.\
 

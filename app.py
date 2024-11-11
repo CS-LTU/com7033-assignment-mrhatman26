@@ -11,10 +11,7 @@ from misc import clean_subdata
 app = Flask(__name__) #Create the flask application
 app.secret_key = "HealthyIGuess" #The secret key used to store user data. In future, I should randomise this.
 deployed = True #If this application is deployed or not. If not, it is considered to be being debugged/developed.
-if deployed is False:
-    m_client = pymongo.MongoClient("mongodb://localhost:27017") #Open a socket connection to the mongodb database.
-else:
-    m_client = pymongo.MongoClient("mongodb:27017", username='user', password='pass') #Open a socket connection to the mongodb database.
+m_client = pymongo.MongoClient("mongodb://localhost:27017") #Open a socket connection to the mongodb database.
 #Note: The mongodb connection is created here as opening it too many times exhausts available sockets.
 #This is hard to do normally, but with the volume of the data we are adding, it happens easily. Weirdly, this problem is more common when using pytest?
 
